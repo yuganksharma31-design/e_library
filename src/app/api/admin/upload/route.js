@@ -6,7 +6,15 @@ export async function POST(req) {
 
   try {
 
+    // ======================
+    // CONNECT DATABASE
+    // ======================
+
     await connectDB();
+
+    // ======================
+    // GET FORM DATA
+    // ======================
 
     const formData =
       await req.formData();
@@ -26,7 +34,9 @@ export async function POST(req) {
     const pdf =
       formData.get("pdf");
 
+    // ======================
     // VALIDATION
+    // ======================
 
     if (
       !title ||
@@ -45,7 +55,7 @@ export async function POST(req) {
     }
 
     // ======================
-    // COVER UPLOAD
+    // COVER IMAGE UPLOAD
     // ======================
 
     const coverBuffer =
@@ -78,68 +88,81 @@ export async function POST(req) {
         }
       );
 
-   // PDF UPLOAD
+    // ======================
+    // PDF UPLOAD
+    // ======================
 
-const pdfBuffer =
-  Buffer.from(
-    await pdf.arrayBuffer()
-  );
+    const pdfBuffer =
+      Buffer.from(
+        await pdf.arrayBuffer()
+      );
 
-const pdfUpload =
-  await new Promise(
-    (resolve, reject) => {
+    const pdfUpload =
+      await new Promise(
+        (resolve, reject) => {
 
-      cloudinary.uploader
-        .upload_stream(
+          cloudinary.uploader
+            .upload_stream(
 
-          {
-            resource_type: "raw",
-            folder: "books",
-          },
+              {
+                resource_type:
+                  "raw",
 
-          (err, result) => {
+                folder:
+                  "books",
 
-            if (err)
-              reject(err);
+                public_id:
+                  Date.now().toString(),
+              },
 
-            else
-              resolve(result);
-          }
-        )
-        .end(pdfBuffer);
-    }
-  );
-  // FIX URL
+              (err, result) => {
 
-const pdfUrl =
-  pdfUpload.secure_url.endsWith(".pdf")
+                if (err)
+                  reject(err);
 
-    ? pdfUpload.secure_url
+                else
+                  resolve(result);
+              }
+            )
+            .end(pdfBuffer);
+        }
+      );
 
-    : `${pdfUpload.secure_url}.pdf`;
+    // ======================
+    // FINAL PDF URL
+    // ======================
 
-   // SAVE DATABASE
+    const pdfUrl =
+      pdfUpload.secure_url + ".pdf";
 
-const newBook =
-  new Book({
+    // ======================
+    // SAVE DATABASE
+    // ======================
 
-    title,
+    const newBook =
+      new Book({
 
-    creator,
+        title,
 
-    type,
+        creator,
 
-    coverImage:
-      coverUpload.secure_url,
+        type,
 
-    pdfUrl:
-      pdfUpload.secure_url + ".pdf",
+        coverImage:
+          coverUpload.secure_url,
 
-    source:
-      "mongo",
-  });
-  
+        pdfUrl:
+          pdfUrl,
+
+        source:
+          "mongo",
+      });
+
     await newBook.save();
+
+    // ======================
+    // RESPONSE
+    // ======================
 
     return Response.json({
 
