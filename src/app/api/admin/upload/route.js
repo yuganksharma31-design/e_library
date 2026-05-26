@@ -98,11 +98,7 @@ export async function POST(req) {
         }
       );
 
-    // =========================
-    // PDF UPLOAD
-    // =========================
-
-    // ======================
+// ======================
 // PDF UPLOAD
 // ======================
 
@@ -110,6 +106,9 @@ const pdfBuffer =
   Buffer.from(
     await pdf.arrayBuffer()
   );
+
+const fileName =
+  `${Date.now()}.pdf`;
 
 const pdfUpload =
   await new Promise(
@@ -125,8 +124,8 @@ const pdfUpload =
             folder:
               "books",
 
-            use_filename:
-              true,
+            public_id:
+              fileName,
           },
 
           (
@@ -152,7 +151,6 @@ const pdfUpload =
         .end(pdfBuffer);
     }
   );
-
     // =========================
     // SAVE TO MONGODB
     // =========================
