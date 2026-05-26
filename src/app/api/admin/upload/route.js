@@ -88,45 +88,48 @@ export async function POST(req) {
         }
       );
 
-    // ======================
-    // PDF UPLOAD
-    // ======================
+   // ======================
+// PDF UPLOAD
+// ======================
 
-    const pdfBuffer =
-      Buffer.from(
-        await pdf.arrayBuffer()
-      );
+const pdfBuffer =
+  Buffer.from(
+    await pdf.arrayBuffer()
+  );
 
-    const pdfUpload =
-      await new Promise(
-        (resolve, reject) => {
+const pdfUpload =
+  await new Promise(
+    (resolve, reject) => {
 
-          cloudinary.uploader
-            .upload_stream(
+      cloudinary.uploader
+        .upload_stream(
 
-              {
-                resource_type:
-                  "raw",
+          {
+            resource_type:
+              "raw",
 
-                folder:
-                  "books",
+            folder:
+              "books",
 
-                public_id:
-                  Date.now().toString(),
-              },
+            public_id:
+              Date.now().toString(),
 
-              (err, result) => {
+            format:
+              "pdf",
+          },
 
-                if (err)
-                  reject(err);
+          (err, result) => {
 
-                else
-                  resolve(result);
-              }
-            )
-            .end(pdfBuffer);
-        }
-      );
+            if (err)
+              reject(err);
+
+            else
+              resolve(result);
+          }
+        )
+        .end(pdfBuffer);
+    }
+  );
 
     // FINAL PDF URL
 
