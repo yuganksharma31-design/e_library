@@ -6,8 +6,7 @@ import {
   useState,
 } from "react";
 
-import BookCard
-from "../../components/BookCard";
+import BookCard from "../../components/BookCard";
 
 export default function BooksPage() {
 
@@ -60,6 +59,41 @@ export default function BooksPage() {
 
   }, []);
 
+  // DELETE BOOK
+
+  async function handleDelete(id) {
+
+    const confirmDelete =
+      confirm(
+        "Delete this book?"
+      );
+
+    if (!confirmDelete)
+      return;
+
+    try {
+
+      await fetch(
+        `/api/admin/delete/${id}`,
+
+        {
+          method: "DELETE",
+        }
+      );
+
+      setBooks((prev) =>
+        prev.filter(
+          (book) =>
+            book._id !== id
+        )
+      );
+
+    } catch (err) {
+
+      console.log(err);
+    }
+  }
+
   // FILTER
 
   const filtered = useMemo(() => {
@@ -70,11 +104,15 @@ export default function BooksPage() {
 
         book.title
           ?.toLowerCase()
-          .includes(search.toLowerCase()) ||
+          .includes(
+            search.toLowerCase()
+          ) ||
 
         book.creator
           ?.toLowerCase()
-          .includes(search.toLowerCase())
+          .includes(
+            search.toLowerCase()
+          )
       );
     });
 
@@ -82,17 +120,21 @@ export default function BooksPage() {
 
   // PAGINATION
 
-  const totalPages = Math.ceil(
-    filtered.length / itemsPerPage
-  );
+  const totalPages =
+    Math.ceil(
+      filtered.length /
+      itemsPerPage
+    );
 
   const startIndex =
-    (currentPage - 1) * itemsPerPage;
+    (currentPage - 1) *
+    itemsPerPage;
 
   const paginatedBooks =
     filtered.slice(
       startIndex,
-      startIndex + itemsPerPage
+      startIndex +
+        itemsPerPage
     );
 
   return (
@@ -127,7 +169,9 @@ export default function BooksPage() {
           value={search}
           onChange={(e) => {
 
-            setSearch(e.target.value);
+            setSearch(
+              e.target.value
+            );
 
             setCurrentPage(1);
           }}
@@ -138,7 +182,7 @@ export default function BooksPage() {
 
       {/* TOTAL */}
 
-      <div className="px-6 mb-5 flex justify-between">
+      <div className="px-6 mb-5 flex justify-between items-center">
 
         <h2 className="text-2xl font-bold">
 
@@ -154,7 +198,7 @@ export default function BooksPage() {
           {" "}
           of
           {" "}
-          {totalPages}
+          {totalPages || 1}
 
         </div>
 
@@ -181,14 +225,39 @@ export default function BooksPage() {
               (book) => (
 
                 <BookCard
-  key={book._id}
-  title={book.title}
-  creator={book.creator}
-  identifier={book.identifier}
-  coverImage={book.coverImage}
-  pdfUrl={book.pdfUrl}
-  source={book.source}
-/>
+                  key={
+                    book._id ||
+                    book.identifier
+                  }
+
+                  _id={book._id}
+
+                  title={book.title}
+
+                  creator={
+                    book.creator
+                  }
+
+                  identifier={
+                    book.identifier
+                  }
+
+                  coverImage={
+                    book.coverImage
+                  }
+
+                  pdfUrl={
+                    book.pdfUrl
+                  }
+
+                  source={
+                    book.source
+                  }
+
+                  onDelete={
+                    handleDelete
+                  }
+                />
               )
             )}
 
@@ -215,7 +284,8 @@ export default function BooksPage() {
 
             <button
               disabled={
-                currentPage === totalPages
+                currentPage ===
+                totalPages
               }
               onClick={() =>
                 setCurrentPage(
