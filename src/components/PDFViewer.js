@@ -4,20 +4,41 @@ import {
   useState,
 } from "react";
 
-import {
-  Document,
-  Page,
-  pdfjs,
-} from "react-pdf";
+import dynamic from "next/dynamic";
 
-import "react-pdf/dist/Page/AnnotationLayer.css";
+// IMPORT REACT PDF ONLY CLIENT SIDE
 
-import "react-pdf/dist/Page/TextLayer.css";
+const Document =
+  dynamic(
+    async () => {
 
-// WORKER
+      const mod =
+        await import(
+          "react-pdf"
+        );
 
-pdfjs.GlobalWorkerOptions.workerSrc =
-  `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
+      return mod.Document;
+    },
+    {
+      ssr: false,
+    }
+  );
+
+const Page =
+  dynamic(
+    async () => {
+
+      const mod =
+        await import(
+          "react-pdf"
+        );
+
+      return mod.Page;
+    },
+    {
+      ssr: false,
+    }
+  );
 
 export default function PDFViewer({
   file,
@@ -131,6 +152,7 @@ export default function PDFViewer({
             className="bg-red-600 px-6 py-4 rounded-xl text-2xl"
           >
             Download
+
           </a>
 
         </div>
@@ -145,20 +167,6 @@ export default function PDFViewer({
           file={file}
           onLoadSuccess={
             onLoadSuccess
-          }
-          loading={
-            <p className="text-3xl">
-
-              Loading PDF...
-
-            </p>
-          }
-          error={
-            <p className="text-3xl text-red-500">
-
-              Failed to load PDF file.
-
-            </p>
           }
         >
 

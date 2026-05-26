@@ -1,16 +1,16 @@
 "use client";
 
+import dynamic from "next/dynamic";
+
 import {
   Suspense,
 } from "react";
-
-import dynamic from "next/dynamic";
 
 import {
   useSearchParams,
 } from "next/navigation";
 
-// DISABLE SSR
+// LOAD ONLY ON CLIENT
 
 const PDFViewer =
   dynamic(
@@ -40,7 +40,15 @@ export default function ReaderPage() {
 
   return (
 
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense
+      fallback={
+        <div>
+
+          Loading...
+
+        </div>
+      }
+    >
 
       <ReaderContent />
 
