@@ -1,223 +1,103 @@
 "use client";
 
+import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
-export default function ReaderPage() {
+export default function BookPage() {
 
-  const [identifier, setIdentifier] =
-    useState("");
+  const params = useParams();
 
-  const [page, setPage] = useState(4);
+  const identifier = params.id;
 
-  const [zoom, setZoom] = useState(60);
+  const [page, setPage] = useState(1);
 
-  const [darkMode, setDarkMode] =
-    useState(true);
+  const [zoom, setZoom] = useState(
+    typeof window !== "undefined" &&
+    window.innerWidth < 768
+      ? 95
+      : 60
+  );
 
-  const [totalPages, setTotalPages] =
-    useState(500);
+  const [darkMode, setDarkMode] = useState(true);
 
-  // GET BOOK ID
+  const [totalPages, setTotalPages] = useState(500);
 
-  useEffect(() => {
+  // IMAGE URL
 
-    const pathname =
-      window.location.pathname;
-
-    const id =
-      decodeURIComponent(
-        pathname.split("/book/")[1]
-      );
-
-    setIdentifier(id);
-
-  }, []);
-
-  // FETCH PAGE COUNT
-
-  useEffect(() => {
-
-    async function fetchMetadata() {
-
-      if (!identifier) return;
-
-      try {
-
-        const res =
-          await fetch(
-            `https://archive.org/metadata/${identifier}`
-          );
-
-        const data =
-          await res.json();
-
-        const pages =
-          data.files?.filter((file) =>
-            file.name?.includes("_w600.jpg")
-          );
-
-        if (pages?.length) {
-
-          setTotalPages(
-            pages.length
-          );
-        }
-
-      } catch (err) {
-
-        console.log(err);
-      }
-    }
-
-    fetchMetadata();
-
-  }, [identifier]);
+  const image =
+    `https://archive.org/download/${identifier}/page/n${page}_w1200.jpg`;
 
   // PRELOAD NEXT PAGE
 
   useEffect(() => {
 
-    if (!identifier) return;
+    const nextImage = new Image();
 
-    const nextImg = new Image();
-
-    nextImg.src =
-      `https://archive.org/download/${identifier}/page/n${page + 1}_w600.jpg`;
+    nextImage.src =
+      `https://archive.org/download/${identifier}/page/n${page + 1}_w1200.jpg`;
 
   }, [page, identifier]);
 
-  // KEYBOARD CONTROLS
+  // KEYBOARD SUPPORT
 
   useEffect(() => {
 
-    function handleKey(e) {
+    const handleKey = (e) => {
 
       if (e.key === "ArrowRight") {
-
         nextPage();
       }
 
       if (e.key === "ArrowLeft") {
-
         prevPage();
       }
-    }
+    };
 
-    window.addEventListener(
-      "keydown",
-      handleKey
-    );
+    window.addEventListener("keydown", handleKey);
 
     return () =>
-      window.removeEventListener(
-        "keydown",
-        handleKey
-      );
+      window.removeEventListener("keydown", handleKey);
 
-  }, [page, totalPages]);
+  }, [page]);
 
-  // NEXT PAGE
+  // FUNCTIONS
 
-  function nextPage() {
+  const nextPage = () => {
 
     if (page < totalPages) {
-
-      setPage((prev) => prev + 1);
+      setPage(page + 1);
     }
-  }
+  };
 
-  // PREVIOUS PAGE
-
-  function prevPage() {
+  const prevPage = () => {
 
     if (page > 1) {
-
-      setPage((prev) => prev - 1);
+      setPage(page - 1);
     }
-  }
+  };
 
-  // ZOOM
-
-  function zoomIn() {
+  const zoomIn = () => {
 
     setZoom((prev) => prev + 10);
-  }
+  };
 
-  function zoomOut() {
+  const zoomOut = () => {
 
     if (zoom > 30) {
-
       setZoom((prev) => prev - 10);
     }
-  }
-
-  // DOWNLOAD
-
-  async function downloadBook() {
-
-    try {
-
-      const response =
-        await fetch(
-          `/api/download/${identifier}`
-        );
-
-      if (!response.ok) {
-
-        alert(
-          "PDF not available"
-        );
-
-        return;
-      }
-
-      const blob =
-        await response.blob();
-
-      const url =
-        window.URL.createObjectURL(blob);
-
-      const a =
-        document.createElement("a");
-
-      a.href = url;
-
-      a.download =
-        `${identifier}.pdf`;
-
-      document.body.appendChild(a);
-
-      a.click();
-
-      a.remove();
-
-      window.URL.revokeObjectURL(url);
-
-    } catch {
-
-      alert("Download failed");
-    }
-  }
-
-  // IMAGE URL
-
-  const image =
-    identifier
-      ? `https://archive.org/download/${identifier}/page/n${page}_w600.jpg`
-      : "";
+  };
 
   return (
 
-    <main
+    <div
       className={`
         min-h-screen
         transition-all
         duration-300
-        ${
-          darkMode
-            ? "bg-black text-white"
-            : "bg-[#f5f5f5] text-black"
-        }
+        ${darkMode
+          ? "bg-black text-white"
+          : "bg-gray-100 text-black"}
       `}
     >
 
@@ -229,11 +109,9 @@ export default function ReaderPage() {
           top-0
           z-50
           backdrop-blur-xl
-          bg-black/80
           border-b
           border-gray-800
-          px-6
-          py-5
+          bg-black/90
         "
       >
 
@@ -242,18 +120,24 @@ export default function ReaderPage() {
             flex
             flex-col
             lg:flex-row
+            justify-between
+            items-start
             lg:items-center
-            lg:justify-between
             gap-5
+            px-4
+            md:px-8
+            py-5
           "
         >
+
+          {/* TITLE */}
 
           <div>
 
             <h1
               className="
-                text-5xl
-                lg:text-6xl
+                text-3xl
+                md:text-5xl
                 font-bold
                 tracking-tight
               "
@@ -263,9 +147,10 @@ export default function ReaderPage() {
 
             <p
               className="
-                opacity-60
-                mt-2
                 text-lg
+                md:text-2xl
+                text-gray-400
+                mt-2
               "
             >
               Page {page} of {totalPages}
@@ -284,134 +169,133 @@ export default function ReaderPage() {
             "
           >
 
+            {/* PREV */}
+
             <button
               onClick={prevPage}
               className="
-                bg-[#1a1a1a]
-                hover:bg-[#2b2b2b]
-                transition-all
-                duration-200
-                px-5
-                py-3
+                px-6
+                py-4
                 rounded-2xl
-                text-lg
-                font-medium
-                border
-                border-gray-700
+                bg-[#111827]
+                hover:bg-[#1f2937]
+                transition
+                text-xl
+                font-semibold
                 shadow-lg
               "
             >
-              ←
+              ← Prev
             </button>
+
+            {/* NEXT */}
 
             <button
               onClick={nextPage}
               className="
-                bg-[#1a1a1a]
-                hover:bg-[#2b2b2b]
-                transition-all
-                duration-200
-                px-5
-                py-3
+                px-6
+                py-4
                 rounded-2xl
-                text-lg
-                font-medium
-                border
-                border-gray-700
+                bg-[#111827]
+                hover:bg-[#1f2937]
+                transition
+                text-xl
+                font-semibold
                 shadow-lg
               "
             >
-              →
+              Next →
             </button>
+
+            {/* ZOOM OUT */}
 
             <button
               onClick={zoomOut}
               className="
-                bg-[#1a1a1a]
-                hover:bg-[#2b2b2b]
-                transition-all
-                duration-200
                 px-5
-                py-3
+                py-4
                 rounded-2xl
-                text-lg
-                font-medium
-                border
-                border-gray-700
+                bg-[#111827]
+                hover:bg-[#1f2937]
+                transition
+                text-2xl
                 shadow-lg
               "
             >
               -
             </button>
 
-            <div
+            {/* ZOOM */}
+
+            <span
               className="
-                px-2
-                font-semibold
-                text-xl
+                text-2xl
+                font-bold
+                w-20
+                text-center
               "
             >
               {zoom}%
-            </div>
+            </span>
+
+            {/* ZOOM IN */}
 
             <button
               onClick={zoomIn}
               className="
-                bg-[#1a1a1a]
-                hover:bg-[#2b2b2b]
-                transition-all
-                duration-200
                 px-5
-                py-3
+                py-4
                 rounded-2xl
-                text-lg
-                font-medium
-                border
-                border-gray-700
+                bg-[#111827]
+                hover:bg-[#1f2937]
+                transition
+                text-2xl
                 shadow-lg
               "
             >
               +
             </button>
 
+            {/* THEME */}
+
             <button
               onClick={() =>
                 setDarkMode(!darkMode)
               }
               className="
-                bg-blue-600
-                hover:bg-blue-500
-                transition-all
-                duration-200
-                px-5
-                py-3
+                px-6
+                py-4
                 rounded-2xl
+                bg-blue-600
+                hover:bg-blue-700
+                transition
+                text-xl
                 font-semibold
-                shadow-xl
+                shadow-lg
               "
             >
-              {darkMode
-                ? "Light"
-                : "Dark"}
+              {darkMode ? "Light" : "Dark"}
             </button>
 
-            <button
-              onClick={downloadBook}
+            {/* DOWNLOAD */}
+
+            <a
+              href={`https://archive.org/download/${identifier}`}
+              target="_blank"
               className="
-                bg-red-600
-                hover:bg-red-500
-                transition-all
-                duration-200
                 px-6
-                py-3
+                py-4
                 rounded-2xl
+                bg-red-600
+                hover:bg-red-700
+                transition
+                text-xl
                 font-semibold
-                shadow-red-500/20
-                shadow-xl
+                shadow-[0_0_30px_rgba(255,0,0,0.4)]
               "
             >
               Download
-            </button>
+            </a>
 
           </div>
 
@@ -419,20 +303,27 @@ export default function ReaderPage() {
 
       </div>
 
-      {/* IMAGE */}
+      {/* VIEWER */}
 
       <div
         className="
           flex
           justify-center
           items-center
-          p-8
+          px-2
+          md:px-6
+          py-8
           overflow-auto
-          min-h-[75vh]
+          min-h-[80vh]
+          bg-gradient-to-b
+          from-black
+          to-[#050505]
         "
       >
 
-        {identifier ? (
+        {/* MOBILE SINGLE PAGE */}
+
+        <div className="block lg:hidden">
 
           <img
             src={image}
@@ -442,65 +333,153 @@ export default function ReaderPage() {
             draggable={false}
             style={{
               width: `${zoom}%`,
-              maxWidth: "1100px",
+              maxWidth: "100%",
               height: "auto",
-              willChange: "transform",
-              transform: "translateZ(0)",
             }}
             className="
-              rounded-3xl
-              shadow-[0_0_80px_rgba(255,255,255,0.08)]
-              select-none
+              rounded-2xl
+              shadow-2xl
               border
               border-gray-800
               transition-all
               duration-300
+              ease-in-out
             "
           />
 
-        ) : (
+        </div>
 
-          <div
+        {/* DESKTOP BOOK VIEW */}
+
+        <div
+          className="
+            hidden
+            lg:flex
+            items-start
+            justify-center
+            gap-1
+            bg-[#111]
+            p-6
+            rounded-3xl
+            shadow-[0_0_80px_rgba(255,255,255,0.06)]
+          "
+        >
+
+          {/* LEFT PAGE */}
+
+          <img
+            src={`https://archive.org/download/${identifier}/page/n${page}_w1200.jpg`}
+            alt={`Page ${page}`}
+            loading="eager"
+            decoding="async"
+            draggable={false}
+            style={{
+              width: `${zoom}%`,
+              maxWidth: "650px",
+              height: "auto",
+            }}
             className="
-              animate-pulse
-              w-[700px]
-              h-[900px]
-              rounded-3xl
-              bg-[#111]
+              rounded-l-2xl
+              border-r
+              border-black
+              shadow-xl
+              transition-all
+              duration-300
+              ease-in-out
             "
           />
 
-        )}
+          {/* RIGHT PAGE */}
+
+          <img
+            src={`https://archive.org/download/${identifier}/page/n${page + 1}_w1200.jpg`}
+            alt={`Page ${page + 1}`}
+            loading="lazy"
+            decoding="async"
+            draggable={false}
+            style={{
+              width: `${zoom}%`,
+              maxWidth: "650px",
+              height: "auto",
+            }}
+            className="
+              rounded-r-2xl
+              shadow-xl
+              transition-all
+              duration-300
+              ease-in-out
+            "
+          />
+
+        </div>
 
       </div>
 
-      {/* SLIDER */}
+      {/* BOTTOM NAVIGATION */}
 
       <div
         className="
           sticky
           bottom-0
-          bg-black/80
+          z-50
+          bg-black/90
           backdrop-blur-xl
           border-t
           border-gray-800
-          p-4
+          py-4
         "
       >
 
-        <input
-          type="range"
-          min="1"
-          max={totalPages}
-          value={page}
-          onChange={(e) =>
-            setPage(Number(e.target.value))
-          }
-          className="w-full"
-        />
+        <div
+          className="
+            flex
+            justify-center
+            items-center
+            gap-4
+          "
+        >
+
+          <button
+            onClick={prevPage}
+            className="
+              px-6
+              py-3
+              rounded-xl
+              bg-[#111827]
+              hover:bg-[#1f2937]
+              transition
+            "
+          >
+            ← Prev
+          </button>
+
+          <div
+            className="
+              text-lg
+              font-semibold
+            "
+          >
+            {page} / {totalPages}
+          </div>
+
+          <button
+            onClick={nextPage}
+            className="
+              px-6
+              py-3
+              rounded-xl
+              bg-[#111827]
+              hover:bg-[#1f2937]
+              transition
+            "
+          >
+            Next →
+          </button>
+
+        </div>
 
       </div>
 
-    </main>
+    </div>
   );
 }
