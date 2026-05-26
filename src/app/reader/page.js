@@ -1,14 +1,21 @@
 "use client";
 
-import {
-  useSearchParams,
-} from "next/navigation";
+import { useSearchParams } from "next/navigation";
 
 import {
-  Suspense,
-} from "react";
+  Worker,
+  Viewer,
+} from "@react-pdf-viewer/core";
 
-function ReaderContent() {
+import {
+  defaultLayoutPlugin,
+} from "@react-pdf-viewer/default-layout";
+
+import "@react-pdf-viewer/core/lib/styles/index.css";
+
+import "@react-pdf-viewer/default-layout/lib/styles/index.css";
+
+export default function ReaderPage() {
 
   const searchParams =
     useSearchParams();
@@ -16,54 +23,26 @@ function ReaderContent() {
   const file =
     searchParams.get("file");
 
-  // GOOGLE VIEWER
-
-  const viewerUrl =
-    `https://docs.google.com/gview?embedded=true&url=${encodeURIComponent(file)}`;
+  const defaultLayoutPluginInstance =
+    defaultLayoutPlugin();
 
   return (
 
-    <main className="min-h-screen bg-black">
+    <div className="h-screen bg-black">
 
-      {/* HEADER */}
+      <Worker
+        workerUrl={`https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js`}
+      >
 
-      <div className="flex justify-between items-center bg-[#111] text-white p-5">
+        <Viewer
+          fileUrl={file}
+          plugins={[
+            defaultLayoutPluginInstance,
+          ]}
+        />
 
-        <h1 className="text-5xl font-bold">
+      </Worker>
 
-          Digital Reader
-
-        </h1>
-
-        <a
-          href={file}
-          target="_blank"
-          className="bg-red-600 px-6 py-4 rounded-xl text-2xl"
-        >
-          Download
-        </a>
-
-      </div>
-
-      {/* VIEWER */}
-
-      <iframe
-        src={viewerUrl}
-        className="w-full h-[90vh]"
-      />
-
-    </main>
+    </div>
   );
-}
-
-export default function ReaderPage() {
-
-  return (
-
-    <Suspense fallback={<div>Loading...</div>}>
-
-      <ReaderContent />
-
-    </Suspense>
-  );
-}
+}s
