@@ -78,66 +78,78 @@ export async function POST(req) {
         }
       );
 
-    // ======================
-    // PDF UPLOAD
-    // ======================
+   // ======================
+// PDF UPLOAD
+// ======================
 
-    const pdfBuffer =
-      Buffer.from(
-        await pdf.arrayBuffer()
-      );
+const pdfBuffer =
+  Buffer.from(
+    await pdf.arrayBuffer()
+  );
 
-    const pdfUpload =
-      await new Promise(
-        (resolve, reject) => {
+const fileName =
+  `${Date.now()}.pdf`;
 
-          cloudinary.uploader
-            .upload_stream(
+const pdfUpload =
+  await new Promise(
+    (resolve, reject) => {
 
-              {
-                resource_type:
-                  "raw",
+      cloudinary.uploader
+        .upload_stream(
 
-                folder:
-                  "books",
+          {
+            resource_type:
+              "raw",
 
-                public_id:
-                  Date.now().toString(),
-              },
+            folder:
+              "books",
 
-              (err, result) => {
+            public_id:
+              fileName,
+          },
 
-                if (err)
-                  reject(err);
+          (err, result) => {
 
-                else
-                  resolve(result);
-              }
-            )
-            .end(pdfBuffer);
-        }
-      );
+            if (err)
+              reject(err);
 
-    // SAVE DATABASE
+            else
+              resolve(result);
+          }
+        )
+        .end(pdfBuffer);
+    }
+  );
 
-    const newBook =
-      new Book({
+// FIX URL
 
-        title,
+const pdfUrl =
+  pdfUpload.secure_url.endsWith(".pdf")
 
-        creator,
+    ? pdfUpload.secure_url
 
-        type,
+    : `${pdfUpload.secure_url}.pdf`;
 
-        coverImage:
-          coverUpload.secure_url,
+   // SAVE DATABASE
 
-        pdfUrl:
-          pdfUpload.secure_url,
+const newBook =
+  new Book({
 
-        source:
-          "mongo",
-      });
+    title,
+
+    creator,
+
+    type,
+
+    coverImage:
+      coverUpload.secure_url,
+
+    pdfUrl:
+      pdfUrl,
+
+    source:
+      "mongo",
+  });
 
     await newBook.save();
 
