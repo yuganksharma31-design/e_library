@@ -1,9 +1,14 @@
 "use client";
 
-import { useSearchParams }
-from "next/navigation";
+import {
+  Suspense
+} from "react";
 
-export default function ReaderPage() {
+import {
+  useSearchParams
+} from "next/navigation";
+
+function ReaderContent() {
 
   const searchParams =
     useSearchParams();
@@ -33,5 +38,26 @@ export default function ReaderPage() {
       />
 
     </main>
+  );
+}
+
+export default function ReaderPage() {
+
+  return (
+
+    <Suspense
+      fallback={
+
+        <div className="p-10 text-2xl">
+
+          Loading PDF...
+
+        </div>
+      }
+    >
+
+      <ReaderContent />
+
+    </Suspense>
   );
 }
