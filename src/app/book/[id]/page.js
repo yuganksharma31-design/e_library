@@ -1,416 +1,290 @@
 "use client";
 
+import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
-export default function ReaderPage() {
+export default function BookPage() {
+  const params = useParams();
 
-  const [identifier, setIdentifier] = useState("");
+  const [book, setBook] = useState(null);
 
   const [page, setPage] = useState(1);
 
   const [zoom, setZoom] = useState(60);
 
-  const [darkMode, setDarkMode] = useState(true);
+  const [darkMode, setDarkMode] =
+    useState(true);
 
-  const [loaded, setLoaded] = useState(false);
-
-  const totalPages = 500;
-
-  // GET IDENTIFIER
+  const [loading, setLoading] =
+    useState(true);
 
   useEffect(() => {
+    async function fetchBook() {
+      try {
+        const res = await fetch(
+          `/api/books?id=${params.id}`
+        );
 
-    const pathname = window.location.pathname;
+        const data = await res.json();
 
-    const id = decodeURIComponent(
-      pathname.split("/book/")[1]
-    );
+        console.log(data);
 
-    setIdentifier(id);
-
-  }, []);
-
-  // RESET LOADING WHEN PAGE CHANGES
-
-  useEffect(() => {
-
-    setLoaded(false);
-
-  }, [page]);
-
-  // PRELOAD NEXT PAGES
-
-  useEffect(() => {
-
-    if (!identifier) return;
-
-    for (let i = 1; i <= 3; i++) {
-
-      const img = new Image();
-
-      img.src =
-        `https://archive.org/download/${identifier}/page/n${page + i}_w1200.jpg`;
-    }
-
-  }, [page, identifier]);
-
-  // IMAGE URL
-
-  const image =
-    `https://archive.org/download/${identifier}/page/n${page}_w1200.jpg`;
-
-  // NEXT PAGE
-
-  function nextPage() {
-
-    if (page < totalPages) {
-
-      setPage(prev => prev + 1);
-    }
-  }
-
-  // PREVIOUS PAGE
-
-  function prevPage() {
-
-    if (page > 1) {
-
-      setPage(prev => prev - 1);
-    }
-  }
-
-  // ZOOM IN
-
-  function zoomIn() {
-
-    setZoom(prev => prev + 10);
-  }
-
-  // ZOOM OUT
-
-  function zoomOut() {
-
-    if (zoom > 30) {
-
-      setZoom(prev => prev - 10);
-    }
-  }
-
-  // DARK MODE
-
-  function toggleTheme() {
-
-    setDarkMode(prev => !prev);
-  }
-
-  // DOWNLOAD
-
-  function downloadBook() {
-
-    window.open(
-      `https://archive.org/download/${identifier}/${identifier}.pdf`,
-      "_blank"
-    );
-  }
-
-  // KEYBOARD CONTROLS
-
-  useEffect(() => {
-
-    function handleKey(e) {
-
-      if (e.key === "ArrowRight") {
-
-        nextPage();
-      }
-
-      if (e.key === "ArrowLeft") {
-
-        prevPage();
+        setBook(data);
+      } catch (err) {
+        console.log(err);
       }
     }
 
-    window.addEventListener("keydown", handleKey);
+    if (params?.id) {
+      fetchBook();
+    }
+  }, [params?.id]);
 
-    return () =>
-      window.removeEventListener(
-        "keydown",
-        handleKey
-      );
+  if (!book) {
+    return (
+      <div
+        style={{
+          height: "100vh",
+          background: "#000",
+          color: "#fff",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          fontSize: "40px",
+        }}
+      >
+        Loading...
+      </div>
+    );
+  }
 
-  }, [page]);
+  const identifier =
+    book.identifier;
+
+  const totalPages =
+    Number(book.imagecount) || 500;
+
+  const imageUrl =
+    `https://archive.org/download/${identifier}/page/n${page}.jpg`;
+
+  console.log(imageUrl);
 
   return (
-
-    <main
-      className={`min-h-screen transition-all duration-300 ${
-        darkMode
-          ? "bg-black text-white"
-          : "bg-[#f5f1e8] text-black"
-      }`}
+    <div
+      style={{
+        background: darkMode
+          ? "#000"
+          : "#f3f3f3",
+        minHeight: "100vh",
+        color: darkMode
+          ? "#fff"
+          : "#000",
+      }}
     >
-
       {/* HEADER */}
 
       <div
-        className="
-          sticky
-          top-0
-          z-50
-          bg-black/80
-          backdrop-blur-xl
-          border-b
-          border-white/10
-        "
+        style={{
+          padding: "25px",
+          borderBottom:
+            "1px solid #222",
+          display: "flex",
+          justifyContent:
+            "space-between",
+          alignItems: "center",
+          flexWrap: "wrap",
+          gap: "20px",
+        }}
       >
+        <div>
+          <h1
+            style={{
+              fontSize: "70px",
+              marginBottom: "10px",
+              fontWeight: "300",
+            }}
+          >
+            Digital Manuscript Reader
+          </h1>
+
+          <p
+            style={{
+              fontSize: "28px",
+              opacity: 0.7,
+            }}
+          >
+            Page {page} of{" "}
+            {totalPages}
+          </p>
+        </div>
+
+        {/* CONTROLS */}
 
         <div
-          className="
-            flex
-            flex-col
-            lg:flex-row
-            lg:items-center
-            lg:justify-between
-            gap-5
-            p-5
-          "
+          style={{
+            display: "flex",
+            gap: "14px",
+            alignItems: "center",
+          }}
         >
-
-          {/* TITLE */}
-
-          <div>
-
-            <h1
-              className="
-                text-3xl
-                md:text-6xl
-                font-light
-                tracking-tight
-              "
-            >
-              Digital Manuscript Reader
-            </h1>
-
-            <p
-              className="
-                opacity-70
-                mt-2
-                text-lg
-                md:text-2xl
-              "
-            >
-              Page {page} of {totalPages}
-            </p>
-
-          </div>
-
-          {/* CONTROLS */}
-
-          <div
-            className="
-              flex
-              flex-wrap
-              items-center
-              gap-3
-            "
+          <button
+            onClick={() =>
+              setPage((prev) =>
+                Math.max(prev - 1, 1)
+              )
+            }
+            style={btn}
           >
+            ←
+          </button>
 
+          <button
+            onClick={() =>
+              setPage((prev) =>
+                Math.min(
+                  prev + 1,
+                  totalPages
+                )
+              )
+            }
+            style={btn}
+          >
+            →
+          </button>
+
+          <button
+            onClick={() =>
+              setZoom((prev) =>
+                Math.max(prev - 10, 30)
+              )
+            }
+            style={btn}
+          >
+            -
+          </button>
+
+          <h2>{zoom}%</h2>
+
+          <button
+            onClick={() =>
+              setZoom((prev) =>
+                prev + 10
+              )
+            }
+            style={btn}
+          >
+            +
+          </button>
+
+          <button
+            onClick={() =>
+              setDarkMode(!darkMode)
+            }
+            style={{
+              ...btn,
+              background:
+                darkMode
+                  ? "#2563eb"
+                  : "#111",
+            }}
+          >
+            {darkMode
+              ? "Light"
+              : "Dark"}
+          </button>
+
+          <a
+            href={`https://archive.org/download/${identifier}/${identifier}.pdf`}
+            target="_blank"
+          >
             <button
-              onClick={prevPage}
-              className="
-                bg-white/10
-                hover:bg-white/20
-                border
-                border-white/10
-                backdrop-blur-lg
-                px-5
-                py-3
-                rounded-xl
-                transition-all
-                duration-200
-              "
-            >
-              ←
-            </button>
-
-            <button
-              onClick={nextPage}
-              className="
-                bg-white/10
-                hover:bg-white/20
-                border
-                border-white/10
-                backdrop-blur-lg
-                px-5
-                py-3
-                rounded-xl
-                transition-all
-                duration-200
-              "
-            >
-              →
-            </button>
-
-            <button
-              onClick={zoomOut}
-              className="
-                bg-white/10
-                hover:bg-white/20
-                border
-                border-white/10
-                backdrop-blur-lg
-                px-5
-                py-3
-                rounded-xl
-                transition-all
-                duration-200
-              "
-            >
-              -
-            </button>
-
-            <div
-              className="
-                text-xl
-                md:text-2xl
-                font-bold
-                px-2
-              "
-            >
-              {zoom}%
-            </div>
-
-            <button
-              onClick={zoomIn}
-              className="
-                bg-white/10
-                hover:bg-white/20
-                border
-                border-white/10
-                backdrop-blur-lg
-                px-5
-                py-3
-                rounded-xl
-                transition-all
-                duration-200
-              "
-            >
-              +
-            </button>
-
-            <button
-              onClick={toggleTheme}
-              className="
-                bg-blue-600
-                hover:bg-blue-500
-                px-5
-                py-3
-                rounded-xl
-                transition-all
-                duration-200
-              "
-            >
-              {darkMode ? "Light" : "Dark"}
-            </button>
-
-            <button
-              onClick={downloadBook}
-              className="
-                bg-red-600
-                hover:bg-red-500
-                px-5
-                py-3
-                rounded-xl
-                transition-all
-                duration-200
-              "
+              style={{
+                background: "red",
+                color: "#fff",
+                border: "none",
+                padding:
+                  "18px 26px",
+                borderRadius: "12px",
+                fontSize: "22px",
+                cursor: "pointer",
+                fontWeight: "bold",
+              }}
             >
               Download
             </button>
-
-          </div>
-
+          </a>
         </div>
-
       </div>
 
-      {/* READER */}
+      {/* IMAGE */}
 
       <div
-        className="
-          flex
-          justify-center
-          items-center
-          overflow-auto
-          min-h-screen
-          p-6
-        "
+        style={{
+          display: "flex",
+          justifyContent:
+            "center",
+          padding: "40px",
+        }}
       >
-
-        {!loaded && (
-
-          <div
-            className="
-              text-2xl
-              animate-pulse
-              opacity-70
-            "
-          >
-            Loading Manuscript...
-          </div>
-
-        )}
-
-        <img
-          src={image}
-          alt="manuscript"
-          loading="lazy"
-          draggable={false}
-          onLoad={() => setLoaded(true)}
+        <div
           style={{
-            width: `${zoom}%`,
-            maxWidth: "1400px",
-            height: "auto",
-            display: loaded ? "block" : "none",
+            position: "relative",
           }}
-          className="
-            rounded-2xl
-            shadow-2xl
-            select-none
-            transition-all
-            duration-300
-          "
-        />
+        >
+          {loading && (
+            <div
+              style={{
+                color: "#aaa",
+                textAlign: "center",
+                marginBottom: "20px",
+                fontSize: "30px",
+              }}
+            >
+              Loading Manuscript...
+            </div>
+          )}
 
+          <img
+            key={imageUrl}
+            src={imageUrl}
+            alt="manuscript"
+            style={{
+              width: `${zoom}%`,
+              borderRadius: "10px",
+              boxShadow:
+                "0px 0px 25px rgba(255,255,255,0.1)",
+            }}
+            onLoad={() => {
+              console.log(
+                "IMAGE LOADED"
+              );
+
+              setLoading(false);
+            }}
+            onError={(e) => {
+              console.log(
+                "FAILED:",
+                imageUrl
+              );
+
+              setLoading(false);
+
+              e.target.src =
+                "https://via.placeholder.com/900x1200?text=Image+Not+Found";
+            }}
+          />
+        </div>
       </div>
-
-      {/* PAGE SLIDER */}
-
-      <div
-        className="
-          sticky
-          bottom-0
-          bg-black/80
-          backdrop-blur-xl
-          border-t
-          border-white/10
-          p-4
-        "
-      >
-
-        <input
-          type="range"
-          min="1"
-          max={totalPages}
-          value={page}
-          onChange={(e) =>
-            setPage(Number(e.target.value))
-          }
-          className="w-full"
-        />
-
-      </div>
-
-    </main>
+    </div>
   );
 }
+
+const btn = {
+  background: "#111827",
+  color: "#fff",
+  border: "none",
+  padding: "16px 22px",
+  borderRadius: "12px",
+  fontSize: "24px",
+  cursor: "pointer",
+};
