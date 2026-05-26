@@ -133,12 +133,12 @@ const newBook =
       coverUpload.secure_url,
 
     pdfUrl:
-      pdfUrl,
+      pdfUpload.secure_url + ".pdf",
 
     source:
       "mongo",
   });
-
+  
     await newBook.save();
 
     return Response.json({
