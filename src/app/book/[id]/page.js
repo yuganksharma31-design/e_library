@@ -37,42 +37,41 @@ export default function ReaderPage() {
 
   useEffect(() => {
 
-    async function fetchMetadata() {
+  async function fetchMetadata() {
 
-      if (!identifier) return;
+    if (!identifier) return;
 
-      try {
+    try {
 
-        const res =
-          await fetch(
-            `https://archive.org/metadata/${identifier}`
-          );
+      const res =
+        await fetch(
+          `https://archive.org/metadata/${identifier}`
+        );
 
-        const data =
-          await res.json();
+      const data =
+        await res.json();
 
-        const pages =
-          data.files?.filter((file) =>
-            file.name?.includes("_w600.jpg")
-          );
+      const imageFiles =
+        data.files?.filter((file) =>
+          file.name?.endsWith(".jp2")
+        );
 
-        if (pages?.length) {
+      if (imageFiles?.length) {
 
-          setTotalPages(
-            pages.length
-          );
-        }
-
-      } catch (err) {
-
-        console.log(err);
+        setTotalPages(
+          imageFiles.length
+        );
       }
+
+    } catch (err) {
+
+      console.log(err);
     }
+  }
 
-    fetchMetadata();
+  fetchMetadata();
 
-  }, [identifier]);
-
+}, [identifier]);
   // PRELOAD NEXT PAGE
 
   useEffect(() => {
