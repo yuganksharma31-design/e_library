@@ -4,13 +4,8 @@ import { useEffect, useState } from "react";
 
 export default function ReaderPage() {
 
-  // GET ID DIRECTLY
-  const identifier =
-    typeof window !== "undefined"
-      ? decodeURIComponent(
-          window.location.pathname.split("/book/")[1]
-        )
-      : "";
+  const [identifier, setIdentifier] =
+    useState("");
 
   const [page, setPage] = useState(4);
 
@@ -21,6 +16,44 @@ export default function ReaderPage() {
 
   const totalPages = 500;
 
+  // GET BOOK ID
+
+  useEffect(() => {
+
+    const pathname =
+      window.location.pathname;
+
+    const id =
+      decodeURIComponent(
+        pathname.split("/book/")[1]
+      );
+
+    setIdentifier(id);
+
+  }, []);
+
+  // WAIT FOR ID
+
+  if (!identifier) {
+
+    return (
+
+      <div className="
+        min-h-screen
+        bg-black
+        text-white
+        flex
+        items-center
+        justify-center
+        text-2xl
+      ">
+
+        Loading manuscript...
+
+      </div>
+    );
+  }
+
   // IMAGE URL
 
   const image =
@@ -29,8 +62,6 @@ export default function ReaderPage() {
   // PRELOAD NEXT PAGE
 
   useEffect(() => {
-
-    if (!identifier) return;
 
     const nextImg = new Image();
 
@@ -104,9 +135,9 @@ export default function ReaderPage() {
         handleKey
       );
 
-  }, [nextPage, prevPage]);
+  }, [page]);
 
-  // DOWNLOAD
+  // DOWNLOAD BOOK
 
   async function downloadBook() {
 
