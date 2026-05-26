@@ -15,7 +15,7 @@ export default function ReaderPage() {
     useState(true);
 
   const [totalPages, setTotalPages] =
-    useState(500);
+    useState(0);
 
   // GET BOOK ID
 
