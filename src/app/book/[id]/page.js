@@ -6,11 +6,14 @@ import { useEffect, useState } from "react";
 export default function BookPage() {
   const params = useParams();
 
-  const [book, setBook] = useState(null);
+  const [book, setBook] =
+    useState(null);
 
-  const [page, setPage] = useState(1);
+  const [page, setPage] =
+    useState(1);
 
-  const [zoom, setZoom] = useState(60);
+  const [zoom, setZoom] =
+    useState(60);
 
   const [darkMode, setDarkMode] =
     useState(true);
@@ -21,11 +24,14 @@ export default function BookPage() {
   useEffect(() => {
     async function fetchBook() {
       try {
+        // DIRECT ARCHIVE API
+
         const res = await fetch(
-          `/api/books?id=${params.id}`
+          `https://archive.org/metadata/${params.id}`
         );
 
-        const data = await res.json();
+        const data =
+          await res.json();
 
         console.log(data);
 
@@ -48,7 +54,8 @@ export default function BookPage() {
           background: "#000",
           color: "#fff",
           display: "flex",
-          justifyContent: "center",
+          justifyContent:
+            "center",
           alignItems: "center",
           fontSize: "40px",
         }}
@@ -58,11 +65,17 @@ export default function BookPage() {
     );
   }
 
+  // IMPORTANT FIX
+
   const identifier =
-    book.identifier;
+    book.metadata?.identifier;
 
   const totalPages =
-    Number(book.imagecount) || 500;
+    Number(
+      book.metadata?.imagecount
+    ) || 500;
+
+  // CORRECT IMAGE URL
 
   const imageUrl =
     `https://archive.org/download/${identifier}/page/n${page}.jpg`;
@@ -75,7 +88,9 @@ export default function BookPage() {
         background: darkMode
           ? "#000"
           : "#f3f3f3",
+
         minHeight: "100vh",
+
         color: darkMode
           ? "#fff"
           : "#000",
@@ -86,13 +101,19 @@ export default function BookPage() {
       <div
         style={{
           padding: "25px",
+
           borderBottom:
             "1px solid #222",
+
           display: "flex",
+
           justifyContent:
             "space-between",
+
           alignItems: "center",
+
           flexWrap: "wrap",
+
           gap: "20px",
         }}
       >
@@ -100,16 +121,20 @@ export default function BookPage() {
           <h1
             style={{
               fontSize: "70px",
+
               marginBottom: "10px",
+
               fontWeight: "300",
             }}
           >
-            Digital Manuscript Reader
+            Digital Manuscript
+            Reader
           </h1>
 
           <p
             style={{
               fontSize: "28px",
+
               opacity: 0.7,
             }}
           >
@@ -123,7 +148,9 @@ export default function BookPage() {
         <div
           style={{
             display: "flex",
+
             gap: "14px",
+
             alignItems: "center",
           }}
         >
@@ -167,8 +194,8 @@ export default function BookPage() {
 
           <button
             onClick={() =>
-              setZoom((prev) =>
-                prev + 10
+              setZoom(
+                (prev) => prev + 10
               )
             }
             style={btn}
@@ -178,10 +205,13 @@ export default function BookPage() {
 
           <button
             onClick={() =>
-              setDarkMode(!darkMode)
+              setDarkMode(
+                !darkMode
+              )
             }
             style={{
               ...btn,
+
               background:
                 darkMode
                   ? "#2563eb"
@@ -200,13 +230,21 @@ export default function BookPage() {
             <button
               style={{
                 background: "red",
+
                 color: "#fff",
+
                 border: "none",
+
                 padding:
                   "18px 26px",
-                borderRadius: "12px",
+
+                borderRadius:
+                  "12px",
+
                 fontSize: "22px",
+
                 cursor: "pointer",
+
                 fontWeight: "bold",
               }}
             >
@@ -221,22 +259,23 @@ export default function BookPage() {
       <div
         style={{
           display: "flex",
+
           justifyContent:
             "center",
+
           padding: "40px",
         }}
       >
-        <div
-          style={{
-            position: "relative",
-          }}
-        >
+        <div>
           {loading && (
             <div
               style={{
                 color: "#aaa",
+
                 textAlign: "center",
+
                 marginBottom: "20px",
+
                 fontSize: "30px",
               }}
             >
@@ -250,15 +289,14 @@ export default function BookPage() {
             alt="manuscript"
             style={{
               width: `${zoom}%`,
-              borderRadius: "10px",
+
+              borderRadius:
+                "10px",
+
               boxShadow:
                 "0px 0px 25px rgba(255,255,255,0.1)",
             }}
             onLoad={() => {
-              console.log(
-                "IMAGE LOADED"
-              );
-
               setLoading(false);
             }}
             onError={(e) => {
@@ -268,9 +306,6 @@ export default function BookPage() {
               );
 
               setLoading(false);
-
-              e.target.src =
-                "https://via.placeholder.com/900x1200?text=Image+Not+Found";
             }}
           />
         </div>
@@ -281,10 +316,16 @@ export default function BookPage() {
 
 const btn = {
   background: "#111827",
+
   color: "#fff",
+
   border: "none",
+
   padding: "16px 22px",
+
   borderRadius: "12px",
+
   fontSize: "24px",
+
   cursor: "pointer",
 };
