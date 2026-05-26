@@ -1,18 +1,20 @@
 "use client";
 
 import {
-  Document,
-  Page,
-  pdfjs
-} from "react-pdf";
+  useState,
+} from "react";
 
 import {
-  useState
-} from "react";
+  Document,
+  Page,
+  pdfjs,
+} from "react-pdf";
 
 import "react-pdf/dist/Page/AnnotationLayer.css";
 
 import "react-pdf/dist/Page/TextLayer.css";
+
+// WORKER
 
 pdfjs.GlobalWorkerOptions.workerSrc =
   `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
@@ -22,7 +24,7 @@ export default function PDFViewer({
 }) {
 
   const [numPages, setNumPages] =
-    useState(null);
+    useState(0);
 
   const [pageNumber, setPageNumber] =
     useState(1);
@@ -30,7 +32,7 @@ export default function PDFViewer({
   const [scale, setScale] =
     useState(1.2);
 
-  function onDocumentLoadSuccess({
+  function onLoadSuccess({
     numPages,
   }) {
 
@@ -41,29 +43,31 @@ export default function PDFViewer({
 
     <main className="min-h-screen bg-black text-white">
 
-      {/* TOP BAR */}
+      {/* HEADER */}
 
-      <div className="sticky top-0 z-50 bg-[#111] p-4 flex justify-between items-center">
+      <div className="flex justify-between items-center p-5 bg-[#111]">
 
         <div>
 
-          <h1 className="text-3xl font-bold">
+          <h1 className="text-5xl font-bold">
 
             Digital Reader
 
           </h1>
 
-          <p className="text-gray-400">
+          <p className="text-2xl mt-2">
 
             Page {pageNumber}
-            {" "}of{" "}
-            {numPages || 0}
+            {" "}
+            of
+            {" "}
+            {numPages}
 
           </p>
 
         </div>
 
-        <div className="flex gap-3 items-center">
+        <div className="flex items-center gap-4">
 
           <button
             onClick={() =>
@@ -71,7 +75,7 @@ export default function PDFViewer({
                 Math.max(p - 1, 1)
               )
             }
-            className="bg-gray-700 px-4 py-2 rounded"
+            className="bg-slate-700 px-6 py-4 rounded-xl text-2xl"
           >
             ←
           </button>
@@ -85,7 +89,7 @@ export default function PDFViewer({
                 )
               )
             }
-            className="bg-gray-700 px-4 py-2 rounded"
+            className="bg-slate-700 px-6 py-4 rounded-xl text-2xl"
           >
             →
           </button>
@@ -99,29 +103,24 @@ export default function PDFViewer({
                 )
               )
             }
-            className="bg-gray-700 px-4 py-2 rounded"
+            className="bg-slate-700 px-6 py-4 rounded-xl text-2xl"
           >
             -
           </button>
 
-          <span>
+          <span className="text-2xl">
 
-            {Math.round(
-              scale * 100
-            )}%
+            {Math.round(scale * 100)}%
 
           </span>
 
           <button
             onClick={() =>
               setScale((s) =>
-                Math.min(
-                  s + 0.2,
-                  3
-                )
+                s + 0.2
               )
             }
-            className="bg-gray-700 px-4 py-2 rounded"
+            className="bg-slate-700 px-6 py-4 rounded-xl text-2xl"
           >
             +
           </button>
@@ -129,7 +128,7 @@ export default function PDFViewer({
           <a
             href={file}
             target="_blank"
-            className="bg-red-600 px-5 py-2 rounded"
+            className="bg-red-600 px-6 py-4 rounded-xl text-2xl"
           >
             Download
           </a>
@@ -140,12 +139,26 @@ export default function PDFViewer({
 
       {/* PDF */}
 
-      <div className="flex justify-center p-5">
+      <div className="flex justify-center py-10 overflow-auto">
 
         <Document
           file={file}
           onLoadSuccess={
-            onDocumentLoadSuccess
+            onLoadSuccess
+          }
+          loading={
+            <p className="text-3xl">
+
+              Loading PDF...
+
+            </p>
+          }
+          error={
+            <p className="text-3xl text-red-500">
+
+              Failed to load PDF file.
+
+            </p>
           }
         >
 
