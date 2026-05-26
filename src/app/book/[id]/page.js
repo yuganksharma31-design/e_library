@@ -1,6 +1,6 @@
 "use client";
 
-import manuscripts from "@/data/manuscripts.json";
+import manuscripts from "../../../data/manuscripts.json";
 
 import { useParams } from "next/navigation";
 
