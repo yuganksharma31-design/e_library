@@ -41,7 +41,7 @@ function ReaderContent() {
       {/* PDF VIEWER */}
 
       <iframe
-        src={file}
+        src={`${file}#toolbar=1&navpanes=1&scrollbar=1`}
         className="w-full h-[calc(100vh-110px)]"
       />
 

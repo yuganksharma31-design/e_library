@@ -6,107 +6,148 @@ export async function POST(req) {
 
   try {
 
+    // CONNECT DATABASE
+
     await connectDB();
 
-    const formData = await req.formData();
+    // FORM DATA
 
-    const title = formData.get("title");
-    const creator = formData.get("creator");
-    const type = formData.get("type");
+    const formData =
+      await req.formData();
 
-    const cover = formData.get("cover");
-    const pdf = formData.get("pdf");
+    const title =
+      formData.get("title");
 
-    if (!title || !creator || !cover || !pdf) {
+    const creator =
+      formData.get("creator");
+
+    const type =
+      formData.get("type");
+
+    const cover =
+      formData.get("cover");
+
+    const pdf =
+      formData.get("pdf");
+
+    // VALIDATION
+
+    if (
+      !title ||
+      !creator ||
+      !cover ||
+      !pdf
+    ) {
 
       return Response.json({
+
         success: false,
-        error: "Missing fields",
+
+        error:
+          "Missing required fields",
       });
     }
 
     // =========================
-    // UPLOAD COVER
+    // COVER IMAGE UPLOAD
     // =========================
-
-    const coverBytes = await cover.arrayBuffer();
 
     const coverBuffer =
-      Buffer.from(coverBytes);
+      Buffer.from(
+        await cover.arrayBuffer()
+      );
 
     const coverUpload =
-      await new Promise((resolve, reject) => {
+      await new Promise(
+        (resolve, reject) => {
 
-        cloudinary.uploader.upload_stream(
+          cloudinary.uploader
+            .upload_stream(
 
-          {
-            folder: "covers",
-          },
+              {
+                folder:
+                  "covers",
+              },
 
-          (error, result) => {
+              (err, result) => {
 
-            if (error) reject(error);
+                if (err)
+                  reject(err);
 
-            else resolve(result);
-          }
-
-        ).end(coverBuffer);
-      });
+                else
+                  resolve(result);
+              }
+            )
+            .end(coverBuffer);
+        }
+      );
 
     // =========================
-    // UPLOAD PDF
+    // PDF UPLOAD
     // =========================
-
-    const pdfBytes = await pdf.arrayBuffer();
 
     const pdfBuffer =
-      Buffer.from(pdfBytes);
+      Buffer.from(
+        await pdf.arrayBuffer()
+      );
 
     const pdfUpload =
-      await new Promise((resolve, reject) => {
+      await new Promise(
+        (resolve, reject) => {
 
-        cloudinary.uploader.upload_stream(
+          cloudinary.uploader
+            .upload_stream(
 
-          {
-            resource_type: "raw",
-            folder: "books",
-            public_id: `${Date.now()}`,
-          },
+              {
+                resource_type:
+                  "raw",
 
-          (error, result) => {
+                folder:
+                  "books",
+              },
 
-            if (error) reject(error);
+              (err, result) => {
 
-            else resolve(result);
-          }
+                if (err)
+                  reject(err);
 
-        ).end(pdfBuffer);
+                else
+                  resolve(result);
+              }
+            )
+            .end(pdfBuffer);
+        }
+      );
+
+    // =========================
+    // SAVE TO DATABASE
+    // =========================
+
+    const newBook =
+      new Book({
+
+        title,
+
+        creator,
+
+        type,
+
+        coverImage:
+          coverUpload.secure_url,
+
+        pdfUrl:
+          pdfUpload.secure_url,
+
+        source:
+          "mongo",
       });
-
-    // =========================
-    // SAVE BOOK
-    // =========================
-
-    const newBook = new Book({
-
-      title,
-      creator,
-      type,
-
-      coverImage:
-        coverUpload.secure_url,
-
-      pdfUrl:
-        pdfUpload.secure_url,
-
-      source: "mongo",
-    });
 
     await newBook.save();
 
     return Response.json({
 
       success: true,
+
       book: newBook,
     });
 
@@ -117,7 +158,9 @@ export async function POST(req) {
     return Response.json({
 
       success: false,
-      error: err.message,
+
+      error:
+        err.message,
     });
   }
 }
