@@ -10,7 +10,9 @@ export async function POST(req) {
 
     await connectDB();
 
-    // FORM DATA
+    // =========================
+    // GET FORM DATA
+    // =========================
 
     const formData =
       await req.formData();
@@ -30,7 +32,9 @@ export async function POST(req) {
     const pdf =
       formData.get("pdf");
 
+    // =========================
     // VALIDATION
+    // =========================
 
     if (
       !title ||
@@ -82,51 +86,51 @@ export async function POST(req) {
         }
       );
 
-// =========================
-// PDF UPLOAD
-// =========================
+    // =========================
+    // PDF UPLOAD
+    // =========================
 
-const pdfBuffer =
-  Buffer.from(
-    await pdf.arrayBuffer()
-  );
+    const pdfBuffer =
+      Buffer.from(
+        await pdf.arrayBuffer()
+      );
 
-const pdfUpload =
-  await new Promise(
-    (resolve, reject) => {
+    const pdfUpload =
+      await new Promise(
+        (resolve, reject) => {
 
-      cloudinary.uploader
-        .upload_stream(
+          cloudinary.uploader
+            .upload_stream(
 
-          {
-            resource_type: "image",
-            folder: "books",
-            format: "pdf",
-            public_id:
-              Date.now().toString(),
-          },
+              {
+                resource_type:
+                  "raw",
 
-          (err, result) => {
+                folder:
+                  "books",
 
-            if (err)
-              reject(err);
+                public_id:
+                  Date.now().toString(),
+              },
 
-            else
-              resolve(result);
-          }
-        )
-        .end(pdfBuffer);
-    }
-  );
+              (err, result) => {
 
-// FIX PDF URL
+                if (err)
+                  reject(err);
 
-const pdfUrl =
-  pdfUpload.secure_url
-    .replace(
-      "/upload/",
-      "/upload/fl_attachment:false,f_pdf/"
-    );
+                else
+                  resolve(result);
+              }
+            )
+            .end(pdfBuffer);
+        }
+      );
+
+    // ORIGINAL PDF URL
+
+    const pdfUrl =
+      pdfUpload.secure_url;
+
     // =========================
     // SAVE TO DATABASE
     // =========================
@@ -144,13 +148,17 @@ const pdfUrl =
           coverUpload.secure_url,
 
         pdfUrl:
-  pdfUrl,
+          pdfUrl,
 
         source:
           "mongo",
       });
 
     await newBook.save();
+
+    // =========================
+    // RESPONSE
+    // =========================
 
     return Response.json({
 
@@ -161,7 +169,10 @@ const pdfUrl =
 
   } catch (err) {
 
-    console.log(err);
+    console.log(
+      "UPLOAD ERROR:",
+      err
+    );
 
     return Response.json({
 

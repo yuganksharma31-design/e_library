@@ -38,10 +38,11 @@ function ReaderContent() {
 
       </div>
 
-      {/* PDF VIEWER */}
+      {/* DIRECT PDF */}
 
-      <iframe
-        src={`${file}#toolbar=1&navpanes=1&scrollbar=1`}
+      <embed
+        src={file}
+        type="application/pdf"
         className="w-full h-[calc(100vh-110px)]"
       />
 
