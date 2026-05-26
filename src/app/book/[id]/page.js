@@ -33,7 +33,7 @@ export default function ReaderPage() {
 
   }, []);
 
-  // FETCH REAL PAGE COUNT
+  // FETCH PAGE COUNT
 
   useEffect(() => {
 
@@ -86,43 +86,6 @@ export default function ReaderPage() {
 
   }, [page, identifier]);
 
-  // NEXT PAGE
-
-  function nextPage() {
-
-    if (page < totalPages) {
-
-      setPage((prev) => prev + 1);
-    }
-  }
-
-  // PREVIOUS PAGE
-
-  function prevPage() {
-
-    if (page > 1) {
-
-      setPage((prev) => prev - 1);
-    }
-  }
-
-  // ZOOM IN
-
-  function zoomIn() {
-
-    setZoom((prev) => prev + 10);
-  }
-
-  // ZOOM OUT
-
-  function zoomOut() {
-
-    if (zoom > 30) {
-
-      setZoom((prev) => prev - 10);
-    }
-  }
-
   // KEYBOARD CONTROLS
 
   useEffect(() => {
@@ -153,7 +116,42 @@ export default function ReaderPage() {
 
   }, [page, totalPages]);
 
-  // DOWNLOAD BOOK
+  // NEXT PAGE
+
+  function nextPage() {
+
+    if (page < totalPages) {
+
+      setPage((prev) => prev + 1);
+    }
+  }
+
+  // PREVIOUS PAGE
+
+  function prevPage() {
+
+    if (page > 1) {
+
+      setPage((prev) => prev - 1);
+    }
+  }
+
+  // ZOOM
+
+  function zoomIn() {
+
+    setZoom((prev) => prev + 10);
+  }
+
+  function zoomOut() {
+
+    if (zoom > 30) {
+
+      setZoom((prev) => prev - 10);
+    }
+  }
+
+  // DOWNLOAD
 
   async function downloadBook() {
 
@@ -211,84 +209,211 @@ export default function ReaderPage() {
   return (
 
     <main
-      className={`min-h-screen ${
-        darkMode
-          ? "bg-black text-white"
-          : "bg-gray-100 text-black"
-      }`}
+      className={`
+        min-h-screen
+        transition-all
+        duration-300
+        ${
+          darkMode
+            ? "bg-black text-white"
+            : "bg-[#f5f5f5] text-black"
+        }
+      `}
     >
 
       {/* HEADER */}
 
-      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5 p-5 border-b border-gray-800 bg-[#111]">
+      <div
+        className="
+          sticky
+          top-0
+          z-50
+          backdrop-blur-xl
+          bg-black/80
+          border-b
+          border-gray-800
+          px-6
+          py-5
+        "
+      >
 
-        <div>
+        <div
+          className="
+            flex
+            flex-col
+            lg:flex-row
+            lg:items-center
+            lg:justify-between
+            gap-5
+          "
+        >
 
-          <h1 className="text-3xl font-bold">
+          <div>
 
-            Digital Manuscript Reader
+            <h1
+              className="
+                text-5xl
+                lg:text-6xl
+                font-bold
+                tracking-tight
+              "
+            >
+              Digital Manuscript Reader
+            </h1>
 
-          </h1>
-
-          <p className="opacity-70 mt-1">
-
-            Page {page} of {totalPages}
-
-          </p>
-
-        </div>
-
-        <div className="flex flex-wrap items-center gap-3">
-
-          <button
-            onClick={prevPage}
-            className="bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-lg"
-          >
-            ←
-          </button>
-
-          <button
-            onClick={nextPage}
-            className="bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-lg"
-          >
-            →
-          </button>
-
-          <button
-            onClick={zoomOut}
-            className="bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-lg"
-          >
-            -
-          </button>
-
-          <div className="px-2 font-semibold">
-
-            {zoom}%
+            <p
+              className="
+                opacity-60
+                mt-2
+                text-lg
+              "
+            >
+              Page {page} of {totalPages}
+            </p>
 
           </div>
 
-          <button
-            onClick={zoomIn}
-            className="bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-lg"
-          >
-            +
-          </button>
+          {/* CONTROLS */}
 
-          <button
-            onClick={() =>
-              setDarkMode(!darkMode)
-            }
-            className="bg-blue-600 hover:bg-blue-500 px-5 py-2 rounded-lg"
+          <div
+            className="
+              flex
+              flex-wrap
+              items-center
+              gap-3
+            "
           >
-            {darkMode ? "Light" : "Dark"}
-          </button>
 
-          <button
-            onClick={downloadBook}
-            className="bg-red-600 hover:bg-red-500 px-5 py-2 rounded-lg"
-          >
-            Download
-          </button>
+            <button
+              onClick={prevPage}
+              className="
+                bg-[#1a1a1a]
+                hover:bg-[#2b2b2b]
+                transition-all
+                duration-200
+                px-5
+                py-3
+                rounded-2xl
+                text-lg
+                font-medium
+                border
+                border-gray-700
+                shadow-lg
+              "
+            >
+              ←
+            </button>
+
+            <button
+              onClick={nextPage}
+              className="
+                bg-[#1a1a1a]
+                hover:bg-[#2b2b2b]
+                transition-all
+                duration-200
+                px-5
+                py-3
+                rounded-2xl
+                text-lg
+                font-medium
+                border
+                border-gray-700
+                shadow-lg
+              "
+            >
+              →
+            </button>
+
+            <button
+              onClick={zoomOut}
+              className="
+                bg-[#1a1a1a]
+                hover:bg-[#2b2b2b]
+                transition-all
+                duration-200
+                px-5
+                py-3
+                rounded-2xl
+                text-lg
+                font-medium
+                border
+                border-gray-700
+                shadow-lg
+              "
+            >
+              -
+            </button>
+
+            <div
+              className="
+                px-2
+                font-semibold
+                text-xl
+              "
+            >
+              {zoom}%
+            </div>
+
+            <button
+              onClick={zoomIn}
+              className="
+                bg-[#1a1a1a]
+                hover:bg-[#2b2b2b]
+                transition-all
+                duration-200
+                px-5
+                py-3
+                rounded-2xl
+                text-lg
+                font-medium
+                border
+                border-gray-700
+                shadow-lg
+              "
+            >
+              +
+            </button>
+
+            <button
+              onClick={() =>
+                setDarkMode(!darkMode)
+              }
+              className="
+                bg-blue-600
+                hover:bg-blue-500
+                transition-all
+                duration-200
+                px-5
+                py-3
+                rounded-2xl
+                font-semibold
+                shadow-xl
+              "
+            >
+              {darkMode
+                ? "Light"
+                : "Dark"}
+            </button>
+
+            <button
+              onClick={downloadBook}
+              className="
+                bg-red-600
+                hover:bg-red-500
+                transition-all
+                duration-200
+                px-6
+                py-3
+                rounded-2xl
+                font-semibold
+                shadow-red-500/20
+                shadow-xl
+              "
+            >
+              Download
+            </button>
+
+          </div>
 
         </div>
 
@@ -296,7 +421,16 @@ export default function ReaderPage() {
 
       {/* IMAGE */}
 
-      <div className="flex justify-center items-center p-6 overflow-auto min-h-[70vh]">
+      <div
+        className="
+          flex
+          justify-center
+          items-center
+          p-8
+          overflow-auto
+          min-h-[75vh]
+        "
+      >
 
         {identifier ? (
 
@@ -304,33 +438,55 @@ export default function ReaderPage() {
             src={image}
             alt={`Page ${page}`}
             loading="eager"
+            decoding="async"
             draggable={false}
             style={{
               width: `${zoom}%`,
-              maxWidth: "1000px",
+              maxWidth: "1100px",
               height: "auto",
+              willChange: "transform",
+              transform: "translateZ(0)",
             }}
             className="
-              rounded-xl
-              shadow-2xl
+              rounded-3xl
+              shadow-[0_0_80px_rgba(255,255,255,0.08)]
               select-none
+              border
+              border-gray-800
+              transition-all
+              duration-300
             "
           />
 
         ) : (
 
-          <div className="text-2xl">
+          <div
+            className="
+              animate-pulse
+              w-[700px]
+              h-[900px]
+              rounded-3xl
+              bg-[#111]
+            "
+          />
 
-            Loading manuscript...
-
-          </div>
         )}
 
       </div>
 
       {/* SLIDER */}
 
-      <div className="bg-[#111] border-t border-gray-800 p-4">
+      <div
+        className="
+          sticky
+          bottom-0
+          bg-black/80
+          backdrop-blur-xl
+          border-t
+          border-gray-800
+          p-4
+        "
+      >
 
         <input
           type="range"
