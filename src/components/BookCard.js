@@ -1,7 +1,5 @@
 "use client";
 
-import Link from "next/link";
-
 export default function BookCard({
   _id,
   title,
@@ -12,22 +10,30 @@ export default function BookCard({
   source,
 }) {
 
+  // ARCHIVE COVER
+
   const archiveImage =
     identifier
       ? `https://archive.org/services/img/${identifier}`
       : null;
 
-  // OLD WORKING VIEWER
+  // FINAL READER URL
 
-  const readerUrl =
-    source === "mongo"
-      ? pdfUrl
-      : `/book/${identifier}`;
+  let readerUrl = "#";
+
+  if (source === "mongo" && pdfUrl) {
+    readerUrl = pdfUrl;
+  }
+
+  if (identifier) {
+    readerUrl = `/book/${identifier}`;
+  }
 
   return (
+
     <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
 
-      {/* COVER */}
+      {/* COVER IMAGE */}
 
       <img
         src={
@@ -51,19 +57,24 @@ export default function BookCard({
           {creator}
         </p>
 
-        {/* READ BUTTON */}
+        {/* BUTTON */}
 
         <a
           href={readerUrl}
           target="_blank"
           rel="noopener noreferrer"
         >
-          <button className="mt-5 w-full bg-black text-white py-3 rounded-xl font-semibold">
+
+          <button
+            className="mt-5 w-full bg-black text-white py-3 rounded-xl font-semibold"
+          >
             Read Book
           </button>
+
         </a>
 
       </div>
+
     </div>
   );
 }
