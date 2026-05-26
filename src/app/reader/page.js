@@ -1,14 +1,27 @@
 "use client";
 
-import { Suspense } from "react";
 import { useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 
 function ReaderContent() {
 
-  const searchParams = useSearchParams();
+  const searchParams =
+    useSearchParams();
 
   const file =
     searchParams.get("file");
+
+  if (!file) {
+
+    return (
+
+      <div className="text-white p-10">
+
+        PDF not found
+
+      </div>
+    );
+  }
 
   return (
 
@@ -16,28 +29,29 @@ function ReaderContent() {
 
       {/* HEADER */}
 
-      <div className="flex items-center justify-between p-4 bg-black text-white">
+      <div className="flex items-center justify-between px-6 py-5 bg-black">
 
-        <h1 className="text-4xl font-bold">
+        <h1 className="text-5xl font-bold text-white">
+
           Digital Reader
+
         </h1>
 
         <a
           href={file}
           target="_blank"
-          rel="noopener noreferrer"
-          className="bg-red-600 px-8 py-4 rounded-xl text-2xl font-bold"
+          className="bg-red-600 text-white px-10 py-5 rounded-2xl text-3xl font-bold"
         >
           Download
         </a>
 
       </div>
 
-      {/* VIEWER */}
+      {/* PDF VIEWER */}
 
       <iframe
         src={file}
-        className="w-full h-[90vh] bg-white"
+        className="w-full h-[calc(100vh-110px)] bg-white"
       />
 
     </div>
@@ -48,15 +62,7 @@ export default function ReaderPage() {
 
   return (
 
-    <Suspense fallback={
-
-      <div className="w-full h-screen bg-black text-white flex items-center justify-center text-3xl">
-
-        Loading Reader...
-
-      </div>
-
-    }>
+    <Suspense>
 
       <ReaderContent />
 

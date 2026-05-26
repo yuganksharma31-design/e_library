@@ -3,6 +3,7 @@
 import Link from "next/link";
 
 export default function BookCard({
+
   title,
   creator,
   identifier,
@@ -11,26 +12,23 @@ export default function BookCard({
   source,
 }) {
 
-  // ARCHIVE IMAGE
-
   const archiveImage =
     identifier
       ? `https://archive.org/services/img/${identifier}`
       : null;
 
-  // IMPORTANT:
-  // uploaded PDFs open manuscript-style reader
-
   const readerUrl =
     source === "mongo"
+
       ? `/reader?file=${encodeURIComponent(pdfUrl)}`
+
       : `/book/${identifier}`;
 
   return (
 
     <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
 
-      {/* COVER */}
+      {/* IMAGE */}
 
       <img
         src={
@@ -47,11 +45,15 @@ export default function BookCard({
       <div className="p-4">
 
         <h2 className="text-2xl font-bold line-clamp-2">
+
           {title}
+
         </h2>
 
         <p className="text-gray-600 mt-2">
+
           {creator}
+
         </p>
 
         {/* BUTTON */}
