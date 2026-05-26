@@ -1,6 +1,6 @@
-import connectDB from "@/lib/mongodb";
+import connectDB from "../../../../lib/mongodb";
 
-import Book from "@/models/Book";
+import Book from "../../../../models/Book";
 
 export async function POST(req) {
 
