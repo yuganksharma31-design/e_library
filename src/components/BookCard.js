@@ -3,14 +3,12 @@
 import Link from "next/link";
 
 export default function BookCard({
-
   id,
   title,
-  creator,
+ creator,
   identifier,
   coverImage,
   source,
-
 }) {
 
   // ARCHIVE IMAGE
@@ -23,11 +21,8 @@ export default function BookCard({
   // READER URL
 
   const readerUrl =
-
     source === "mongo"
-
       ? `/reader?file=/api/pdf/${id}`
-
       : `/book/${identifier}`;
 
   return (
@@ -51,15 +46,11 @@ export default function BookCard({
       <div className="p-4">
 
         <h2 className="text-2xl font-bold line-clamp-2">
-
           {title}
-
         </h2>
 
         <p className="text-gray-600 mt-2">
-
           {creator}
-
         </p>
 
         {/* BUTTON */}
