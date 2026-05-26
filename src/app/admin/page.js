@@ -4,20 +4,6 @@ import { useState } from "react";
 
 export default function AdminPage() {
 
-  const [form, setForm] =
-    useState({
-
-      title: "",
-
-      creator: "",
-
-      identifier: "",
-
-      type: "book",
-
-      coverImage: "",
-    });
-
   const [loading, setLoading] =
     useState(false);
 
@@ -27,6 +13,9 @@ export default function AdminPage() {
 
     setLoading(true);
 
+    const formData =
+      new FormData(e.target);
+
     try {
 
       const res =
@@ -35,12 +24,7 @@ export default function AdminPage() {
           {
             method: "POST",
 
-            headers: {
-              "Content-Type":
-                "application/json",
-            },
-
-            body: JSON.stringify(form),
+            body: formData,
           }
         );
 
@@ -53,18 +37,7 @@ export default function AdminPage() {
           "Uploaded Successfully"
         );
 
-        setForm({
-
-          title: "",
-
-          creator: "",
-
-          identifier: "",
-
-          type: "book",
-
-          coverImage: "",
-        });
+        e.target.reset();
 
       } else {
 
@@ -98,72 +71,22 @@ export default function AdminPage() {
 
           <input
             type="text"
+            name="title"
             placeholder="Title"
             required
-            value={form.title}
-            onChange={(e) =>
-              setForm({
-                ...form,
-                title:
-                  e.target.value,
-              })
-            }
             className="w-full p-4 border rounded-xl"
           />
 
           <input
             type="text"
+            name="creator"
             placeholder="Creator"
             required
-            value={form.creator}
-            onChange={(e) =>
-              setForm({
-                ...form,
-                creator:
-                  e.target.value,
-              })
-            }
-            className="w-full p-4 border rounded-xl"
-          />
-
-          <input
-            type="text"
-            placeholder="Archive.org Identifier"
-            required
-            value={form.identifier}
-            onChange={(e) =>
-              setForm({
-                ...form,
-                identifier:
-                  e.target.value,
-              })
-            }
-            className="w-full p-4 border rounded-xl"
-          />
-
-          <input
-            type="text"
-            placeholder="Cover Image URL"
-            value={form.coverImage}
-            onChange={(e) =>
-              setForm({
-                ...form,
-                coverImage:
-                  e.target.value,
-              })
-            }
             className="w-full p-4 border rounded-xl"
           />
 
           <select
-            value={form.type}
-            onChange={(e) =>
-              setForm({
-                ...form,
-                type:
-                  e.target.value,
-              })
-            }
+            name="type"
             className="w-full p-4 border rounded-xl"
           >
 
@@ -180,6 +103,42 @@ export default function AdminPage() {
             </option>
 
           </select>
+
+          <div>
+
+            <label className="font-semibold">
+
+              Cover Image
+
+            </label>
+
+            <input
+              type="file"
+              name="cover"
+              accept="image/*"
+              required
+              className="w-full mt-2"
+            />
+
+          </div>
+
+          <div>
+
+            <label className="font-semibold">
+
+              PDF Upload
+
+            </label>
+
+            <input
+              type="file"
+              name="pdf"
+              accept=".pdf"
+              required
+              className="w-full mt-2"
+            />
+
+          </div>
 
           <button
             type="submit"

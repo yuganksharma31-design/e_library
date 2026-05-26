@@ -7,14 +7,16 @@ const BookSchema =
 
     creator: String,
 
-    identifier: String,
-
     type: String,
 
     coverImage: String,
 
+    pdfUrl: String,
+
     createdAt: {
+
       type: Date,
+
       default: Date.now,
     },
   });
