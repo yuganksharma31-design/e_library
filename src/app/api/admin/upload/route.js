@@ -2,6 +2,10 @@ import connectDB from "../../../../lib/mongodb";
 import Book from "../../../../models/Book";
 import cloudinary from "../../../../lib/cloudinary";
 
+import fs from "fs";
+import path from "path";
+import os from "os";
+
 export async function POST(req) {
 
   try {
@@ -88,74 +92,81 @@ export async function POST(req) {
         }
       );
 
-   // ======================
-// PDF UPLOAD
-// ======================
+    // ======================
+    // SAVE TEMP PDF FILE
+    // ======================
 
-const pdfBuffer =
-  Buffer.from(
-    await pdf.arrayBuffer()
-  );
+    const bytes =
+      await pdf.arrayBuffer();
 
-const pdfUpload =
-  await new Promise(
-    (resolve, reject) => {
+    const buffer =
+      Buffer.from(bytes);
 
-      cloudinary.uploader
-        .upload_stream(
+    const tempPath =
+      path.join(
+        os.tmpdir(),
+        pdf.name
+      );
 
-          {
-            resource_type:
-              "raw",
+    fs.writeFileSync(
+      tempPath,
+      buffer
+    );
 
-            folder:
-              "books",
+    // ======================
+    // PDF UPLOAD
+    // ======================
 
-            public_id:
-              Date.now().toString(),
+    const pdfUpload =
+      await cloudinary.uploader.upload(
 
-            format:
-              "pdf",
-          },
+        tempPath,
 
-          (err, result) => {
+        {
+          resource_type:
+            "raw",
 
-            if (err)
-              reject(err);
+          folder:
+            "books",
 
-            else
-              resolve(result);
-          }
-        )
-        .end(pdfBuffer);
-    }
-  );
+          format:
+            "pdf",
+        }
+      );
+
+    // DELETE TEMP FILE
+
+    fs.unlinkSync(
+      tempPath
+    );
 
     // FINAL PDF URL
 
-const pdfUrl =
-  pdfUpload.secure_url;
+    const pdfUrl =
+      pdfUpload.secure_url;
 
-// SAVE DATABASE
+    // ======================
+    // SAVE DATABASE
+    // ======================
 
-const newBook =
-  new Book({
+    const newBook =
+      new Book({
 
-    title,
+        title,
 
-    creator,
+        creator,
 
-    type,
+        type,
 
-    coverImage:
-      coverUpload.secure_url,
+        coverImage:
+          coverUpload.secure_url,
 
-    pdfUrl:
-      pdfUrl,
+        pdfUrl:
+          pdfUrl,
 
-    source:
-      "mongo",
-  });
+        source:
+          "mongo",
+      });
 
     await newBook.save();
 
