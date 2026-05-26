@@ -14,7 +14,8 @@ export default function ReaderPage() {
   const [darkMode, setDarkMode] =
     useState(true);
 
-  const totalPages = 500;
+  const [totalPages, setTotalPages] =
+    useState(500);
 
   // GET BOOK ID
 
@@ -31,6 +32,46 @@ export default function ReaderPage() {
     setIdentifier(id);
 
   }, []);
+
+  // FETCH REAL PAGE COUNT
+
+  useEffect(() => {
+
+    async function fetchMetadata() {
+
+      if (!identifier) return;
+
+      try {
+
+        const res =
+          await fetch(
+            `https://archive.org/metadata/${identifier}`
+          );
+
+        const data =
+          await res.json();
+
+        const pages =
+          data.files?.filter((file) =>
+            file.name?.includes("_w600.jpg")
+          );
+
+        if (pages?.length) {
+
+          setTotalPages(
+            pages.length
+          );
+        }
+
+      } catch (err) {
+
+        console.log(err);
+      }
+    }
+
+    fetchMetadata();
+
+  }, [identifier]);
 
   // PRELOAD NEXT PAGE
 
@@ -110,7 +151,7 @@ export default function ReaderPage() {
         handleKey
       );
 
-  }, [page]);
+  }, [page, totalPages]);
 
   // DOWNLOAD BOOK
 
@@ -211,7 +252,6 @@ export default function ReaderPage() {
             className="bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-lg"
           >
             →
-
           </button>
 
           <button
