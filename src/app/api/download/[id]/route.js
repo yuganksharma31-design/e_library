@@ -2,8 +2,6 @@ export async function GET(req, context) {
 
   try {
 
-    // GET ID
-
     const { id } = context.params;
 
     // FETCH METADATA
@@ -25,15 +23,20 @@ export async function GET(req, context) {
 
     // CHECK FILES
 
-    if (!metadata.files) {
+    if (
+      !metadata ||
+      !metadata.files ||
+      metadata.files.length === 0
+    ) {
 
-      return new Response(
-        "No files found",
-        { status: 404 }
+      // FALLBACK
+
+      return Response.redirect(
+        `https://archive.org/download/${id}`
       );
     }
 
-    // FIND PDF FILE
+    // FIND PDF
 
     const pdfFile =
       metadata.files.find(
@@ -41,16 +44,17 @@ export async function GET(req, context) {
           file.name &&
           file.name
             .toLowerCase()
-            .endsWith(".pdf")
+            .includes(".pdf")
       );
 
-    // IF PDF NOT FOUND
+    // IF NO PDF FOUND
 
     if (!pdfFile) {
 
-      return new Response(
-        "PDF not found",
-        { status: 404 }
+      // FALLBACK
+
+      return Response.redirect(
+        `https://archive.org/download/${id}`
       );
     }
 
@@ -66,13 +70,12 @@ export async function GET(req, context) {
 
     if (!pdfResponse.ok) {
 
-      return new Response(
-        "Download failed",
-        { status: 500 }
+      return Response.redirect(
+        `https://archive.org/download/${id}`
       );
     }
 
-    // RETURN PDF STREAM
+    // STREAM FILE
 
     return new Response(
       pdfResponse.body,
