@@ -1,194 +1,123 @@
-import connectDB
-from "../../../../lib/mongodb";
-
-import Book
-from "../../../../models/Book";
-
-import cloudinary
-from "../../../../lib/cloudinary";
+import connectDB from "../../../../lib/mongodb";
+import Book from "../../../../models/Book";
+import cloudinary from "../../../../lib/cloudinary";
 
 export async function POST(req) {
 
   try {
 
-    // CONNECT DATABASE
-
     await connectDB();
 
-    // FORM DATA
+    const formData = await req.formData();
 
-    const formData =
-      await req.formData();
+    const title = formData.get("title");
+    const creator = formData.get("creator");
+    const type = formData.get("type");
 
-    const title =
-      formData.get("title");
+    const cover = formData.get("cover");
+    const pdf = formData.get("pdf");
 
-    const creator =
-      formData.get("creator");
-
-    const type =
-      formData.get("type");
-
-    const cover =
-      formData.get("cover");
-
-    const pdf =
-      formData.get("pdf");
-
-    // VALIDATION
-
-    if (
-      !title ||
-      !creator ||
-      !cover ||
-      !pdf
-    ) {
+    if (!title || !creator || !cover || !pdf) {
 
       return Response.json({
-
         success: false,
-
-        error:
-          "Missing required fields",
+        error: "Missing fields",
       });
     }
 
     // =========================
-    // COVER IMAGE UPLOAD
+    // UPLOAD COVER
     // =========================
+
+    const coverBytes = await cover.arrayBuffer();
 
     const coverBuffer =
-      Buffer.from(
-        await cover.arrayBuffer()
-      );
+      Buffer.from(coverBytes);
 
     const coverUpload =
-      await new Promise(
-        (resolve, reject) => {
+      await new Promise((resolve, reject) => {
 
-          cloudinary.uploader
-            .upload_stream(
+        cloudinary.uploader.upload_stream(
 
-              {
-                folder:
-                  "covers",
-              },
+          {
+            folder: "covers",
+          },
 
-              (
-                err,
-                result
-              ) => {
+          (error, result) => {
 
-                if (err) {
+            if (error) reject(error);
 
-                  console.log(
-                    "Cover Upload Error:",
-                    err
-                  );
-
-                  reject(err);
-
-                } else {
-
-                  resolve(result);
-                }
-              }
-            )
-            .end(coverBuffer);
-        }
-      );
-
-
-// ======================
-// PDF UPLOAD
-// ======================
-
-const pdfBuffer = Buffer.from(
-  await pdf.arrayBuffer()
-);
-
-const pdfUpload = await new Promise(
-  (resolve, reject) => {
-
-    cloudinary.uploader
-      .upload_stream(
-        {
-          resource_type: "raw",
-          folder: "books",
-          public_id: `${Date.now()}`,
-          format: "pdf",
-        },
-
-        (err, result) => {
-
-          if (err) {
-
-            console.log(
-              "PDF Upload Error:",
-              err
-            );
-
-            reject(err);
-
-          } else {
-
-            resolve(result);
+            else resolve(result);
           }
-        }
-      )
-      .end(pdfBuffer);
-  }
-);
-    // =========================
-    // SAVE TO MONGODB
-    // =========================
 
-    const newBook =
-      new Book({
-
-        title,
-
-        creator,
-
-        type,
-
-        coverImage:
-          coverUpload.secure_url,
-
-        pdfUrl:
-          pdfUpload.secure_url,
+        ).end(coverBuffer);
       });
 
+    // =========================
+    // UPLOAD PDF
+    // =========================
+
+    const pdfBytes = await pdf.arrayBuffer();
+
+    const pdfBuffer =
+      Buffer.from(pdfBytes);
+
+    const pdfUpload =
+      await new Promise((resolve, reject) => {
+
+        cloudinary.uploader.upload_stream(
+
+          {
+            resource_type: "raw",
+            folder: "books",
+            public_id: `${Date.now()}`,
+          },
+
+          (error, result) => {
+
+            if (error) reject(error);
+
+            else resolve(result);
+          }
+
+        ).end(pdfBuffer);
+      });
+
+    // =========================
+    // SAVE BOOK
+    // =========================
+
+    const newBook = new Book({
+
+      title,
+      creator,
+      type,
+
+      coverImage:
+        coverUpload.secure_url,
+
+      pdfUrl:
+        pdfUpload.secure_url,
+
+      source: "mongo",
+    });
+
     await newBook.save();
-
-    console.log(
-      "BOOK SAVED:",
-      newBook
-    );
-
-    // SUCCESS RESPONSE
 
     return Response.json({
 
       success: true,
-
       book: newBook,
     });
 
   } catch (err) {
 
-    console.log(
-      "UPLOAD ERROR:",
-      err
-    );
+    console.log(err);
 
     return Response.json({
 
       success: false,
-
-      error:
-        err.message ||
-        "Upload failed",
+      error: err.message,
     });
   }
 }
