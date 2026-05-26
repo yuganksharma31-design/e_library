@@ -4,21 +4,12 @@ import Link from "next/link";
 
 export default function BookCard({
 
-  _id,
-
   title,
-
   creator,
-
   identifier,
-
   coverImage,
-
   pdfUrl,
-
   source,
-
-  onDelete,
 }) {
 
   // ARCHIVE IMAGE
@@ -39,41 +30,7 @@ export default function BookCard({
 
   return (
 
-    <div className="bg-white rounded-2xl shadow-lg overflow-hidden relative">
-
-      {/* ADMIN ACTIONS */}
-
-      {source === "mongo" && (
-
-        <div className="absolute top-3 right-3 flex gap-2 z-20">
-
-          {/* EDIT */}
-
-          <Link
-            href={`/admin/edit/${_id}`}
-          >
-
-            <button className="bg-blue-600 text-white px-3 py-1 rounded-lg text-sm">
-
-              Edit
-
-            </button>
-
-          </Link>
-
-          {/* DELETE */}
-
-          <button
-            onClick={() =>
-              onDelete?.(_id)
-            }
-            className="bg-red-600 text-white px-3 py-1 rounded-lg text-sm"
-          >
-            Delete
-          </button>
-
-        </div>
-      )}
+    <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
 
       {/* IMAGE */}
 
