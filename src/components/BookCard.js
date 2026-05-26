@@ -3,32 +3,36 @@
 import Link from "next/link";
 
 export default function BookCard({
-  title,
-  identifier,
-  creator,
-}) {
 
-  const thumbnail =
-    `https://archive.org/services/img/${identifier}`;
+  title,
+
+  creator,
+
+  identifier,
+
+  coverImage,
+}) {
 
   return (
 
-    <div className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition">
+    <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
 
-      {/* THUMBNAIL */}
+      {/* COVER */}
 
       <img
-        src={thumbnail}
+        src={
+          coverImage ||
+          "/placeholder.jpg"
+        }
         alt={title}
-        loading="lazy"
-        className="w-full h-72 object-cover bg-gray-200"
+        className="w-full h-[420px] object-cover"
       />
 
       {/* CONTENT */}
 
       <div className="p-4">
 
-        <h2 className="font-bold text-2xl line-clamp-3">
+        <h2 className="text-2xl font-bold line-clamp-2">
 
           {title}
 
@@ -36,15 +40,19 @@ export default function BookCard({
 
         <p className="text-gray-600 mt-2">
 
-          {creator || "Unknown"}
+          {creator}
 
         </p>
 
-        <Link href={`/book/${identifier}`}>
+        {/* READ BUTTON */}
 
-          <button className="mt-5 w-full bg-black text-white py-3 rounded-xl hover:bg-gray-800 transition">
+        <Link
+          href={`/reader?file=${encodeURIComponent(identifier)}`}
+        >
 
-            Read Manuscript
+          <button className="mt-5 w-full bg-black text-white py-3 rounded-xl font-semibold">
+
+            Read Book
 
           </button>
 
