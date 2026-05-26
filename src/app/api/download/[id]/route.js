@@ -1,8 +1,16 @@
-export async function GET(req, context) {
+export async function GET(req, { params }) {
 
   try {
 
-    const { id } = context.params;
+    const id = params.id;
+
+    if (!id) {
+
+      return new Response(
+        "Invalid identifier",
+        { status: 400 }
+      );
+    }
 
     // FETCH METADATA
 
@@ -12,9 +20,8 @@ export async function GET(req, context) {
 
     if (!metadataRes.ok) {
 
-      return new Response(
-        "Metadata fetch failed",
-        { status: 500 }
+      return Response.redirect(
+        `https://archive.org/download/${id}`
       );
     }
 
@@ -28,8 +35,6 @@ export async function GET(req, context) {
       !metadata.files ||
       metadata.files.length === 0
     ) {
-
-      // FALLBACK
 
       return Response.redirect(
         `https://archive.org/download/${id}`
@@ -47,18 +52,16 @@ export async function GET(req, context) {
             .includes(".pdf")
       );
 
-    // IF NO PDF FOUND
+    // NO PDF
 
     if (!pdfFile) {
-
-      // FALLBACK
 
       return Response.redirect(
         `https://archive.org/download/${id}`
       );
     }
 
-    // REAL PDF URL
+    // PDF URL
 
     const pdfUrl =
       `https://archive.org/download/${id}/${pdfFile.name}`;
@@ -75,12 +78,11 @@ export async function GET(req, context) {
       );
     }
 
-    // STREAM FILE
+    // STREAM PDF
 
     return new Response(
       pdfResponse.body,
       {
-
         headers: {
 
           "Content-Type":
@@ -88,12 +90,6 @@ export async function GET(req, context) {
 
           "Content-Disposition":
             `attachment; filename="${pdfFile.name}"`,
-
-          "Cache-Control":
-            "public, max-age=31536000",
-
-          "Access-Control-Allow-Origin":
-            "*",
         },
       }
     );
