@@ -78,17 +78,12 @@ export async function POST(req) {
         }
       );
 
-   // ======================
-// PDF UPLOAD
-// ======================
+   // PDF UPLOAD
 
 const pdfBuffer =
   Buffer.from(
     await pdf.arrayBuffer()
   );
-
-const fileName =
-  `${Date.now()}.pdf`;
 
 const pdfUpload =
   await new Promise(
@@ -98,14 +93,8 @@ const pdfUpload =
         .upload_stream(
 
           {
-            resource_type:
-              "raw",
-
-            folder:
-              "books",
-
-            public_id:
-              fileName,
+            resource_type: "raw",
+            folder: "books",
           },
 
           (err, result) => {
@@ -120,8 +109,7 @@ const pdfUpload =
         .end(pdfBuffer);
     }
   );
-
-// FIX URL
+  // FIX URL
 
 const pdfUrl =
   pdfUpload.secure_url.endsWith(".pdf")
