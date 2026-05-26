@@ -125,7 +125,7 @@ const pdfUrl =
   pdfUpload.secure_url
     .replace(
       "/upload/",
-      "/upload/f_pdf/fl_attachment:false/"
+      "/upload/fl_attachment:false,f_pdf/"
     );
     // =========================
     // SAVE TO DATABASE
