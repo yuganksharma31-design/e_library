@@ -32,13 +32,18 @@ function ReaderContent() {
     );
   }
 
+  // GOOGLE PDF VIEWER
+
+  const viewerUrl =
+    `https://docs.google.com/gview?embedded=1&url=${encodeURIComponent(file)}`;
+
   return (
 
     <main className="w-full h-screen bg-black flex flex-col">
 
-      {/* TOPBAR */}
+      {/* TOP BAR */}
 
-      <div className="bg-[#111] text-white p-4 flex items-center justify-between">
+      <div className="bg-[#111] text-white p-4 flex justify-between items-center">
 
         <h1 className="text-xl font-bold">
 
@@ -66,6 +71,7 @@ function ReaderContent() {
           <span>
 
             {zoom}%
+
           </span>
 
           <button
@@ -87,11 +93,11 @@ function ReaderContent() {
 
       </div>
 
-      {/* PDF */}
+      {/* PDF VIEWER */}
 
       <iframe
-        src={`${file}#toolbar=0`}
-        className="w-full flex-1"
+        src={viewerUrl}
+        className="w-full flex-1 bg-white"
         style={{
           zoom:
             `${zoom}%`,
