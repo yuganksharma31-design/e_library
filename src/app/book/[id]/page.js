@@ -280,22 +280,21 @@ export default function BookPage() {
             {/* DOWNLOAD */}
 
             <a
-              href={`https://archive.org/download/${identifier}`}
-              target="_blank"
-              className="
-                px-6
-                py-4
-                rounded-2xl
-                bg-red-600
-                hover:bg-red-700
-                transition
-                text-xl
-                font-semibold
-                shadow-[0_0_30px_rgba(255,0,0,0.4)]
-              "
-            >
-              Download
-            </a>
+  href={`/api/download/${identifier}`}
+  className="
+    px-6
+    py-4
+    rounded-2xl
+    bg-red-600
+    hover:bg-red-700
+    transition
+    text-xl
+    font-semibold
+    shadow-[0_0_30px_rgba(255,0,0,0.4)]
+  "
+>
+  Download
+</a>
 
           </div>
 
