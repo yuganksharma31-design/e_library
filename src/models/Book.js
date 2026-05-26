@@ -13,18 +13,27 @@ const BookSchema =
 
     pdfUrl: String,
 
-    createdAt: {
+    source: String,
 
-      type: Date,
+    pages: [String],
 
-      default: Date.now,
-    },
+    bookmarks: [
+
+      {
+        page: Number,
+
+        title: String,
+      }
+    ],
+
+  }, {
+
+    timestamps: true,
   });
 
-export default
-  mongoose.models.Book ||
+export default mongoose.models.Book ||
 
-  mongoose.model(
-    "Book",
-    BookSchema
-  );
+mongoose.model(
+  "Book",
+  BookSchema
+);
