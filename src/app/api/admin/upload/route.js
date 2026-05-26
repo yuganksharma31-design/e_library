@@ -11,11 +11,11 @@ export async function POST(req) {
 
   try {
 
-    // CONNECT DB
+    // CONNECT DATABASE
 
     await connectDB();
 
-    // GET FORM DATA
+    // FORM DATA
 
     const formData =
       await req.formData();
@@ -53,9 +53,9 @@ export async function POST(req) {
       });
     }
 
-    // ======================
+    // =========================
     // COVER IMAGE UPLOAD
-    // ======================
+    // =========================
 
     const coverBuffer =
       Buffer.from(
@@ -98,9 +98,9 @@ export async function POST(req) {
         }
       );
 
-    // ======================
+    // =========================
     // PDF UPLOAD
-    // ======================
+    // =========================
 
     const pdfBuffer =
       Buffer.from(
@@ -116,10 +116,13 @@ export async function POST(req) {
 
               {
                 resource_type:
-                  "raw",
+                  "image",
 
                 folder:
                   "books",
+
+                format:
+                  "pdf",
               },
 
               (
@@ -146,9 +149,9 @@ export async function POST(req) {
         }
       );
 
-    // ======================
-    // SAVE BOOK TO MONGODB
-    // ======================
+    // =========================
+    // SAVE TO MONGODB
+    // =========================
 
     const newBook =
       new Book({
