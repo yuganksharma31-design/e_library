@@ -82,43 +82,51 @@ export async function POST(req) {
         }
       );
 
-    // =========================
-    // PDF UPLOAD
-    // =========================
+// =========================
+// PDF UPLOAD
+// =========================
 
-    const pdfBuffer =
-      Buffer.from(
-        await pdf.arrayBuffer()
-      );
+const pdfBuffer =
+  Buffer.from(
+    await pdf.arrayBuffer()
+  );
 
-    const pdfUpload =
-      await new Promise(
-        (resolve, reject) => {
+const pdfUpload =
+  await new Promise(
+    (resolve, reject) => {
 
-          cloudinary.uploader
-            .upload_stream(
+      cloudinary.uploader
+        .upload_stream(
 
-              {
-                resource_type:
-                  "raw",
+          {
+            resource_type: "image",
+            folder: "books",
+            format: "pdf",
+            public_id:
+              Date.now().toString(),
+          },
 
-                folder:
-                  "books",
-              },
+          (err, result) => {
 
-              (err, result) => {
+            if (err)
+              reject(err);
 
-                if (err)
-                  reject(err);
+            else
+              resolve(result);
+          }
+        )
+        .end(pdfBuffer);
+    }
+  );
 
-                else
-                  resolve(result);
-              }
-            )
-            .end(pdfBuffer);
-        }
-      );
+// FIX PDF URL
 
+const pdfUrl =
+  pdfUpload.secure_url
+    .replace(
+      "/upload/",
+      "/upload/fl_attachment:false/"
+    );
     // =========================
     // SAVE TO DATABASE
     // =========================
@@ -136,7 +144,7 @@ export async function POST(req) {
           coverUpload.secure_url,
 
         pdfUrl:
-          pdfUpload.secure_url,
+  pdfUrl,
 
         source:
           "mongo",
