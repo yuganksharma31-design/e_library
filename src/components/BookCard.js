@@ -9,7 +9,6 @@ export default function BookCard({
   creator,
   identifier,
   coverImage,
-  pdfUrl,
   source,
 
 }) {
@@ -24,6 +23,7 @@ export default function BookCard({
   // READER URL
 
   const readerUrl =
+
     source === "mongo"
 
       ? `/reader?file=/api/pdf/${id}`

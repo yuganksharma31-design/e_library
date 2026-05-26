@@ -6,13 +6,7 @@ export async function POST(req) {
 
   try {
 
-    // CONNECT DATABASE
-
     await connectDB();
-
-    // =========================
-    // GET FORM DATA
-    // =========================
 
     const formData =
       await req.formData();
@@ -32,9 +26,7 @@ export async function POST(req) {
     const pdf =
       formData.get("pdf");
 
-    // =========================
     // VALIDATION
-    // =========================
 
     if (
       !title ||
@@ -52,9 +44,9 @@ export async function POST(req) {
       });
     }
 
-    // =========================
-    // COVER IMAGE UPLOAD
-    // =========================
+    // ======================
+    // COVER UPLOAD
+    // ======================
 
     const coverBuffer =
       Buffer.from(
@@ -86,9 +78,9 @@ export async function POST(req) {
         }
       );
 
-    // =========================
+    // ======================
     // PDF UPLOAD
-    // =========================
+    // ======================
 
     const pdfBuffer =
       Buffer.from(
@@ -126,14 +118,7 @@ export async function POST(req) {
         }
       );
 
-    // ORIGINAL PDF URL
-
-    const pdfUrl =
-      pdfUpload.secure_url;
-
-    // =========================
-    // SAVE TO DATABASE
-    // =========================
+    // SAVE DATABASE
 
     const newBook =
       new Book({
@@ -148,17 +133,13 @@ export async function POST(req) {
           coverUpload.secure_url,
 
         pdfUrl:
-          pdfUrl,
+          pdfUpload.secure_url,
 
         source:
           "mongo",
       });
 
     await newBook.save();
-
-    // =========================
-    // RESPONSE
-    // =========================
 
     return Response.json({
 
@@ -169,10 +150,7 @@ export async function POST(req) {
 
   } catch (err) {
 
-    console.log(
-      "UPLOAD ERROR:",
-      err
-    );
+    console.log(err);
 
     return Response.json({
 
