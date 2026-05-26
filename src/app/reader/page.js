@@ -1,18 +1,30 @@
 "use client";
 
+import { useSearchParams } from "next/navigation";
 import { Suspense } from "react";
-
-import {
-  useSearchParams,
-} from "next/navigation";
 
 function ReaderContent() {
 
-  const searchParams =
-    useSearchParams();
+  const searchParams = useSearchParams();
 
   const file =
     searchParams.get("file");
+
+  if (!file) {
+
+    return (
+      <div className="text-white p-10">
+        No PDF found
+      </div>
+    );
+  }
+
+  // PDF.js Viewer
+
+  const viewerUrl =
+    `https://mozilla.github.io/pdf.js/web/viewer.html?file=${encodeURIComponent(
+      window.location.origin + file
+    )}`;
 
   return (
 
@@ -20,9 +32,9 @@ function ReaderContent() {
 
       {/* HEADER */}
 
-      <div className="flex justify-between items-center bg-[#111] text-white p-5">
+      <div className="bg-black text-white p-5 flex justify-between items-center">
 
-        <h1 className="text-5xl font-bold">
+        <h1 className="text-4xl font-bold">
 
           Digital Reader
 
@@ -31,19 +43,18 @@ function ReaderContent() {
         <a
           href={file}
           target="_blank"
-          className="bg-red-600 px-8 py-4 rounded-2xl text-3xl font-bold"
+          className="bg-red-600 px-8 py-4 rounded-2xl text-2xl font-bold"
         >
           Download
         </a>
 
       </div>
 
-      {/* DIRECT PDF */}
+      {/* PROFESSIONAL PDF VIEWER */}
 
-      <embed
-        src={file}
-        type="application/pdf"
-        className="w-full h-[calc(100vh-110px)]"
+      <iframe
+        src={viewerUrl}
+        className="w-full h-[calc(100vh-100px)]"
       />
 
     </div>
@@ -54,14 +65,7 @@ export default function ReaderPage() {
 
   return (
 
-    <Suspense fallback={
-
-      <div className="text-white text-3xl p-10">
-
-        Loading Reader...
-
-      </div>
-    }>
+    <Suspense fallback={<div>Loading...</div>}>
 
       <ReaderContent />
 

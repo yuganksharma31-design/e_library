@@ -1,5 +1,5 @@
-import connectDB from "../../../../lib/mongodb";
-import Book from "../../../../models/Book";
+import connectDB from "@/lib/mongodb";
+import Book from "@/models/Book";
 
 export async function GET(req, { params }) {
 
@@ -16,44 +16,19 @@ export async function GET(req, { params }) {
 
       return new Response(
         "Book not found",
-        {
-          status: 404,
-        }
+        { status: 404 }
       );
     }
 
-    // FETCH PDF
-
-    const pdfResponse =
-      await fetch(book.pdfUrl);
-
-    const pdfBuffer =
-      await pdfResponse.arrayBuffer();
-
-    return new Response(
-      pdfBuffer,
-
-      {
-        headers: {
-
-          "Content-Type":
-            "application/pdf",
-
-          "Content-Disposition":
-            "inline",
-        },
-      }
+    return Response.redirect(
+      book.pdfUrl
     );
 
   } catch (err) {
 
-    console.log(err);
-
     return new Response(
       "Server Error",
-      {
-        status: 500,
-      }
+      { status: 500 }
     );
   }
 }
