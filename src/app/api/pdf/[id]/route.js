@@ -1,5 +1,5 @@
-import connectDB from "@/lib/mongodb";
-import Book from "@/models/Book";
+import connectDB from "../../../../lib/mongodb";
+import Book from "../../../../models/Book";
 
 export async function GET(req, { params }) {
 
@@ -25,6 +25,8 @@ export async function GET(req, { params }) {
     );
 
   } catch (err) {
+
+    console.log(err);
 
     return new Response(
       "Server Error",
