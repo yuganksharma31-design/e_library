@@ -35,7 +35,7 @@ export default function ReaderPage() {
 
   // FETCH REAL PAGE COUNT
 
-  useEffect(() => {
+useEffect(() => {
 
   async function fetchMetadata() {
 
@@ -53,14 +53,33 @@ export default function ReaderPage() {
 
       const imageFiles =
         data.files?.filter((file) =>
-          file.name?.endsWith(".jp2")
+          file.format === "Single Page Processed JP2 ZIP"
         );
 
       if (imageFiles?.length) {
 
-        setTotalPages(
-          imageFiles.length
-        );
+        const pages =
+          parseInt(
+            imageFiles[0]?.source?.match(/\d+/)?.[0]
+          ) || 500;
+
+        setTotalPages(pages);
+
+      } else {
+
+        // fallback
+
+        const jpgs =
+          data.files?.filter((file) =>
+            file.name?.includes("_w600.jpg")
+          );
+
+        if (jpgs?.length) {
+
+          setTotalPages(
+            jpgs.length
+          );
+        }
       }
 
     } catch (err) {
