@@ -16,132 +16,189 @@ export default function BookPage() {
 
   const [zoom, setZoom] = useState(60);
 
+  const [darkMode, setDarkMode] = useState(true);
+
   useEffect(() => {
 
+    if (!params?.id) return;
+
     const foundBook = manuscripts.find(
-      (item) => item.id === params.id
+      (item) => item.identifier === params.id
     );
 
     setBook(foundBook);
 
-  }, [params.id]);
+  }, [params]);
 
   if (!book) {
 
     return (
-
-      <div className="bg-black min-h-screen flex items-center justify-center text-white text-4xl">
-
+      <div
+        style={{
+          background: "black",
+          color: "white",
+          height: "100vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          fontSize: "40px",
+        }}
+      >
         Loading...
-
       </div>
     );
   }
 
+  const images = book.images || [];
+
+  const currentImage = images[page];
+
   return (
+    <div
+      style={{
+        background: darkMode ? "#000" : "#f5f5f5",
+        minHeight: "100vh",
+        color: darkMode ? "white" : "black",
+      }}
+    >
 
-    <div className="bg-black min-h-screen text-white">
+      {/* HEADER */}
 
-      {/* TOP BAR */}
-
-      <div className="sticky top-0 z-50 bg-[#111] border-b border-gray-800 px-4 py-5 flex items-center justify-between">
+      <div
+        style={{
+          padding: "20px",
+          borderBottom: "1px solid #333",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          background: "#0b0b0b",
+          position: "sticky",
+          top: 0,
+          zIndex: 999,
+        }}
+      >
 
         <div>
 
-          <h1 className="text-5xl font-bold">
+          <h1
+            style={{
+              fontSize: "52px",
+              margin: 0,
+            }}
+          >
             Digital Manuscript Reader
           </h1>
 
-          <p className="text-2xl text-gray-300 mt-2">
-
-            Page {page + 1} of {book.pages.length}
-
+          <p
+            style={{
+              fontSize: "30px",
+              color: "#bbb",
+            }}
+          >
+            Page {page + 1} of {images.length}
           </p>
 
         </div>
 
-        <div className="flex items-center gap-4">
+        <div
+          style={{
+            display: "flex",
+            gap: "14px",
+            alignItems: "center",
+          }}
+        >
 
           <button
             onClick={() =>
-              setPage((p) =>
-                Math.max(0, p - 1)
+              setPage((prev) =>
+                Math.max(prev - 1, 0)
               )
             }
-            className="bg-[#2f3b52] px-6 py-4 rounded-xl text-3xl"
           >
             ←
           </button>
 
           <button
             onClick={() =>
-              setPage((p) =>
-                Math.min(
-                  book.pages.length - 1,
-                  p + 1
-                )
+              setPage((prev) =>
+                Math.min(prev + 1, images.length - 1)
               )
             }
-            className="bg-[#2f3b52] px-6 py-4 rounded-xl text-3xl"
           >
             →
           </button>
 
           <button
             onClick={() =>
-              setZoom((z) =>
-                Math.max(30, z - 10)
-              )
+              setZoom((prev) => prev - 10)
             }
-            className="bg-[#2f3b52] px-6 py-4 rounded-xl text-3xl"
           >
             -
           </button>
 
-          <div className="text-3xl font-bold">
+          <span
+            style={{
+              fontSize: "28px",
+              fontWeight: "bold",
+            }}
+          >
             {zoom}%
-          </div>
+          </span>
 
           <button
             onClick={() =>
-              setZoom((z) =>
-                Math.min(150, z + 10)
-              )
+              setZoom((prev) => prev + 10)
             }
-            className="bg-[#2f3b52] px-6 py-4 rounded-xl text-3xl"
           >
             +
           </button>
 
           <button
-            className="bg-blue-600 px-6 py-4 rounded-xl text-2xl"
+            onClick={() =>
+              setDarkMode(!darkMode)
+            }
           >
-            Light
+            {darkMode ? "Light" : "Dark"}
           </button>
 
           <a
-            href={book.download || "#"}
+            href={book.download}
             target="_blank"
-            className="bg-red-600 px-6 py-4 rounded-xl text-2xl font-bold"
           >
-            Download
+            <button
+              style={{
+                background: "red",
+                color: "white",
+              }}
+            >
+              Download
+            </button>
           </a>
 
         </div>
 
       </div>
 
-      {/* PAGE */}
+      {/* IMAGE */}
 
-      <div className="flex justify-center items-start py-10 overflow-auto">
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          padding: "30px",
+        }}
+      >
 
         <img
-          src={book.pages[page]}
-          alt="manuscript page"
+          src={currentImage}
+          alt="manuscript"
           style={{
             width: `${zoom}%`,
+            height: "auto",
+            borderRadius: "10px",
+            boxShadow:
+              "0 0 30px rgba(0,0,0,0.6)",
           }}
-          className="rounded-xl shadow-2xl"
         />
 
       </div>
