@@ -128,35 +128,31 @@ export async function POST(req) {
         }
       );
 
-    // ======================
     // FINAL PDF URL
-    // ======================
 
-    const pdfUrl =
-      pdfUpload.secure_url + ".pdf";
+const pdfUrl =
+  pdfUpload.secure_url;
 
-    // ======================
-    // SAVE DATABASE
-    // ======================
+// SAVE DATABASE
 
-    const newBook =
-      new Book({
+const newBook =
+  new Book({
 
-        title,
+    title,
 
-        creator,
+    creator,
 
-        type,
+    type,
 
-        coverImage:
-          coverUpload.secure_url,
+    coverImage:
+      coverUpload.secure_url,
 
-        pdfUrl:
-          pdfUrl,
+    pdfUrl:
+      pdfUrl,
 
-        source:
-          "mongo",
-      });
+    source:
+      "mongo",
+  });
 
     await newBook.save();
 
