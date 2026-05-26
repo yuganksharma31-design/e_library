@@ -98,6 +98,7 @@ export async function POST(req) {
         }
       );
 
+
 // ======================
 // PDF UPLOAD
 // ======================
@@ -108,7 +109,7 @@ const pdfBuffer =
   );
 
 const fileName =
-  `${Date.now()}.pdf`;
+  `${Date.now()}`;
 
 const pdfUpload =
   await new Promise(
@@ -119,13 +120,16 @@ const pdfUpload =
 
           {
             resource_type:
-              "raw",
+              "image",
 
             folder:
               "books",
 
             public_id:
               fileName,
+
+            format:
+              "pdf",
           },
 
           (
@@ -134,11 +138,6 @@ const pdfUpload =
           ) => {
 
             if (err) {
-
-              console.log(
-                "PDF Upload Error:",
-                err
-              );
 
               reject(err);
 
