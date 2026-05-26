@@ -11,7 +11,11 @@ export async function POST(req) {
 
   try {
 
+    // CONNECT DB
+
     await connectDB();
+
+    // GET FORM DATA
 
     const formData =
       await req.formData();
@@ -31,7 +35,27 @@ export async function POST(req) {
     const pdf =
       formData.get("pdf");
 
-    // COVER UPLOAD
+    // VALIDATION
+
+    if (
+      !title ||
+      !creator ||
+      !cover ||
+      !pdf
+    ) {
+
+      return Response.json({
+
+        success: false,
+
+        error:
+          "Missing required fields",
+      });
+    }
+
+    // ======================
+    // COVER IMAGE UPLOAD
+    // ======================
 
     const coverBuffer =
       Buffer.from(
@@ -50,20 +74,33 @@ export async function POST(req) {
                   "covers",
               },
 
-              (err, result) => {
+              (
+                err,
+                result
+              ) => {
 
-                if (err)
+                if (err) {
+
+                  console.log(
+                    "Cover Upload Error:",
+                    err
+                  );
+
                   reject(err);
 
-                else
+                } else {
+
                   resolve(result);
+                }
               }
             )
             .end(coverBuffer);
         }
       );
 
+    // ======================
     // PDF UPLOAD
+    // ======================
 
     const pdfBuffer =
       Buffer.from(
@@ -85,23 +122,36 @@ export async function POST(req) {
                   "books",
               },
 
-              (err, result) => {
+              (
+                err,
+                result
+              ) => {
 
-                if (err)
+                if (err) {
+
+                  console.log(
+                    "PDF Upload Error:",
+                    err
+                  );
+
                   reject(err);
 
-                else
+                } else {
+
                   resolve(result);
+                }
               }
             )
             .end(pdfBuffer);
         }
       );
 
-    // SAVE TO DB
+    // ======================
+    // SAVE BOOK TO MONGODB
+    // ======================
 
     const newBook =
-      await Book.create({
+      new Book({
 
         title,
 
@@ -116,6 +166,15 @@ export async function POST(req) {
           pdfUpload.secure_url,
       });
 
+    await newBook.save();
+
+    console.log(
+      "BOOK SAVED:",
+      newBook
+    );
+
+    // SUCCESS RESPONSE
+
     return Response.json({
 
       success: true,
@@ -125,11 +184,18 @@ export async function POST(req) {
 
   } catch (err) {
 
+    console.log(
+      "UPLOAD ERROR:",
+      err
+    );
+
     return Response.json({
 
       success: false,
 
-      error: err.message,
+      error:
+        err.message ||
+        "Upload failed",
     });
   }
 }
