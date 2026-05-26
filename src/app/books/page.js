@@ -181,12 +181,14 @@ export default function BooksPage() {
               (book) => (
 
                 <BookCard
-                  key={book._id}
-                  title={book.title}
-                  creator={book.creator}
-                  identifier={book.pdfUrl}
-                  coverImage={book.coverImage}
-                />
+  key={book._id}
+  title={book.title}
+  creator={book.creator}
+  identifier={book.identifier}
+  coverImage={book.coverImage}
+  pdfUrl={book.pdfUrl}
+  source={book.source}
+/>
               )
             )}
 

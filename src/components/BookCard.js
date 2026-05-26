@@ -11,17 +11,38 @@ export default function BookCard({
   identifier,
 
   coverImage,
+
+  pdfUrl,
+
+  source,
 }) {
+
+  // ARCHIVE IMAGE
+
+  const archiveImage =
+    identifier
+      ? `https://archive.org/services/img/${identifier}`
+      : null;
+
+  // READER URL
+
+  const readerUrl =
+    source === "mongo"
+
+      ? `/reader?file=${encodeURIComponent(pdfUrl)}`
+
+      : `/book/${identifier}`;
 
   return (
 
     <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
 
-      {/* COVER */}
+      {/* IMAGE */}
 
       <img
         src={
           coverImage ||
+          archiveImage ||
           "/placeholder.jpg"
         }
         alt={title}
@@ -44,11 +65,9 @@ export default function BookCard({
 
         </p>
 
-        {/* READ BUTTON */}
+        {/* BUTTON */}
 
-        <Link
-          href={`/reader?file=${encodeURIComponent(identifier)}`}
-        >
+        <Link href={readerUrl}>
 
           <button className="mt-5 w-full bg-black text-white py-3 rounded-xl font-semibold">
 

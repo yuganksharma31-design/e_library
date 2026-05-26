@@ -1,7 +1,8 @@
 "use client";
 
 import {
-  Suspense
+  Suspense,
+  useState
 } from "react";
 
 import {
@@ -15,6 +16,9 @@ function ReaderContent() {
 
   const file =
     searchParams.get("file");
+
+  const [zoom, setZoom] =
+    useState(100);
 
   if (!file) {
 
@@ -30,11 +34,68 @@ function ReaderContent() {
 
   return (
 
-    <main className="w-full h-screen bg-black">
+    <main className="w-full h-screen bg-black flex flex-col">
+
+      {/* TOPBAR */}
+
+      <div className="bg-[#111] text-white p-4 flex items-center justify-between">
+
+        <h1 className="text-xl font-bold">
+
+          Digital Reader
+
+        </h1>
+
+        <div className="flex items-center gap-3">
+
+          <button
+            onClick={() =>
+              setZoom(
+                (prev) =>
+                  Math.max(
+                    prev - 10,
+                    50
+                  )
+              )
+            }
+            className="bg-gray-700 px-4 py-2 rounded"
+          >
+            -
+          </button>
+
+          <span>
+
+            {zoom}%
+          </span>
+
+          <button
+            onClick={() =>
+              setZoom(
+                (prev) =>
+                  Math.min(
+                    prev + 10,
+                    200
+                  )
+              )
+            }
+            className="bg-gray-700 px-4 py-2 rounded"
+          >
+            +
+          </button>
+
+        </div>
+
+      </div>
+
+      {/* PDF */}
 
       <iframe
-        src={file}
-        className="w-full h-full"
+        src={`${file}#toolbar=0`}
+        className="w-full flex-1"
+        style={{
+          zoom:
+            `${zoom}%`,
+        }}
       />
 
     </main>
@@ -50,7 +111,7 @@ export default function ReaderPage() {
 
         <div className="p-10 text-2xl">
 
-          Loading PDF...
+          Loading Reader...
 
         </div>
       }
