@@ -1,5 +1,5 @@
-import connectDB from "../../../../../lib/mongodb";
-import Book from "../../../../../models/Book";
+import connectDB from "../../../../lib/mongodb";
+import Book from "../../../../models/Book";
 
 export async function GET(req, { params }) {
 
@@ -22,7 +22,7 @@ export async function GET(req, { params }) {
       );
     }
 
-    // FETCH PDF FROM CLOUDINARY
+    // FETCH PDF
 
     const pdfResponse =
       await fetch(book.pdfUrl);
