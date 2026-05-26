@@ -1,368 +1,93 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useParams } from "next/navigation";
 
-export default function ReaderPage() {
+export default function BookPage() {
 
-  const [identifier, setIdentifier] =
-    useState("");
+  const params = useParams();
 
-  const [page, setPage] = useState(4);
-
-  const [zoom, setZoom] = useState(60);
-
-  const [darkMode, setDarkMode] =
-    useState(true);
-
-  const [totalPages, setTotalPages] =
-    useState(0);
-
-  // GET BOOK ID
+  const [book, setBook] = useState(null);
 
   useEffect(() => {
 
-    const pathname =
-      window.location.pathname;
+    async function fetchBook() {
 
-    const id =
-      decodeURIComponent(
-        pathname.split("/book/")[1]
-      );
+      try {
 
-    setIdentifier(id);
+        const res = await fetch("/api/books");
 
-  }, []);
+        const data = await res.json();
 
-  // FETCH REAL PAGE COUNT
-
-useEffect(() => {
-
-  async function fetchMetadata() {
-
-    if (!identifier) return;
-
-    try {
-
-      const res =
-        await fetch(
-          `https://archive.org/metadata/${identifier}`
+        const foundBook = data.books.find(
+          (b) => b._id === params.id
         );
 
-      const data =
-        await res.json();
+        setBook(foundBook);
 
-      const imageFiles =
-        data.files?.filter((file) =>
-          file.format === "Single Page Processed JP2 ZIP"
-        );
+      } catch (err) {
 
-      if (imageFiles?.length) {
-
-        const pages =
-          parseInt(
-            imageFiles[0]?.source?.match(/\d+/)?.[0]
-          ) || 500;
-
-        setTotalPages(pages);
-
-      } else {
-
-        // fallback
-
-        const jpgs =
-          data.files?.filter((file) =>
-            file.name?.includes("_w600.jpg")
-          );
-
-        if (jpgs?.length) {
-
-          setTotalPages(
-            jpgs.length
-          );
-        }
-      }
-
-    } catch (err) {
-
-      console.log(err);
-    }
-  }
-
-  fetchMetadata();
-
-}, [identifier]);
-  // PRELOAD NEXT PAGE
-
-  useEffect(() => {
-
-    if (!identifier) return;
-
-    const nextImg = new Image();
-
-    nextImg.src =
-      `https://archive.org/download/${identifier}/page/n${page + 1}_w600.jpg`;
-
-  }, [page, identifier]);
-
-  // NEXT PAGE
-
-  function nextPage() {
-
-    if (page < totalPages) {
-
-      setPage((prev) => prev + 1);
-    }
-  }
-
-  // PREVIOUS PAGE
-
-  function prevPage() {
-
-    if (page > 1) {
-
-      setPage((prev) => prev - 1);
-    }
-  }
-
-  // ZOOM IN
-
-  function zoomIn() {
-
-    setZoom((prev) => prev + 10);
-  }
-
-  // ZOOM OUT
-
-  function zoomOut() {
-
-    if (zoom > 30) {
-
-      setZoom((prev) => prev - 10);
-    }
-  }
-
-  // KEYBOARD CONTROLS
-
-  useEffect(() => {
-
-    function handleKey(e) {
-
-      if (e.key === "ArrowRight") {
-
-        nextPage();
-      }
-
-      if (e.key === "ArrowLeft") {
-
-        prevPage();
+        console.log(err);
       }
     }
 
-    window.addEventListener(
-      "keydown",
-      handleKey
+    fetchBook();
+
+  }, [params.id]);
+
+  if (!book) {
+
+    return (
+
+      <div className="min-h-screen bg-black text-white flex items-center justify-center text-2xl">
+
+        Loading...
+
+      </div>
     );
-
-    return () =>
-      window.removeEventListener(
-        "keydown",
-        handleKey
-      );
-
-  }, [page, totalPages]);
-
-  // DOWNLOAD BOOK
-
-  async function downloadBook() {
-
-    try {
-
-      const response =
-        await fetch(
-          `/api/download/${identifier}`
-        );
-
-      if (!response.ok) {
-
-        alert(
-          "PDF not available"
-        );
-
-        return;
-      }
-
-      const blob =
-        await response.blob();
-
-      const url =
-        window.URL.createObjectURL(blob);
-
-      const a =
-        document.createElement("a");
-
-      a.href = url;
-
-      a.download =
-        `${identifier}.pdf`;
-
-      document.body.appendChild(a);
-
-      a.click();
-
-      a.remove();
-
-      window.URL.revokeObjectURL(url);
-
-    } catch {
-
-      alert("Download failed");
-    }
   }
-
-  // IMAGE URL
-
-  const image =
-    identifier
-      ? `https://archive.org/download/${identifier}/page/n${page}_w600.jpg`
-      : "";
 
   return (
 
-    <main
-      className={`min-h-screen ${
-        darkMode
-          ? "bg-black text-white"
-          : "bg-gray-100 text-black"
-      }`}
-    >
+    <div className="bg-black min-h-screen">
 
-      {/* HEADER */}
+      {/* TOP BAR */}
 
-      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5 p-5 border-b border-gray-800 bg-[#111]">
+      <div className="sticky top-0 z-50 bg-black border-b border-gray-800 px-5 py-4 flex items-center justify-between">
 
         <div>
 
-          <h1 className="text-3xl font-bold">
-
+          <h1 className="text-4xl font-bold text-white">
             Digital Manuscript Reader
-
           </h1>
 
-          <p className="opacity-70 mt-1">
-
-            Page {page} of {totalPages}
-
+          <p className="text-gray-400 mt-1">
+            {book.title}
           </p>
 
         </div>
 
-        <div className="flex flex-wrap items-center gap-3">
-
-          <button
-            onClick={prevPage}
-            className="bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-lg"
-          >
-            ←
-          </button>
-
-          <button
-            onClick={nextPage}
-            className="bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-lg"
-          >
-            →
-          </button>
-
-          <button
-            onClick={zoomOut}
-            className="bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-lg"
-          >
-            -
-          </button>
-
-          <div className="px-2 font-semibold">
-
-            {zoom}%
-
-          </div>
-
-          <button
-            onClick={zoomIn}
-            className="bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-lg"
-          >
-            +
-          </button>
-
-          <button
-            onClick={() =>
-              setDarkMode(!darkMode)
-            }
-            className="bg-blue-600 hover:bg-blue-500 px-5 py-2 rounded-lg"
-          >
-            {darkMode ? "Light" : "Dark"}
-          </button>
-
-          <button
-            onClick={downloadBook}
-            className="bg-red-600 hover:bg-red-500 px-5 py-2 rounded-lg"
-          >
-            Download
-          </button>
-
-        </div>
+        <a
+          href={book.pdfUrl}
+          target="_blank"
+          className="bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-xl text-lg font-semibold"
+        >
+          Download
+        </a>
 
       </div>
 
-      {/* IMAGE */}
+      {/* PDF */}
 
-      <div className="flex justify-center items-center p-6 overflow-auto min-h-[70vh]">
+      <div className="w-full h-[90vh]">
 
-        {identifier ? (
-
-          <img
-            src={image}
-            alt={`Page ${page}`}
-            loading="eager"
-            draggable={false}
-            style={{
-              width: `${zoom}%`,
-              maxWidth: "1000px",
-              height: "auto",
-            }}
-            className="
-              rounded-xl
-              shadow-2xl
-              select-none
-            "
-          />
-
-        ) : (
-
-          <div className="text-2xl">
-
-            Loading manuscript...
-
-          </div>
-        )}
-
-      </div>
-
-      {/* SLIDER */}
-
-      <div className="bg-[#111] border-t border-gray-800 p-4">
-
-        <input
-          type="range"
-          min="1"
-          max={totalPages}
-          value={page}
-          onChange={(e) =>
-            setPage(Number(e.target.value))
-          }
-          className="w-full"
+        <iframe
+          src={book.pdfUrl}
+          className="w-full h-full"
         />
 
       </div>
 
-    </main>
+    </div>
   );
 }
