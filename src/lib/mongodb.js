@@ -1,23 +1,49 @@
 import mongoose from "mongoose";
 
-const MONGODB_URI = "mongodb://127.0.0.1:27017/e_library";
+const MONGODB_URI =
+  process.env.MONGODB_URI;
 
-let isConnected = false;
+if (!MONGODB_URI) {
 
-const connectDB = async () => {
-  if (isConnected) {
-    return;
+  throw new Error(
+    "Please add MONGODB_URI"
+  );
+}
+
+let cached =
+  global.mongoose;
+
+if (!cached) {
+
+  cached =
+    global.mongoose = {
+      conn: null,
+      promise: null,
+    };
+}
+
+async function connectDB() {
+
+  if (cached.conn) {
+
+    return cached.conn;
   }
 
-  try {
-    await mongoose.connect(MONGODB_URI);
+  if (!cached.promise) {
 
-    isConnected = true;
-
-    console.log("MongoDB Connected");
-  } catch (error) {
-    console.log(error);
+    cached.promise =
+      mongoose.connect(
+        MONGODB_URI,
+        {
+          bufferCommands: false,
+        }
+      );
   }
-};
+
+  cached.conn =
+    await cached.promise;
+
+  return cached.conn;
+}
 
 export default connectDB;

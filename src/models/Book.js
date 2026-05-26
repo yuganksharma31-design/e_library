@@ -1,17 +1,28 @@
 import mongoose from "mongoose";
 
-const BookSchema = new mongoose.Schema(
-  {
-    title: String,
-    identifier: String,
-    image: String,
-    pdf: String,
-    creator: String,
-    collection: String,
-    mediatype: String,
-  },
-  { timestamps: true }
-);
+const BookSchema =
+  new mongoose.Schema({
 
-export default mongoose.models.Book ||
-  mongoose.model("Book", BookSchema);
+    title: String,
+
+    creator: String,
+
+    identifier: String,
+
+    type: String,
+
+    coverImage: String,
+
+    createdAt: {
+      type: Date,
+      default: Date.now,
+    },
+  });
+
+export default
+  mongoose.models.Book ||
+
+  mongoose.model(
+    "Book",
+    BookSchema
+  );
