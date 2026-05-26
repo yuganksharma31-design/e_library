@@ -1,20 +1,64 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import {
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 
-import books from "../../data/books.json";
-
-import BookCard from "../../components/BookCard";
+import BookCard
+from "../../components/BookCard";
 
 export default function BooksPage() {
 
+  const [books, setBooks] =
+    useState([]);
+
   const [search, setSearch] =
     useState("");
+
+  const [loading, setLoading] =
+    useState(true);
 
   const [currentPage, setCurrentPage] =
     useState(1);
 
   const itemsPerPage = 50;
+
+  // FETCH BOOKS
+
+  useEffect(() => {
+
+    async function fetchBooks() {
+
+      try {
+
+        const res =
+          await fetch(
+            "/api/library"
+          );
+
+        const data =
+          await res.json();
+
+        if (data.success) {
+
+          setBooks(data.books);
+        }
+
+      } catch (err) {
+
+        console.log(err);
+
+      } finally {
+
+        setLoading(false);
+      }
+    }
+
+    fetchBooks();
+
+  }, []);
 
   // FILTER
 
@@ -34,7 +78,7 @@ export default function BooksPage() {
       );
     });
 
-  }, [search]);
+  }, [books, search]);
 
   // PAGINATION
 
@@ -67,7 +111,7 @@ export default function BooksPage() {
 
         <p className="mt-3 text-gray-300">
 
-          Explore ancient books and archives
+          Dynamic Digital Library
 
         </p>
 
@@ -94,92 +138,97 @@ export default function BooksPage() {
 
       {/* TOTAL */}
 
-      <div className="px-6 mb-5 flex justify-between items-center">
+      <div className="px-6 mb-5 flex justify-between">
 
         <h2 className="text-2xl font-bold">
 
-          Total Books: {filtered.length}
+          Total Books:
+          {" "}
+          {filtered.length}
 
         </h2>
 
-        <div className="text-lg font-semibold">
+        <div className="font-semibold text-lg">
 
-          Page {currentPage} of {totalPages}
+          Page {currentPage}
+          {" "}
+          of
+          {" "}
+          {totalPages}
 
         </div>
 
       </div>
 
-      {/* GRID */}
+      {/* LOADING */}
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 px-6 pb-10">
+      {loading ? (
 
-        {paginatedBooks.map((book, index) => (
+        <div className="text-center text-2xl py-20">
 
-          <BookCard
-            key={index}
-            title={book.title}
-            identifier={book.identifier}
-            creator={book.creator}
-          />
+          Loading books...
 
-        ))}
+        </div>
 
-      </div>
+      ) : (
 
-      {/* PAGINATION */}
+        <>
+          {/* GRID */}
 
-      <div className="flex flex-wrap justify-center items-center gap-3 pb-14">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 px-6 pb-10">
 
-        <button
-          disabled={currentPage === 1}
-          onClick={() =>
-            setCurrentPage((prev) => prev - 1)
-          }
-          className="bg-black text-white px-5 py-2 rounded-lg disabled:opacity-40"
-        >
-          Previous
-        </button>
+            {paginatedBooks.map(
+              (book) => (
 
-        {Array.from(
-          { length: totalPages },
-          (_, i) => i + 1
-        )
-          .slice(
-            Math.max(currentPage - 3, 0),
-            currentPage + 2
-          )
-          .map((page) => (
+                <BookCard
+                  key={book._id}
+                  title={book.title}
+                  creator={book.creator}
+                  identifier={book.pdfUrl}
+                  coverImage={book.coverImage}
+                />
+              )
+            )}
+
+          </div>
+
+          {/* PAGINATION */}
+
+          <div className="flex justify-center items-center gap-4 pb-12">
 
             <button
-              key={page}
-              onClick={() =>
-                setCurrentPage(page)
+              disabled={
+                currentPage === 1
               }
-              className={`px-4 py-2 rounded-lg ${
-                currentPage === page
-                  ? "bg-black text-white"
-                  : "bg-white border"
-              }`}
+              onClick={() =>
+                setCurrentPage(
+                  (prev) =>
+                    prev - 1
+                )
+              }
+              className="bg-black text-white px-5 py-2 rounded-lg disabled:opacity-40"
             >
-              {page}
+              Previous
             </button>
 
-          ))}
+            <button
+              disabled={
+                currentPage === totalPages
+              }
+              onClick={() =>
+                setCurrentPage(
+                  (prev) =>
+                    prev + 1
+                )
+              }
+              className="bg-black text-white px-5 py-2 rounded-lg disabled:opacity-40"
+            >
+              Next
+            </button>
 
-        <button
-          disabled={
-            currentPage === totalPages
-          }
-          onClick={() =>
-            setCurrentPage((prev) => prev + 1)
-          }
-          className="bg-black text-white px-5 py-2 rounded-lg disabled:opacity-40"
-        >
-          Next
-        </button>
-
-      </div>
+          </div>
+        </>
+      )}
 
     </main>
   );
