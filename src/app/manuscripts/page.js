@@ -8,14 +8,13 @@ import BookCard from "../../components/BookCard";
 
 export default function ManuscriptsPage() {
 
-  const [search, setSearch] = useState("");
+  const [search, setSearch] =
+    useState("");
 
   const [currentPage, setCurrentPage] =
     useState(1);
 
-  // ITEMS PER PAGE
-
-  const itemsPerPage = 40;
+  const itemsPerPage = 50;
 
   // FILTERED DATA
 
@@ -39,18 +38,18 @@ export default function ManuscriptsPage() {
 
   // PAGINATION
 
-  const startIndex =
-    (currentPage - 1) * itemsPerPage;
-
-  const endIndex =
-    startIndex + itemsPerPage;
-
-  const paginatedBooks =
-    filtered.slice(startIndex, endIndex);
-
   const totalPages = Math.ceil(
     filtered.length / itemsPerPage
   );
+
+  const startIndex =
+    (currentPage - 1) * itemsPerPage;
+
+  const paginatedBooks =
+    filtered.slice(
+      startIndex,
+      startIndex + itemsPerPage
+    );
 
   return (
 
@@ -95,13 +94,19 @@ export default function ManuscriptsPage() {
 
       {/* TOTAL */}
 
-      <div className="px-6 mb-5">
+      <div className="px-6 mb-5 flex justify-between items-center">
 
         <h2 className="text-2xl font-bold">
 
           Total Manuscripts: {filtered.length}
 
         </h2>
+
+        <div className="text-lg font-semibold">
+
+          Page {currentPage} of {totalPages}
+
+        </div>
 
       </div>
 
@@ -124,7 +129,7 @@ export default function ManuscriptsPage() {
 
       {/* PAGINATION */}
 
-      <div className="flex justify-center items-center gap-4 pb-10">
+      <div className="flex flex-wrap justify-center items-center gap-3 pb-14">
 
         <button
           disabled={currentPage === 1}
@@ -136,14 +141,36 @@ export default function ManuscriptsPage() {
           Previous
         </button>
 
-        <div className="text-xl font-semibold">
+        {Array.from(
+          { length: totalPages },
+          (_, i) => i + 1
+        )
+          .slice(
+            Math.max(currentPage - 3, 0),
+            currentPage + 2
+          )
+          .map((page) => (
 
-          Page {currentPage} of {totalPages}
+            <button
+              key={page}
+              onClick={() =>
+                setCurrentPage(page)
+              }
+              className={`px-4 py-2 rounded-lg ${
+                currentPage === page
+                  ? "bg-black text-white"
+                  : "bg-white border"
+              }`}
+            >
+              {page}
+            </button>
 
-        </div>
+          ))}
 
         <button
-          disabled={currentPage === totalPages}
+          disabled={
+            currentPage === totalPages
+          }
           onClick={() =>
             setCurrentPage((prev) => prev + 1)
           }
