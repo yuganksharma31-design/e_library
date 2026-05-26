@@ -2,23 +2,11 @@ import connectDB from "../../../../lib/mongodb";
 import Book from "../../../../models/Book";
 import cloudinary from "../../../../lib/cloudinary";
 
-import fs from "fs";
-import path from "path";
-import os from "os";
-
 export async function POST(req) {
 
   try {
 
-    // ======================
-    // CONNECT DATABASE
-    // ======================
-
     await connectDB();
-
-    // ======================
-    // GET FORM DATA
-    // ======================
 
     const formData =
       await req.formData();
@@ -38,9 +26,7 @@ export async function POST(req) {
     const pdf =
       formData.get("pdf");
 
-    // ======================
     // VALIDATION
-    // ======================
 
     if (
       !title ||
@@ -50,17 +36,14 @@ export async function POST(req) {
     ) {
 
       return Response.json({
-
         success: false,
-
-        error:
-          "Missing required fields",
+        error: "Missing required fields",
       });
     }
 
-    // ======================
+    // =========================
     // COVER IMAGE UPLOAD
-    // ======================
+    // =========================
 
     const coverBuffer =
       Buffer.from(
@@ -75,8 +58,7 @@ export async function POST(req) {
             .upload_stream(
 
               {
-                folder:
-                  "covers",
+                folder: "covers",
               },
 
               (err, result) => {
@@ -92,62 +74,44 @@ export async function POST(req) {
         }
       );
 
-    // ======================
-    // SAVE TEMP PDF FILE
-    // ======================
+    // =========================
+    // PDF UPLOAD
+    // =========================
 
-    const bytes =
-      await pdf.arrayBuffer();
-
-    const buffer =
-      Buffer.from(bytes);
-
-    const tempPath =
-      path.join(
-        os.tmpdir(),
-        pdf.name
+    const pdfBuffer =
+      Buffer.from(
+        await pdf.arrayBuffer()
       );
 
-    fs.writeFileSync(
-      tempPath,
-      buffer
-    );
-
-    // ======================
-    // PDF UPLOAD
-    // ======================
-
     const pdfUpload =
-      await cloudinary.uploader.upload(
+      await new Promise(
+        (resolve, reject) => {
 
-        tempPath,
+          cloudinary.uploader
+            .upload_stream(
 
-        {
-          resource_type:
-            "raw",
+              {
+                resource_type: "auto",
+                folder: "books",
+                format: "pdf",
+              },
 
-          folder:
-            "books",
+              (err, result) => {
 
-          format:
-            "pdf",
+                if (err)
+                  reject(err);
+
+                else
+                  resolve(result);
+              }
+            )
+            .end(pdfBuffer);
         }
       );
 
-    // DELETE TEMP FILE
-
-    fs.unlinkSync(
-      tempPath
-    );
-
-    // FINAL PDF URL
-
-    const pdfUrl =
-      pdfUpload.secure_url;
-
-    // ======================
+    // =========================
     // SAVE DATABASE
-    // ======================
+    // =========================
 
     const newBook =
       new Book({
@@ -162,17 +126,13 @@ export async function POST(req) {
           coverUpload.secure_url,
 
         pdfUrl:
-          pdfUrl,
+          pdfUpload.secure_url,
 
         source:
           "mongo",
       });
 
     await newBook.save();
-
-    // ======================
-    // RESPONSE
-    // ======================
 
     return Response.json({
 
@@ -189,8 +149,7 @@ export async function POST(req) {
 
       success: false,
 
-      error:
-        err.message,
+      error: err.message,
     });
   }
 }
