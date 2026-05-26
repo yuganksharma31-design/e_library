@@ -103,53 +103,42 @@ export async function POST(req) {
 // PDF UPLOAD
 // ======================
 
-const pdfBuffer =
-  Buffer.from(
-    await pdf.arrayBuffer()
-  );
+const pdfBuffer = Buffer.from(
+  await pdf.arrayBuffer()
+);
 
-const fileName =
-  `${Date.now()}`;
+const pdfUpload = await new Promise(
+  (resolve, reject) => {
 
-const pdfUpload =
-  await new Promise(
-    (resolve, reject) => {
+    cloudinary.uploader
+      .upload_stream(
+        {
+          resource_type: "raw",
+          folder: "books",
+          public_id: `${Date.now()}`,
+          format: "pdf",
+        },
 
-      cloudinary.uploader
-        .upload_stream(
+        (err, result) => {
 
-          {
-            resource_type:
-              "image",
+          if (err) {
 
-            folder:
-              "books",
+            console.log(
+              "PDF Upload Error:",
+              err
+            );
 
-            public_id:
-              fileName,
+            reject(err);
 
-            format:
-              "pdf",
-          },
+          } else {
 
-          (
-            err,
-            result
-          ) => {
-
-            if (err) {
-
-              reject(err);
-
-            } else {
-
-              resolve(result);
-            }
+            resolve(result);
           }
-        )
-        .end(pdfBuffer);
-    }
-  );
+        }
+      )
+      .end(pdfBuffer);
+  }
+);
     // =========================
     // SAVE TO MONGODB
     // =========================
