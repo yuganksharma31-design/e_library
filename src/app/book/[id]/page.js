@@ -32,36 +32,11 @@ export default function ReaderPage() {
 
   }, []);
 
-  // WAIT FOR ID
-
-  if (!identifier) {
-
-    return (
-
-      <div className="
-        min-h-screen
-        bg-black
-        text-white
-        flex
-        items-center
-        justify-center
-        text-2xl
-      ">
-
-        Loading manuscript...
-
-      </div>
-    );
-  }
-
-  // IMAGE URL
-
-  const image =
-    `https://archive.org/download/${identifier}/page/n${page}_w600.jpg`;
-
   // PRELOAD NEXT PAGE
 
   useEffect(() => {
+
+    if (!identifier) return;
 
     const nextImg = new Image();
 
@@ -185,6 +160,13 @@ export default function ReaderPage() {
     }
   }
 
+  // IMAGE URL
+
+  const image =
+    identifier
+      ? `https://archive.org/download/${identifier}/page/n${page}_w600.jpg`
+      : "";
+
   return (
 
     <main
@@ -198,8 +180,6 @@ export default function ReaderPage() {
       {/* HEADER */}
 
       <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5 p-5 border-b border-gray-800 bg-[#111]">
-
-        {/* LEFT */}
 
         <div>
 
@@ -217,8 +197,6 @@ export default function ReaderPage() {
 
         </div>
 
-        {/* CONTROLS */}
-
         <div className="flex flex-wrap items-center gap-3">
 
           <button
@@ -233,6 +211,7 @@ export default function ReaderPage() {
             className="bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-lg"
           >
             →
+
           </button>
 
           <button
@@ -277,24 +256,35 @@ export default function ReaderPage() {
 
       {/* IMAGE */}
 
-      <div className="flex justify-center items-center p-6 overflow-auto">
+      <div className="flex justify-center items-center p-6 overflow-auto min-h-[70vh]">
 
-        <img
-          src={image}
-          alt={`Page ${page}`}
-          loading="eager"
-          draggable={false}
-          style={{
-            width: `${zoom}%`,
-            maxWidth: "1000px",
-            height: "auto",
-          }}
-          className="
-            rounded-xl
-            shadow-2xl
-            select-none
-          "
-        />
+        {identifier ? (
+
+          <img
+            src={image}
+            alt={`Page ${page}`}
+            loading="eager"
+            draggable={false}
+            style={{
+              width: `${zoom}%`,
+              maxWidth: "1000px",
+              height: "auto",
+            }}
+            className="
+              rounded-xl
+              shadow-2xl
+              select-none
+            "
+          />
+
+        ) : (
+
+          <div className="text-2xl">
+
+            Loading manuscript...
+
+          </div>
+        )}
 
       </div>
 
