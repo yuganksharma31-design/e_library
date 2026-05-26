@@ -4,8 +4,13 @@ import { useEffect, useState } from "react";
 
 export default function ReaderPage() {
 
-  const [identifier, setIdentifier] =
-    useState("");
+  // GET ID DIRECTLY
+  const identifier =
+    typeof window !== "undefined"
+      ? decodeURIComponent(
+          window.location.pathname.split("/book/")[1]
+        )
+      : "";
 
   const [page, setPage] = useState(4);
 
@@ -15,22 +20,6 @@ export default function ReaderPage() {
     useState(true);
 
   const totalPages = 500;
-
-  // GET ID
-
-  useEffect(() => {
-
-    const pathname =
-      window.location.pathname;
-
-    const id =
-      decodeURIComponent(
-        pathname.split("/book/")[1]
-      );
-
-    setIdentifier(id);
-
-  }, []);
 
   // IMAGE URL
 
@@ -115,7 +104,7 @@ export default function ReaderPage() {
         handleKey
       );
 
-  }, [page]);
+  }, [nextPage, prevPage]);
 
   // DOWNLOAD
 
