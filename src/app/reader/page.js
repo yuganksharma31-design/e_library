@@ -1,8 +1,9 @@
 "use client";
 
+import { Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 
-export default function ReaderPage() {
+function ReaderContent() {
 
   const searchParams = useSearchParams();
 
@@ -18,9 +19,7 @@ export default function ReaderPage() {
       <div className="flex items-center justify-between p-4 bg-black text-white">
 
         <h1 className="text-4xl font-bold">
-
           Digital Reader
-
         </h1>
 
         <a
@@ -34,7 +33,7 @@ export default function ReaderPage() {
 
       </div>
 
-      {/* PDF VIEWER */}
+      {/* VIEWER */}
 
       <iframe
         src={file}
@@ -42,5 +41,25 @@ export default function ReaderPage() {
       />
 
     </div>
+  );
+}
+
+export default function ReaderPage() {
+
+  return (
+
+    <Suspense fallback={
+
+      <div className="w-full h-screen bg-black text-white flex items-center justify-center text-3xl">
+
+        Loading Reader...
+
+      </div>
+
+    }>
+
+      <ReaderContent />
+
+    </Suspense>
   );
 }
