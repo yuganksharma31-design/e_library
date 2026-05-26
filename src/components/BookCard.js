@@ -21,9 +21,9 @@ export default function BookCard({
   // READER URL
 
   const readerUrl =
-    source === "mongo"
-      ? `/reader?file=/api/pdf/${id}`
-      : `/book/${identifier}`;
+  source === "mongo"
+    ? `/reader?file=${encodeURIComponent(pdfUrl)}`
+    : `/book/${identifier}`;
 
   return (
 

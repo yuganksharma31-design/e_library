@@ -1,40 +1,58 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import { Suspense } from "react";
+import { Suspense, useState } from "react";
+
+import HTMLFlipBook from "react-pageflip";
+
+import {
+  Document,
+  Page,
+  pdfjs,
+} from "react-pdf";
+
+import "react-pdf/dist/Page/AnnotationLayer.css";
+import "react-pdf/dist/Page/TextLayer.css";
+
+pdfjs.GlobalWorkerOptions.workerSrc =
+  `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
 
 function ReaderContent() {
 
-  const searchParams = useSearchParams();
+  const searchParams =
+    useSearchParams();
 
   const file =
     searchParams.get("file");
+
+  const [numPages, setNumPages] =
+    useState(0);
+
+  function onDocumentLoadSuccess({
+    numPages,
+  }) {
+
+    setNumPages(numPages);
+  }
 
   if (!file) {
 
     return (
       <div className="text-white p-10">
-        No PDF found
+        No PDF Found
       </div>
     );
   }
 
-  // PDF.js Viewer
-
-  const viewerUrl =
-    `https://mozilla.github.io/pdf.js/web/viewer.html?file=${encodeURIComponent(
-      window.location.origin + file
-    )}`;
-
   return (
 
-    <div className="w-full h-screen bg-black">
+    <div className="bg-black min-h-screen">
 
       {/* HEADER */}
 
       <div className="bg-black text-white p-5 flex justify-between items-center">
 
-        <h1 className="text-4xl font-bold">
+        <h1 className="text-5xl font-bold">
 
           Digital Reader
 
@@ -50,12 +68,48 @@ function ReaderContent() {
 
       </div>
 
-      {/* PROFESSIONAL PDF VIEWER */}
+      {/* BOOK VIEWER */}
 
-      <iframe
-        src={viewerUrl}
-        className="w-full h-[calc(100vh-100px)]"
-      />
+      <div className="flex justify-center py-10">
+
+        <Document
+          file={file}
+          onLoadSuccess={
+            onDocumentLoadSuccess
+          }
+        >
+
+          <HTMLFlipBook
+            width={500}
+            height={700}
+            showCover={true}
+          >
+
+            {Array.from(
+              new Array(numPages),
+              (_, index) => (
+
+                <div
+                  key={index}
+                  className="bg-white"
+                >
+
+                  <Page
+                    pageNumber={
+                      index + 1
+                    }
+                    width={500}
+                  />
+
+                </div>
+              )
+            )}
+
+          </HTMLFlipBook>
+
+        </Document>
+
+      </div>
 
     </div>
   );
