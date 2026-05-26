@@ -4,12 +4,14 @@ import Link from "next/link";
 
 export default function BookCard({
 
+  id,
   title,
   creator,
   identifier,
   coverImage,
   pdfUrl,
   source,
+
 }) {
 
   // ARCHIVE IMAGE
@@ -24,7 +26,7 @@ export default function BookCard({
   const readerUrl =
     source === "mongo"
 
-      ? `/reader?file=${encodeURIComponent(pdfUrl)}`
+      ? `/reader?file=/api/pdf/${id}`
 
       : `/book/${identifier}`;
 

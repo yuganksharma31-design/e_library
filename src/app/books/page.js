@@ -225,39 +225,16 @@ export default function BooksPage() {
               (book) => (
 
                 <BookCard
-                  key={
-                    book._id ||
-                    book.identifier
-                  }
-
-                  _id={book._id}
-
-                  title={book.title}
-
-                  creator={
-                    book.creator
-                  }
-
-                  identifier={
-                    book.identifier
-                  }
-
-                  coverImage={
-                    book.coverImage
-                  }
-
-                  pdfUrl={
-                    book.pdfUrl
-                  }
-
-                  source={
-                    book.source
-                  }
-
-                  onDelete={
-                    handleDelete
-                  }
-                />
+  key={book._id}
+  id={book._id}
+  title={book.title}
+  creator={book.creator}
+  identifier={book.identifier}
+  coverImage={book.coverImage}
+  pdfUrl={book.pdfUrl}
+  source={book.source}
+  onDelete={handleDelete}
+/>
               )
             )}
 
