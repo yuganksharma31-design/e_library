@@ -75,7 +75,6 @@ export default function BooksPage() {
 
       await fetch(
         `/api/admin/delete/${id}`,
-
         {
           method: "DELETE",
         }
@@ -134,72 +133,184 @@ export default function BooksPage() {
     filtered.slice(
       startIndex,
       startIndex +
-        itemsPerPage
+      itemsPerPage
     );
 
   return (
 
-    <main className="min-h-screen bg-[#f5f5f5]">
+    <main
+      className="
+        min-h-screen
+        bg-gradient-to-b
+        from-black
+        to-[#111]
+        text-white
+      "
+    >
 
-      {/* HEADER */}
+      {/* HERO */}
 
-      <div className="bg-black text-white p-8">
+      <div
+        className="
+          border-b
+          border-gray-800
+          bg-black/90
+          backdrop-blur-xl
+        "
+      >
 
-        <h1 className="text-5xl font-bold">
+        <div
+          className="
+            max-w-[1700px]
+            mx-auto
+            px-6
+            py-12
+          "
+        >
 
-          Books Library
+          <h1
+            className="
+              text-5xl
+              md:text-7xl
+              font-black
+              tracking-tight
+            "
+          >
+            Digital Library
+          </h1>
 
-        </h1>
+          <p
+            className="
+              mt-4
+              text-lg
+              md:text-2xl
+              text-gray-400
+              max-w-3xl
+            "
+          >
+            Explore ancient manuscripts,
+            rare books, Sanskrit texts,
+            archives, and digital collections.
+          </p>
 
-        <p className="mt-3 text-gray-300">
-
-          Dynamic Digital Library
-
-        </p>
+        </div>
 
       </div>
 
-      {/* SEARCH */}
+      {/* SEARCH BAR */}
 
-      <div className="p-6">
+      <div
+        className="
+          sticky
+          top-0
+          z-40
+          bg-black/90
+          backdrop-blur-xl
+          border-b
+          border-gray-800
+        "
+      >
 
-        <input
-          type="text"
-          placeholder="Search books..."
-          value={search}
-          onChange={(e) => {
+        <div
+          className="
+            max-w-[1700px]
+            mx-auto
+            px-6
+            py-5
+          "
+        >
 
-            setSearch(
-              e.target.value
-            );
+          <input
+            type="text"
+            placeholder="Search books, creators, manuscripts..."
+            value={search}
+            onChange={(e) => {
 
-            setCurrentPage(1);
-          }}
-          className="w-full p-4 rounded-2xl border text-lg"
-        />
+              setSearch(
+                e.target.value
+              );
+
+              setCurrentPage(1);
+            }}
+            className="
+              w-full
+              p-5
+              rounded-2xl
+              bg-[#111]
+              border
+              border-gray-700
+              text-lg
+              outline-none
+              focus:border-blue-500
+              focus:ring-2
+              focus:ring-blue-500/30
+              transition-all
+            "
+          />
+
+        </div>
 
       </div>
 
-      {/* TOTAL */}
+      {/* STATS */}
 
-      <div className="px-6 mb-5 flex justify-between items-center">
+      <div
+        className="
+          max-w-[1700px]
+          mx-auto
+          px-6
+          py-6
+          flex
+          flex-col
+          md:flex-row
+          justify-between
+          items-start
+          md:items-center
+          gap-4
+        "
+      >
 
-        <h2 className="text-2xl font-bold">
+        <div>
 
-          Total Books:
-          {" "}
-          {filtered.length}
+          <h2
+            className="
+              text-3xl
+              font-bold
+            "
+          >
+            {filtered.length}
+            {" "}
+            Books Found
+          </h2>
 
-        </h2>
+          <p
+            className="
+              text-gray-400
+              mt-1
+            "
+          >
+            Browse the digital archive
+          </p>
 
-        <div className="font-semibold text-lg">
+        </div>
 
+        <div
+          className="
+            bg-[#111]
+            border
+            border-gray-800
+            px-5
+            py-3
+            rounded-xl
+            text-lg
+            font-semibold
+          "
+        >
           Page {currentPage}
           {" "}
           of
           {" "}
           {totalPages || 1}
-
         </div>
 
       </div>
@@ -208,9 +319,24 @@ export default function BooksPage() {
 
       {loading ? (
 
-        <div className="text-center text-2xl py-20">
+        <div
+          className="
+            flex
+            justify-center
+            items-center
+            py-32
+          "
+        >
 
-          Loading books...
+          <div
+            className="
+              text-2xl
+              text-gray-400
+              animate-pulse
+            "
+          >
+            Loading Digital Library...
+          </div>
 
         </div>
 
@@ -219,36 +345,112 @@ export default function BooksPage() {
         <>
           {/* GRID */}
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 px-6 pb-10">
+          <div
+            className="
+              max-w-[1700px]
+              mx-auto
+              px-6
+              pb-16
+              grid
+              grid-cols-1
+              sm:grid-cols-2
+              md:grid-cols-3
+              lg:grid-cols-4
+              xl:grid-cols-5
+              gap-8
+            "
+          >
 
             {paginatedBooks.map(
               (book) => (
 
-                <BookCard
-  key={book._id || book.identifier}
+                <div
+                  key={
+                    book._id ||
+                    book.identifier
+                  }
+                  className="
+                    transform
+                    hover:scale-[1.02]
+                    transition-all
+                    duration-300
+                  "
+                >
 
-  _id={book._id}
+                  <BookCard
+                    _id={book._id}
 
-  title={book.title}
+                    title={book.title}
 
-  creator={book.creator}
+                    creator={book.creator}
 
-  identifier={book.identifier}
+                    identifier={
+                      book.identifier
+                    }
 
-  coverImage={book.coverImage}
+                    coverImage={
+                      book.coverImage
+                    }
 
-  pdfUrl={book.pdfUrl}
+                    pdfUrl={
+                      book.pdfUrl
+                    }
 
-  source={book.source}
-/>
+                    source={
+                      book.source
+                    }
+                  />
+
+                </div>
               )
             )}
 
           </div>
 
+          {/* EMPTY */}
+
+          {paginatedBooks.length === 0 && (
+
+            <div
+              className="
+                text-center
+                py-32
+              "
+            >
+
+              <h3
+                className="
+                  text-4xl
+                  font-bold
+                  mb-4
+                "
+              >
+                No Books Found
+              </h3>
+
+              <p
+                className="
+                  text-gray-400
+                  text-lg
+                "
+              >
+                Try another search keyword
+              </p>
+
+            </div>
+          )}
+
           {/* PAGINATION */}
 
-          <div className="flex justify-center items-center gap-4 pb-12">
+          <div
+            className="
+              flex
+              justify-center
+              items-center
+              gap-5
+              pb-20
+            "
+          >
 
             <button
               disabled={
@@ -260,10 +462,29 @@ export default function BooksPage() {
                     prev - 1
                 )
               }
-              className="bg-black text-white px-5 py-2 rounded-lg disabled:opacity-40"
+              className="
+                px-8
+                py-4
+                rounded-2xl
+                bg-[#111827]
+                hover:bg-[#1f2937]
+                transition-all
+                disabled:opacity-40
+                text-lg
+                font-semibold
+              "
             >
-              Previous
+              ← Previous
             </button>
+
+            <div
+              className="
+                text-xl
+                font-bold
+              "
+            >
+              {currentPage}
+            </div>
 
             <button
               disabled={
@@ -276,9 +497,19 @@ export default function BooksPage() {
                     prev + 1
                 )
               }
-              className="bg-black text-white px-5 py-2 rounded-lg disabled:opacity-40"
+              className="
+                px-8
+                py-4
+                rounded-2xl
+                bg-blue-600
+                hover:bg-blue-700
+                transition-all
+                disabled:opacity-40
+                text-lg
+                font-semibold
+              "
             >
-              Next
+              Next →
             </button>
 
           </div>

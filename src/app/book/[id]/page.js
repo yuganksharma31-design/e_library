@@ -352,9 +352,9 @@ export default function BookPage() {
             decoding="async"
             draggable={false}
             style={{
-              width: `${zoom}%`,
-              maxWidth: "100%",
-              height: "auto",
+              width: "100%",
+              maxWidth: "calc(100vh - 240px)",
+              height: "contain",
             }}
             className="
               rounded-xl
@@ -388,9 +388,9 @@ export default function BookPage() {
               decoding="async"
               draggable={false}
               style={{
-                width: `${zoom}%`,
-                maxWidth: "700px",
-                height: "auto",
+                width: "48vw",
+                maxWidth: "calc(100vh - 240px)",
+                height: "contain",
               }}
               className="
                 object-contain
@@ -411,9 +411,9 @@ export default function BookPage() {
               decoding="async"
               draggable={false}
               style={{
-                width: `${zoom}%`,
-                maxWidth: "700px",
-                height: "auto",
+                width: "48vw",
+                maxWidth: "calc(100vh - 240px)",
+                height: "contain",
               }}
               className="
                 object-contain
