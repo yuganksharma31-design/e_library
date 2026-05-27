@@ -247,7 +247,7 @@ export default function BookPage() {
             file.name
               .toLowerCase()
               .endsWith(".djvu")
-          );
+        );
     }
 
     // FALLBACK ZIP
@@ -274,40 +274,28 @@ export default function BookPage() {
     const fileUrl =
       `https://archive.org/download/${identifier}/${encodeURIComponent(targetFile.name)}`;
 
-    // FETCH ACTUAL FILE
-
-    const fileResponse =
-      await fetch(fileUrl);
-
-    // CONVERT TO BLOB
-
-    const blob =
-      await fileResponse.blob();
-
-    // CREATE LOCAL URL
-
-    const blobUrl =
-      window.URL.createObjectURL(blob);
-
-    // FORCE DOWNLOAD
+    // FORCE DOWNLOAD DIRECTLY
 
     const a =
       document.createElement("a");
 
-    a.href = blobUrl;
+    a.href = fileUrl;
 
-    a.download =
-      targetFile.name;
+    a.setAttribute(
+      "download",
+      targetFile.name
+    );
+
+    a.setAttribute(
+      "target",
+      "_blank"
+    );
 
     document.body.appendChild(a);
 
     a.click();
 
     a.remove();
-
-    // CLEANUP
-
-    window.URL.revokeObjectURL(blobUrl);
 
   } catch (error) {
 
