@@ -272,28 +272,38 @@ export default function BookPage() {
     // DIRECT FILE URL
 
     const fileUrl =
-      `https://archive.org/download/${identifier}/${encodeURIComponent(targetFile.name)}?download=1`;
+      `https://archive.org/download/${identifier}/${encodeURIComponent(targetFile.name)}`;
 
-    // FORCE DOWNLOAD
+    // FORCE BROWSER DOWNLOAD
 
-    const iframe =
-      document.createElement("iframe");
+    const link =
+      document.createElement("a");
 
-    iframe.style.display =
-      "none";
-
-    iframe.src =
+    link.href =
       fileUrl;
 
-    document.body.appendChild(iframe);
+    link.download =
+      targetFile.name;
 
-    // CLEANUP
+    link.rel =
+      "noopener";
 
-    setTimeout(() => {
+    document.body.appendChild(link);
 
-      document.body.removeChild(iframe);
+    // TRIGGER DOWNLOAD
 
-    }, 5000);
+    link.dispatchEvent(
+      new MouseEvent(
+        "click",
+        {
+          bubbles: true,
+          cancelable: true,
+          view: window,
+        }
+      )
+    );
+
+    document.body.removeChild(link);
 
   } catch (error) {
 
@@ -301,8 +311,7 @@ export default function BookPage() {
 
     alert("Download failed");
   }
-}
-  return (
+}  return (
 
     <main
       className={`
