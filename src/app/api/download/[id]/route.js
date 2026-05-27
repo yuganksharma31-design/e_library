@@ -27,14 +27,44 @@ export async function GET(request, { params }) {
       );
     }
 
-    const pdfFile =
-      metadata.files.find(
-        (file) =>
-          file.name &&
-          file.name
-            .toLowerCase()
-            .endsWith(".pdf")
-      );
+    // FIND BEST DOWNLOAD FILE
+
+let pdfFile =
+  metadata.files.find(
+    (file) =>
+      file.name &&
+      file.name
+        .toLowerCase()
+        .endsWith(".pdf")
+  );
+
+// FALLBACK TO TEXT PDF
+
+if (!pdfFile) {
+
+  pdfFile =
+    metadata.files.find(
+      (file) =>
+        file.name &&
+        file.name
+          .toLowerCase()
+          .includes("_text.pdf")
+    );
+}
+
+// FALLBACK TO JP2 ZIP
+
+if (!pdfFile) {
+
+  pdfFile =
+    metadata.files.find(
+      (file) =>
+        file.name &&
+        file.name
+          .toLowerCase()
+          .endsWith("_jp2.zip")
+    );
+}
 
     if (!pdfFile) {
 
@@ -55,7 +85,7 @@ export async function GET(request, { params }) {
       {
         headers: {
           "Content-Type":
-            "application/pdf",
+  "application/octet-stream",
 
           "Content-Disposition":
             `attachment; filename="${pdfFile.name}"`,
