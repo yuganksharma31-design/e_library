@@ -7,34 +7,47 @@ export default function BookPage() {
 
   const params = useParams();
 
-  const identifier = params.id;
+  const identifier = decodeURIComponent(params.id);
 
   const [page, setPage] = useState(1);
 
   const [zoom, setZoom] = useState(
     typeof window !== "undefined" &&
     window.innerWidth < 768
-      ? 95
-      : 60
+      ? 100
+      : 55
   );
 
-  const [darkMode, setDarkMode] = useState(true);
+  const [darkMode, setDarkMode] =
+    useState(true);
 
-  const [totalPages, setTotalPages] = useState(500);
+  const [totalPages] = useState(500);
 
-  // IMAGE URL
+  const isMobile =
+    typeof window !== "undefined" &&
+    window.innerWidth < 1024;
 
-  const image =
+  // IMAGE URLS
+
+  const leftImage =
     `https://archive.org/download/${identifier}/page/n${page}_w1200.jpg`;
 
-  // PRELOAD NEXT PAGE
+  const rightImage =
+    `https://archive.org/download/${identifier}/page/n${page + 1}_w1200.jpg`;
+
+  // PRELOAD NEXT PAGES
 
   useEffect(() => {
 
-    const nextImage = new Image();
+    const img1 = new Image();
 
-    nextImage.src =
+    img1.src =
       `https://archive.org/download/${identifier}/page/n${page + 1}_w1200.jpg`;
+
+    const img2 = new Image();
+
+    img2.src =
+      `https://archive.org/download/${identifier}/page/n${page + 2}_w1200.jpg`;
 
   }, [page, identifier]);
 
@@ -53,10 +66,16 @@ export default function BookPage() {
       }
     };
 
-    window.addEventListener("keydown", handleKey);
+    window.addEventListener(
+      "keydown",
+      handleKey
+    );
 
     return () =>
-      window.removeEventListener("keydown", handleKey);
+      window.removeEventListener(
+        "keydown",
+        handleKey
+      );
 
   }, [page]);
 
@@ -64,27 +83,34 @@ export default function BookPage() {
 
   const nextPage = () => {
 
-    if (page < totalPages) {
-      setPage(page + 1);
+    if (page < totalPages - 1) {
+
+      setPage((prev) =>
+        isMobile ? prev + 1 : prev + 2
+      );
     }
   };
 
   const prevPage = () => {
 
     if (page > 1) {
-      setPage(page - 1);
+
+      setPage((prev) =>
+        isMobile ? prev - 1 : prev - 2
+      );
     }
   };
 
   const zoomIn = () => {
 
-    setZoom((prev) => prev + 10);
+    setZoom((prev) => prev + 5);
   };
 
   const zoomOut = () => {
 
     if (zoom > 30) {
-      setZoom((prev) => prev - 10);
+
+      setZoom((prev) => prev - 5);
     }
   };
 
@@ -95,9 +121,10 @@ export default function BookPage() {
         min-h-screen
         transition-all
         duration-300
+        overflow-hidden
         ${darkMode
           ? "bg-black text-white"
-          : "bg-gray-100 text-black"}
+          : "bg-[#f5f1e8] text-black"}
       `}
     >
 
@@ -119,11 +146,11 @@ export default function BookPage() {
           className="
             flex
             flex-col
-            lg:flex-row
+            xl:flex-row
             justify-between
             items-start
-            lg:items-center
-            gap-5
+            xl:items-center
+            gap-6
             px-4
             md:px-8
             py-5
@@ -137,9 +164,10 @@ export default function BookPage() {
             <h1
               className="
                 text-3xl
-                md:text-5xl
+                md:text-6xl
                 font-bold
                 tracking-tight
+                leading-none
               "
             >
               Digital Manuscript Reader
@@ -150,7 +178,7 @@ export default function BookPage() {
                 text-lg
                 md:text-2xl
                 text-gray-400
-                mt-2
+                mt-3
               "
             >
               Page {page} of {totalPages}
@@ -179,10 +207,9 @@ export default function BookPage() {
                 rounded-2xl
                 bg-[#111827]
                 hover:bg-[#1f2937]
-                transition
+                transition-all
                 text-xl
                 font-semibold
-                shadow-lg
               "
             >
               ← Prev
@@ -198,10 +225,9 @@ export default function BookPage() {
                 rounded-2xl
                 bg-[#111827]
                 hover:bg-[#1f2937]
-                transition
+                transition-all
                 text-xl
                 font-semibold
-                shadow-lg
               "
             >
               Next →
@@ -217,9 +243,8 @@ export default function BookPage() {
                 rounded-2xl
                 bg-[#111827]
                 hover:bg-[#1f2937]
-                transition
+                transition-all
                 text-2xl
-                shadow-lg
               "
             >
               -
@@ -248,9 +273,8 @@ export default function BookPage() {
                 rounded-2xl
                 bg-[#111827]
                 hover:bg-[#1f2937]
-                transition
+                transition-all
                 text-2xl
-                shadow-lg
               "
             >
               +
@@ -268,10 +292,9 @@ export default function BookPage() {
                 rounded-2xl
                 bg-blue-600
                 hover:bg-blue-700
-                transition
+                transition-all
                 text-xl
                 font-semibold
-                shadow-lg
               "
             >
               {darkMode ? "Light" : "Dark"}
@@ -280,21 +303,23 @@ export default function BookPage() {
             {/* DOWNLOAD */}
 
             <a
-  href={`/api/download/${identifier}`}
-  className="
-    px-6
-    py-4
-    rounded-2xl
-    bg-red-600
-    hover:bg-red-700
-    transition
-    text-xl
-    font-semibold
-    shadow-[0_0_30px_rgba(255,0,0,0.4)]
-  "
->
-  Download
-</a>
+              href={`/api/download/${encodeURIComponent(identifier)}`}
+              target="_blank"
+              className="
+                px-8
+                py-4
+                rounded-2xl
+                bg-red-600
+                hover:bg-red-700
+                transition-all
+                duration-300
+                text-xl
+                font-bold
+                shadow-[0_0_30px_rgba(255,0,0,0.4)]
+              "
+            >
+              Download
+            </a>
 
           </div>
 
@@ -309,23 +334,19 @@ export default function BookPage() {
           flex
           justify-center
           items-center
-          px-2
-          md:px-6
-          py-8
           overflow-auto
-          min-h-[80vh]
-          bg-gradient-to-b
-          from-black
-          to-[#050505]
+          py-8
+          px-2
+          bg-black
         "
       >
 
-        {/* MOBILE SINGLE PAGE */}
+        {/* MOBILE VIEW */}
 
-        <div className="block lg:hidden">
+        {isMobile ? (
 
           <img
-            src={image}
+            src={leftImage}
             alt={`Page ${page}`}
             loading="eager"
             decoding="async"
@@ -336,85 +357,79 @@ export default function BookPage() {
               height: "auto",
             }}
             className="
-              rounded-2xl
+              rounded-xl
+              object-contain
               shadow-2xl
-              border
-              border-gray-800
-              transition-all
-              duration-300
-              ease-in-out
+              select-none
             "
           />
 
-        </div>
+        ) : (
 
-        {/* DESKTOP BOOK VIEW */}
+          /* DESKTOP BOOK VIEW */
 
-        <div
-          className="
-            hidden
-            lg:flex
-            items-start
-            justify-center
-            gap-1
-            bg-[#111]
-            p-6
-            rounded-3xl
-            shadow-[0_0_80px_rgba(255,255,255,0.06)]
-          "
-        >
-
-          {/* LEFT PAGE */}
-
-          <img
-            src={`https://archive.org/download/${identifier}/page/n${page}_w1200.jpg`}
-            alt={`Page ${page}`}
-            loading="eager"
-            decoding="async"
-            draggable={false}
-            style={{
-              width: `${zoom}%`,
-              maxWidth: "650px",
-              height: "auto",
-            }}
+          <div
             className="
-              rounded-l-2xl
-              border-r
-              border-black
-              shadow-xl
-              transition-all
-              duration-300
-              ease-in-out
+              flex
+              justify-center
+              items-start
+              gap-1
+              w-full
+              max-w-[1600px]
             "
-          />
+          >
 
-          {/* RIGHT PAGE */}
+            {/* LEFT PAGE */}
 
-          <img
-            src={`https://archive.org/download/${identifier}/page/n${page + 1}_w1200.jpg`}
-            alt={`Page ${page + 1}`}
-            loading="lazy"
-            decoding="async"
-            draggable={false}
-            style={{
-              width: `${zoom}%`,
-              maxWidth: "650px",
-              height: "auto",
-            }}
-            className="
-              rounded-r-2xl
-              shadow-xl
-              transition-all
-              duration-300
-              ease-in-out
-            "
-          />
+            <img
+              src={leftImage}
+              alt={`Page ${page}`}
+              loading="eager"
+              decoding="async"
+              draggable={false}
+              style={{
+                width: `${zoom}%`,
+                maxWidth: "700px",
+                height: "auto",
+              }}
+              className="
+                object-contain
+                rounded-l-xl
+                shadow-2xl
+                border-r
+                border-black
+                select-none
+              "
+            />
 
-        </div>
+            {/* RIGHT PAGE */}
+
+            <img
+              src={rightImage}
+              alt={`Page ${page + 1}`}
+              loading="lazy"
+              decoding="async"
+              draggable={false}
+              style={{
+                width: `${zoom}%`,
+                maxWidth: "700px",
+                height: "auto",
+              }}
+              className="
+                object-contain
+                rounded-r-xl
+                shadow-2xl
+                select-none
+              "
+            />
+
+          </div>
+
+        )}
 
       </div>
 
-      {/* BOTTOM NAVIGATION */}
+      {/* BOTTOM NAV */}
 
       <div
         className="
@@ -446,7 +461,7 @@ export default function BookPage() {
               rounded-xl
               bg-[#111827]
               hover:bg-[#1f2937]
-              transition
+              transition-all
             "
           >
             ← Prev
@@ -469,7 +484,7 @@ export default function BookPage() {
               rounded-xl
               bg-[#111827]
               hover:bg-[#1f2937]
-              transition
+              transition-all
             "
           >
             Next →
