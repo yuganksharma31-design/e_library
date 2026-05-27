@@ -1,103 +1,58 @@
+import { NextResponse } from "next/server";
+
+import connectDB from "@/lib/mongodb";
+import Book from "@/models/Book";
+
 export async function GET(req, { params }) {
-
   try {
+    await connectDB();
 
-    const id =
-      decodeURIComponent(params.id);
+    const { id } = params;
 
-    if (!id) {
+    const book = await Book.findById(id);
 
-      return new Response(
-        "Invalid identifier",
-        { status: 400 }
-      );
-    }
-
-    // FETCH METADATA
-
-    const metadataRes =
-      await fetch(
-        `https://archive.org/metadata/${id}`
-      );
-
-    if (!metadataRes.ok) {
-
-      return new Response(
-        "Metadata fetch failed",
-        { status: 500 }
-      );
-    }
-
-    const metadata =
-      await metadataRes.json();
-
-    if (!metadata.files) {
-
-      return new Response(
-        "No files found",
+    if (!book) {
+      return NextResponse.json(
+        { error: "Book not found" },
         { status: 404 }
       );
     }
 
-    // FIND PDF FILE
+    const fileUrl =
+      book.downloadUrl ||
+      book.pdfUrl ||
+      book.archiveUrl ||
+      book.fileUrl;
 
-    const pdfFile =
-      metadata.files.find(
-        (file) =>
-          file.name &&
-          file.name
-            .toLowerCase()
-            .endsWith(".pdf")
-      );
-
-    if (!pdfFile) {
-
-      return new Response(
-        "PDF not available",
+    if (!fileUrl) {
+      return NextResponse.json(
+        { error: "No file URL found" },
         { status: 404 }
       );
     }
 
-    // REAL PDF URL
+    const response = await fetch(fileUrl);
 
-    const pdfUrl =
-      `https://archive.org/download/${id}/${pdfFile.name}`;
-
-    // FETCH PDF
-
-    const pdfResponse =
-      await fetch(pdfUrl);
-
-    if (!pdfResponse.ok) {
-
-      return new Response(
-        "PDF download failed",
+    if (!response.ok) {
+      return NextResponse.json(
+        { error: "Failed to fetch PDF" },
         { status: 500 }
       );
     }
 
-    // RETURN PDF
+    const blob = await response.blob();
 
-    return new Response(
-      pdfResponse.body,
-      {
-        headers: {
-          "Content-Type":
-            "application/pdf",
-
-          "Content-Disposition":
-            `attachment; filename="${pdfFile.name}"`,
-        },
-      }
-    );
-
+    return new NextResponse(blob, {
+      headers: {
+        "Content-Type": "application/pdf",
+        "Content-Disposition": `attachment; filename="${book.title}.pdf"`,
+      },
+    });
   } catch (error) {
+    console.error(error);
 
-    console.log(error);
-
-    return new Response(
-      "Download failed",
-      
+    return NextResponse.json(
+      { error: "Download failed" },
       { status: 500 }
     );
   }

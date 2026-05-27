@@ -4,27 +4,23 @@ import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function BookPage() {
-
   const params = useParams();
 
-  const identifier =
-    decodeURIComponent(params.id);
+  const identifier = decodeURIComponent(params.id);
 
-  const [page, setPage] =
-    useState(1);
+  const [page, setPage] = useState(1);
 
-  const [zoom, setZoom] =
-    useState(
-      typeof window !== "undefined" &&
+  const [zoom, setZoom] = useState(
+    typeof window !== "undefined" &&
       window.innerWidth < 768
-        ? 100
-        : 48
-    );
+      ? 100
+      : 48
+  );
 
   const [darkMode, setDarkMode] =
     useState(true);
 
-  const [totalPages] =
+  const [totalPages, setTotalPages] =
     useState(500);
 
   const [isMobile, setIsMobile] =
@@ -33,9 +29,7 @@ export default function BookPage() {
   // DEVICE DETECTION
 
   useEffect(() => {
-
     function handleResize() {
-
       setIsMobile(
         window.innerWidth < 1024
       );
@@ -53,7 +47,6 @@ export default function BookPage() {
         "resize",
         handleResize
       );
-
   }, []);
 
   // IMAGE URLS
@@ -67,7 +60,6 @@ export default function BookPage() {
   // PRELOAD
 
   useEffect(() => {
-
     const preload1 = new Image();
 
     preload1.src =
@@ -77,22 +69,17 @@ export default function BookPage() {
 
     preload2.src =
       `https://archive.org/download/${identifier}/page/n${page + 2}_w1200.jpg`;
-
   }, [page, identifier]);
 
   // KEYBOARD
 
   useEffect(() => {
-
     function handleKey(e) {
-
       if (e.key === "ArrowRight") {
-
         nextPage();
       }
 
       if (e.key === "ArrowLeft") {
-
         prevPage();
       }
     }
@@ -107,15 +94,12 @@ export default function BookPage() {
         "keydown",
         handleKey
       );
-
-  }, [page]);
+  }, [page, isMobile]);
 
   // NEXT
 
   function nextPage() {
-
     if (page < totalPages - 1) {
-
       setPage((prev) =>
         isMobile
           ? prev + 1
@@ -127,9 +111,7 @@ export default function BookPage() {
   // PREV
 
   function prevPage() {
-
     if (page > 1) {
-
       setPage((prev) =>
         isMobile
           ? prev - 1
@@ -141,14 +123,11 @@ export default function BookPage() {
   // ZOOM
 
   function zoomIn() {
-
     setZoom((prev) => prev + 5);
   }
 
   function zoomOut() {
-
     if (zoom > 30) {
-
       setZoom((prev) => prev - 5);
     }
   }
@@ -156,8 +135,9 @@ export default function BookPage() {
   // DOWNLOAD
 
   async function downloadBook() {
-
     try {
+
+      // FIXED API PATH
 
       const response =
         await fetch(
@@ -166,7 +146,12 @@ export default function BookPage() {
 
       if (!response.ok) {
 
-        alert("PDF not available");
+        console.error(
+          "DOWNLOAD API FAILED",
+          response.status
+        );
+
+        alert("Download not available");
 
         return;
       }
@@ -195,14 +180,16 @@ export default function BookPage() {
 
     } catch (error) {
 
-      console.log(error);
+      console.error(
+        "DOWNLOAD ERROR:",
+        error
+      );
 
       alert("Download failed");
     }
   }
 
   return (
-
     <main
       className={`
         h-screen
@@ -387,7 +374,7 @@ export default function BookPage() {
       <div
         className="
           flex-1
-          overflow-hidden
+          overflow-auto
           flex
           justify-center
           items-center
