@@ -1,59 +1,63 @@
 import { NextResponse } from "next/server";
 
-import connectDB from "@/lib/mongodb";
-import Book from "@/models/Book";
-
 export async function GET(req, { params }) {
   try {
-    await connectDB();
 
     const { id } = params;
 
-    const book = await Book.findById(id);
+    // DIRECT ARCHIVE PDF URL
 
-    if (!book) {
-      return NextResponse.json(
-        { error: "Book not found" },
-        { status: 404 }
-      );
-    }
+    const pdfUrl =
+      `https://archive.org/download/${id}/${id}.pdf`;
 
-    const fileUrl =
-      book.downloadUrl ||
-      book.pdfUrl ||
-      book.archiveUrl ||
-      book.fileUrl;
+    // FETCH PDF
 
-    if (!fileUrl) {
-      return NextResponse.json(
-        { error: "No file URL found" },
-        { status: 404 }
-      );
-    }
-
-    const response = await fetch(fileUrl);
+    const response =
+      await fetch(pdfUrl);
 
     if (!response.ok) {
+
       return NextResponse.json(
-        { error: "Failed to fetch PDF" },
-        { status: 500 }
+        {
+          error: "PDF not found"
+        },
+        {
+          status: 404
+        }
       );
     }
 
-    const blob = await response.blob();
+    // GET FILE
+
+    const blob =
+      await response.blob();
+
+    // RETURN DOWNLOAD
 
     return new NextResponse(blob, {
       headers: {
-        "Content-Type": "application/pdf",
-        "Content-Disposition": `attachment; filename="${book.title}.pdf"`,
+        "Content-Type":
+          "application/pdf",
+
+        "Content-Disposition":
+          `attachment; filename="${id}.pdf"`,
       },
     });
+
   } catch (error) {
-    console.error(error);
+
+    console.error(
+      "DOWNLOAD ERROR:",
+      error
+    );
 
     return NextResponse.json(
-      { error: "Download failed" },
-      { status: 500 }
+      {
+        error: "Download failed"
+      },
+      {
+        status: 500
+      }
     );
   }
 }
