@@ -1,47 +1,52 @@
-import { NextResponse } from "next/server";
-
-export async function GET(req, { params }) {
+export async function GET(req, context) {
 
   try {
 
-    const { id } = params;
+    const id =
+      context.params.id;
 
-    // GET ARCHIVE METADATA
+    // ARCHIVE METADATA
+
+    const metadataUrl =
+      `https://archive.org/metadata/${id}`;
 
     const metaResponse =
-      await fetch(
-        `https://archive.org/metadata/${id}`
-      );
-
-    if (!metaResponse.ok) {
-
-      return NextResponse.json(
-        {
-          error: "Metadata not found"
-        },
-        {
-          status: 404
-        }
-      );
-    }
+      await fetch(metadataUrl);
 
     const meta =
       await metaResponse.json();
 
-    // FIND PDF FILE
+    // FIND PDF
 
     const pdfFile =
       meta.files.find(
         (file) =>
           file.name &&
-          file.name.toLowerCase().endsWith(".pdf")
+          file.name
+            .toLowerCase()
+            .endsWith(".pdf")
       );
 
-    if (!pdfFile) {
+    // FALLBACK TO DJVU
 
-      return NextResponse.json(
+    const djvuFile =
+      meta.files.find(
+        (file) =>
+          file.name &&
+          file.name
+            .toLowerCase()
+            .endsWith(".djvu")
+      );
+
+    const targetFile =
+      pdfFile || djvuFile;
+
+    if (!targetFile) {
+
+      return Response.json(
         {
-          error: "PDF not found"
+          error:
+            "No downloadable file found"
         },
         {
           status: 404
@@ -49,22 +54,23 @@ export async function GET(req, { params }) {
       );
     }
 
-    // DIRECT DOWNLOAD URL
+    // DIRECT FILE URL
 
-    const pdfUrl =
-      `https://archive.org/download/${id}/${encodeURIComponent(pdfFile.name)}`;
+    const fileUrl =
+      `https://archive.org/download/${id}/${encodeURIComponent(targetFile.name)}`;
 
-    // REDIRECT TO PDF
+    // REDIRECT
 
-    return NextResponse.redirect(
-      pdfUrl
+    return Response.redirect(
+      fileUrl,
+      302
     );
 
   } catch (error) {
 
-    console.error(error);
+    console.log(error);
 
-    return NextResponse.json(
+    return Response.json(
       {
         error: "Download failed"
       },
