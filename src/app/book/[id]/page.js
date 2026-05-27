@@ -141,10 +141,67 @@ export default function BookPage() {
 
   try {
 
-    window.open(
-      `/api/download/${encodeURIComponent(identifier)}`,
-      "_blank"
-    );
+    if (!identifier) {
+
+      alert("Book not loaded");
+
+      return;
+    }
+
+    // GET METADATA DIRECTLY
+
+    const metaResponse =
+      await fetch(
+        `https://archive.org/metadata/${identifier}`
+      );
+
+    const meta =
+      await metaResponse.json();
+
+    // FIND DOWNLOADABLE FILE
+
+    const targetFile =
+      meta.files.find(
+        (file) =>
+          file.name &&
+          (
+            file.name
+              .toLowerCase()
+              .endsWith(".pdf") ||
+
+            file.name
+              .toLowerCase()
+              .endsWith(".djvu")
+          )
+      );
+
+    if (!targetFile) {
+
+      alert("No downloadable file found");
+
+      return;
+    }
+
+    // DIRECT DOWNLOAD URL
+
+    const fileUrl =
+      `https://archive.org/download/${identifier}/${encodeURIComponent(targetFile.name)}`;
+
+    // START DOWNLOAD
+
+    const a =
+      document.createElement("a");
+
+    a.href = fileUrl;
+
+    a.download =
+      targetFile.name;
+
+    document.body.appendChild(a);
+
+    a.click();
+
+    a.remove();
 
   } catch (error) {
 
