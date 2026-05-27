@@ -135,59 +135,21 @@ export default function BookPage() {
   // DOWNLOAD
 
   async function downloadBook() {
-    try {
 
-      // FIXED API PATH
+  try {
 
-      const response =
-        await fetch(
-          `/api/download/${encodeURIComponent(identifier)}`
-        );
+    window.open(
+      `/api/download/${encodeURIComponent(identifier)}`,
+      "_blank"
+    );
 
-      if (!response.ok) {
+  } catch (error) {
 
-        console.error(
-          "DOWNLOAD API FAILED",
-          response.status
-        );
+    console.log(error);
 
-        alert("Download not available");
-
-        return;
-      }
-
-      const blob =
-        await response.blob();
-
-      const url =
-        window.URL.createObjectURL(blob);
-
-      const a =
-        document.createElement("a");
-
-      a.href = url;
-
-      a.download =
-        `${identifier}.pdf`;
-
-      document.body.appendChild(a);
-
-      a.click();
-
-      a.remove();
-
-      window.URL.revokeObjectURL(url);
-
-    } catch (error) {
-
-      console.error(
-        "DOWNLOAD ERROR:",
-        error
-      );
-
-      alert("Download failed");
-    }
+    alert("Download failed");
   }
+}
 
   return (
     <main
