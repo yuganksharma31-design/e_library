@@ -141,60 +141,10 @@ export default function BookPage() {
 
   try {
 
-    if (!identifier) {
-
-      alert("Book not loaded");
-
-      return;
-    }
-
-    // METADATA API
-
-    const metaUrl =
-      `https://archive.org/metadata/${identifier}`;
-
-    const response =
-      await fetch(metaUrl);
-
-    const data =
-      await response.json();
-
-    // FIND PDF FILE
-
-    const pdfFile =
-      data.files.find(
-        (file) =>
-          file.name &&
-          file.name.toLowerCase().endsWith(".pdf")
-      );
-
-    if (!pdfFile) {
-
-      alert("PDF not found");
-
-      return;
-    }
-
-    // DIRECT PDF DOWNLOAD
-
-    const pdfUrl =
-      `https://archive.org/download/${identifier}/${encodeURIComponent(pdfFile.name)}`;
-
-    // START DOWNLOAD
-
-    const a =
-      document.createElement("a");
-
-    a.href = pdfUrl;
-
-    a.download =
-      pdfFile.name;
-
-    document.body.appendChild(a);
-
-    a.click();
-
-    a.remove();
+    window.open(
+      `/api/download/${encodeURIComponent(identifier)}`,
+      "_blank"
+    );
 
   } catch (error) {
 
