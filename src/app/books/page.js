@@ -1,521 +1,334 @@
 "use client";
 
-import {
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
-
-import BookCard from "../../components/BookCard";
+import Link from "next/link";
+import { useEffect, useState } from "react";
 
 export default function BooksPage() {
 
-  const [books, setBooks] =
-    useState([]);
+  const [books, setBooks] = useState([]);
+  const [filtered, setFiltered] = useState([]);
 
-  const [search, setSearch] =
-    useState("");
+  const [loading, setLoading] = useState(true);
 
-  const [loading, setLoading] =
-    useState(true);
+  const [search, setSearch] = useState("");
 
-  const [currentPage, setCurrentPage] =
-    useState(1);
+  const [page, setPage] = useState(1);
 
-  const itemsPerPage = 50;
-
-  // FETCH BOOKS
+  const ITEMS_PER_PAGE = 50;
 
   useEffect(() => {
 
-    async function fetchBooks() {
+    const fetchBooks = async () => {
 
       try {
 
-        const res =
-          await fetch(
-            "/api/library"
-          );
+        const res = await fetch("/api/library");
 
-        const data =
-          await res.json();
+        const data = await res.json();
 
-        if (data.success) {
+const booksArray =
+  Array.isArray(data)
+    ? data
+    : data.data || [];
 
-          setBooks(data.books);
-        }
+setBooks(booksArray);
 
-      } catch (err) {
-
-        console.log(err);
-
-      } finally {
+setFiltered(booksArray);
 
         setLoading(false);
+
+      } catch (error) {
+
+        console.error(error);
       }
-    }
+    };
 
     fetchBooks();
 
   }, []);
 
-  // DELETE BOOK
+  // SEARCH
+ // SEARCH
+useEffect(() => {
 
-  async function handleDelete(id) {
+  const timeout = setTimeout(() => {
 
-    const confirmDelete =
-      confirm(
-        "Delete this book?"
-      );
+    const filteredData = books.filter((item) =>
+      item.title
+        ?.toLowerCase()
+        .includes(search.toLowerCase())
+    );
 
-    if (!confirmDelete)
-      return;
+    setFiltered(filteredData);
 
-    try {
+    setPage(1);
 
-      await fetch(
-        `/api/admin/delete/${id}`,
-        {
-          method: "DELETE",
-        }
-      );
+  }, 300);
 
-      setBooks((prev) =>
-        prev.filter(
-          (book) =>
-            book._id !== id
-        )
-      );
+  return () => clearTimeout(timeout);
 
-    } catch (err) {
-
-      console.log(err);
-    }
-  }
-
-  // FILTER
-
-  const filtered = useMemo(() => {
-
-    return books.filter((book) => {
-
-      return (
-
-        book.title
-          ?.toLowerCase()
-          .includes(
-            search.toLowerCase()
-          ) ||
-
-        book.creator
-          ?.toLowerCase()
-          .includes(
-            search.toLowerCase()
-          )
-      );
-    });
-
-  }, [books, search]);
-
+}, [search, books]);
   // PAGINATION
+  const totalPages = Math.ceil(
+    filtered.length / ITEMS_PER_PAGE
+  );
 
-  const totalPages =
-    Math.ceil(
-      filtered.length /
-      itemsPerPage
-    );
-
-  const startIndex =
-    (currentPage - 1) *
-    itemsPerPage;
-
-  const paginatedBooks =
-    filtered.slice(
-      startIndex,
-      startIndex +
-      itemsPerPage
-    );
+  const paginatedData = filtered.slice(
+    (page - 1) * ITEMS_PER_PAGE,
+    page * ITEMS_PER_PAGE
+  );
 
   return (
 
-    <main
-      className="
-        min-h-screen
-        bg-gradient-to-b
-        from-black
-        to-[#111]
-        text-white
-      "
-    >
+    <main className="min-h-screen bg-black text-white">
 
       {/* HERO */}
+      <section className="border-b border-zinc-800 bg-gradient-to-b from-zinc-950 to-black">
 
-      <div
-        className="
-          border-b
-          border-gray-800
-          bg-black/90
-          backdrop-blur-xl
-        "
-      >
+        <div className="mx-auto max-w-7xl px-6 py-20">
 
-        <div
-          className="
-            max-w-[1700px]
-            mx-auto
-            px-6
-            py-12
-          "
-        >
+          <div className="max-w-4xl">
 
-          <h1
-            className="
-              text-5xl
-              md:text-7xl
-              font-black
-              tracking-tight
-            "
-          >
-            Digital Library
-          </h1>
+            <div className="mb-6 inline-flex rounded-full border border-amber-500/20 bg-amber-500/10 px-4 py-2 text-sm text-amber-400">
+              Digital Archive Collection
+            </div>
 
-          <p
-            className="
-              mt-4
-              text-lg
-              md:text-2xl
-              text-gray-400
-              max-w-3xl
-            "
-          >
-            Explore ancient manuscripts,
-            rare books, Sanskrit texts,
-            archives, and digital collections.
-          </p>
+            <h1 className="text-5xl font-bold md:text-7xl">
+              SMT Library
+            </h1>
 
+            <p className="mt-6 text-lg leading-8 text-zinc-400 md:text-xl">
+              Explore ancient Sanskrit manuscripts,
+              historical books, rare archives,
+              and digitized collections.
+            </p>
+          </div>
         </div>
+      </section>
 
-      </div>
+      {/* SEARCH */}
+      <section className="border-b border-zinc-900 bg-black py-10">
 
-      {/* SEARCH BAR */}
+        <div className="mx-auto max-w-7xl px-6">
 
-      <div
-        className="
-          sticky
-          top-0
-          z-40
-          bg-black/90
-          backdrop-blur-xl
-          border-b
-          border-gray-800
-        "
-      >
+          <div className="rounded-3xl border border-zinc-800 bg-zinc-950 p-4 shadow-2xl">
 
-        <div
-          className="
-            max-w-[1700px]
-            mx-auto
-            px-6
-            py-5
-          "
-        >
-
-          <input
-            type="text"
-            placeholder="Search books, creators, manuscripts..."
-            value={search}
-            onChange={(e) => {
-
-              setSearch(
-                e.target.value
-              );
-
-              setCurrentPage(1);
-            }}
-            className="
-              w-full
-              p-5
-              rounded-2xl
-              bg-[#111]
-              border
-              border-gray-700
-              text-lg
-              outline-none
-              focus:border-blue-500
-              focus:ring-2
-              focus:ring-blue-500/30
-              transition-all
-            "
-          />
-
+            <input
+              type="text"
+              placeholder="Search books..."
+              value={search}
+              onChange={(e) =>
+                setSearch(e.target.value)
+              }
+              className="
+                w-full
+                bg-transparent
+                px-4
+                py-4
+                text-lg
+                outline-none
+                placeholder:text-zinc-500
+              "
+            />
+          </div>
         </div>
+      </section>
 
-      </div>
+      {/* CONTENT */}
+      <section className="mx-auto max-w-7xl px-6 py-16">
 
-      {/* STATS */}
+        {/* TOP BAR */}
+        <div className="mb-12 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
 
-      <div
-        className="
-          max-w-[1700px]
-          mx-auto
-          px-6
-          py-6
-          flex
-          flex-col
-          md:flex-row
-          justify-between
-          items-start
-          md:items-center
-          gap-4
-        "
-      >
+          <div>
 
-        <div>
+            <h2 className="text-3xl font-bold">
+              All Books
+            </h2>
 
-          <h2
-            className="
-              text-3xl
-              font-bold
-            "
-          >
-            {filtered.length}
-            {" "}
-            Books Found
-          </h2>
-
-          <p
-            className="
-              text-gray-400
-              mt-1
-            "
-          >
-            Browse the digital archive
-          </p>
-
-        </div>
-
-        <div
-          className="
-            bg-[#111]
-            border
-            border-gray-800
-            px-5
-            py-3
-            rounded-xl
-            text-lg
-            font-semibold
-          "
-        >
-          Page {currentPage}
-          {" "}
-          of
-          {" "}
-          {totalPages || 1}
-        </div>
-
-      </div>
-
-      {/* LOADING */}
-
-      {loading ? (
-
-        <div
-          className="
-            flex
-            justify-center
-            items-center
-            py-32
-          "
-        >
-
-          <div
-            className="
-              text-2xl
-              text-gray-400
-              animate-pulse
-            "
-          >
-            Loading Digital Library...
+            <p className="mt-2 text-zinc-400">
+              {filtered.length} books available
+            </p>
           </div>
 
+          <div className="rounded-2xl border border-zinc-800 bg-zinc-900 px-5 py-3 text-sm text-zinc-300">
+            Showing 50 books per page
+          </div>
         </div>
 
-      ) : (
+        {/* LOADING */}
+        {loading ? (
 
-        <>
-          {/* GRID */}
+          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
 
-          <div
-            className="
-              max-w-[1700px]
-              mx-auto
-              px-6
-              pb-16
-              grid
-              grid-cols-1
-              sm:grid-cols-2
-              md:grid-cols-3
-              lg:grid-cols-4
-              xl:grid-cols-5
-              gap-8
-            "
-          >
-
-            {paginatedBooks.map(
-              (book) => (
+            {Array.from({ length: 8 }).map(
+              (_, index) => (
 
                 <div
-                  key={
-                    book._id ||
-                    book.identifier
-                  }
+                  key={index}
                   className="
-                    transform
-                    hover:scale-[1.02]
-                    transition-all
-                    duration-300
+                    h-[420px]
+                    animate-pulse
+                    rounded-3xl
+                    bg-zinc-900
                   "
-                >
-
-                  <BookCard
-                    _id={book._id}
-
-                    title={book.title}
-
-                    creator={book.creator}
-
-                    identifier={
-                      book.identifier
-                    }
-
-                    coverImage={
-                      book.coverImage
-                    }
-
-                    pdfUrl={
-                      book.pdfUrl
-                    }
-
-                    source={
-                      book.source
-                    }
-                  />
-
-                </div>
+                />
               )
             )}
-
           </div>
 
-          {/* EMPTY */}
+        ) : (
 
-          {paginatedBooks.length === 0 && (
+          <>
+            {/* GRID */}
+            <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
 
-            <div
-              className="
-                text-center
-                py-32
-              "
-            >
+              {paginatedData.map((item) => (
 
-              <h3
+                <Link
+                  key={item._id || item.identifier}
+                  href={`/reader/${item.identifier || item._id}`}
+                >
+
+                  <div
+                    className="
+                      group
+                      overflow-hidden
+                      rounded-3xl
+                      border
+                      border-zinc-800
+                      bg-zinc-950
+                      shadow-2xl
+                      transition-all
+                      duration-300
+                      hover:-translate-y-2
+                      hover:border-amber-500
+                      hover:shadow-amber-500/20
+                    "
+                  >
+
+                    {/* IMAGE */}
+                    <div className="relative h-[420px] overflow-hidden">
+
+                      <img
+                        src={
+                          item.thumbnail ||
+                          item.cover ||
+                          item.image ||
+                          item.cover_i ||
+                          "/placeholder.jpg"
+                        }
+                        alt={item.title}
+                        className="
+                          h-full
+                          w-full
+                          object-cover
+                          transition-transform
+                          duration-500
+                          group-hover:scale-105
+                        "
+                      />
+
+                      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
+
+                      {/* BADGE */}
+                      <div className="absolute left-4 top-4">
+
+                        <div className="rounded-full bg-amber-500/20 px-3 py-1 text-xs text-amber-400 backdrop-blur">
+                          Book
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* CONTENT */}
+                    <div className="p-5">
+
+                      <h2 className="line-clamp-2 text-xl font-bold text-white">
+                        {item.title}
+                      </h2>
+
+                      <div className="mt-4 flex items-center justify-between text-sm text-zinc-400">
+
+                        <span>
+                          {item.language || "Unknown"}
+                        </span>
+
+                        <span>
+                          {item.year || "Archive"}
+                        </span>
+                      </div>
+
+                      <button
+                        className="
+                          mt-6
+                          w-full
+                          rounded-2xl
+                          bg-amber-500
+                          px-5
+                          py-4
+                          font-semibold
+                          text-black
+                          transition
+                          hover:opacity-90
+                        "
+                      >
+                        Open Book
+                      </button>
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+
+            {/* PAGINATION */}
+            <div className="mt-16 flex items-center justify-center gap-4">
+
+              <button
+                disabled={page === 1}
+                onClick={() =>
+                  setPage((prev) => prev - 1)
+                }
                 className="
-                  text-4xl
-                  font-bold
-                  mb-4
+                  rounded-2xl
+                  border
+                  border-zinc-700
+                  px-6
+                  py-3
+                  transition
+                  hover:bg-zinc-900
+                  disabled:opacity-40
                 "
               >
-                No Books Found
-              </h3>
+                Previous
+              </button>
 
-              <p
+              <div className="rounded-2xl bg-zinc-900 px-6 py-3">
+
+                Page {page} of {totalPages}
+              </div>
+
+              <button
+                disabled={page === totalPages}
+                onClick={() =>
+                  setPage((prev) => prev + 1)
+                }
                 className="
-                  text-gray-400
-                  text-lg
+                  rounded-2xl
+                  border
+                  border-zinc-700
+                  px-6
+                  py-3
+                  transition
+                  hover:bg-zinc-900
+                  disabled:opacity-40
                 "
               >
-                Try another search keyword
-              </p>
-
+                Next
+              </button>
             </div>
-          )}
-
-          {/* PAGINATION */}
-
-          <div
-            className="
-              flex
-              justify-center
-              items-center
-              gap-5
-              pb-20
-            "
-          >
-
-            <button
-              disabled={
-                currentPage === 1
-              }
-              onClick={() =>
-                setCurrentPage(
-                  (prev) =>
-                    prev - 1
-                )
-              }
-              className="
-                px-8
-                py-4
-                rounded-2xl
-                bg-[#111827]
-                hover:bg-[#1f2937]
-                transition-all
-                disabled:opacity-40
-                text-lg
-                font-semibold
-              "
-            >
-              ← Previous
-            </button>
-
-            <div
-              className="
-                text-xl
-                font-bold
-              "
-            >
-              {currentPage}
-            </div>
-
-            <button
-              disabled={
-                currentPage ===
-                totalPages
-              }
-              onClick={() =>
-                setCurrentPage(
-                  (prev) =>
-                    prev + 1
-                )
-              }
-              className="
-                px-8
-                py-4
-                rounded-2xl
-                bg-blue-600
-                hover:bg-blue-700
-                transition-all
-                disabled:opacity-40
-                text-lg
-                font-semibold
-              "
-            >
-              Next →
-            </button>
-
-          </div>
-        </>
-      )}
-
+          </>
+        )}
+      </section>
     </main>
   );
 }

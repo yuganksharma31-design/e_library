@@ -1,11 +1,11 @@
 import { NextResponse } from "next/server";
 
-import books from "@/data/books.json";
+import manuscripts from "@/data/manuscripts.json";
 
 export async function GET() {
   try {
 
-    const formattedData = books.map(
+    const formattedData = manuscripts.map(
       (item, index) => ({
 
         _id:
@@ -19,23 +19,23 @@ export async function GET() {
 
         title:
           item.title ||
-          "Untitled Book",
+          "Untitled Manuscript",
 
-        creator:
-          item.creator ||
-          "Unknown Author",
+        collection:
+          item.collection ||
+          "Unknown Collection",
+
+        language:
+          item.language ||
+          "Sanskrit",
 
         year:
           item.year ||
           "Unknown",
 
-        language:
-          item.language ||
-          "English",
-
-        collection:
-          item.collection ||
-          "Digital Library",
+        creator:
+          item.creator ||
+          "Unknown",
 
         description:
           item.description ||
@@ -63,13 +63,13 @@ export async function GET() {
   } catch (error) {
 
     console.error(
-      "Failed to load books:",
+      "Failed to load manuscripts:",
       error
     );
 
     return NextResponse.json(
       {
-        error: "Failed to load books",
+        error: "Failed to load manuscripts",
       },
       {
         status: 500,

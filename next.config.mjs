@@ -1,15 +1,12 @@
 /** @type {import('next').NextConfig} */
-
 const nextConfig = {
-
-  turbopack: {},
-
-  webpack: (config) => {
-
-    config.resolve.alias.canvas =
-      false;
-
-    return config;
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "images.unsplash.com",
+      },
+    ],
   },
 };
 
