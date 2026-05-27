@@ -6,7 +6,10 @@ import { useEffect, useState } from "react";
 export default function BookPage() {
   const params = useParams();
 
-  const identifier = decodeURIComponent(params.id);
+  const identifier =
+  params?.id
+    ? decodeURIComponent(params.id)
+    : "";
 
   const [page, setPage] = useState(1);
 
@@ -138,8 +141,15 @@ export default function BookPage() {
 
   try {
 
+    if (!identifier) {
+
+      alert("Book not loaded yet");
+
+      return;
+    }
+
     window.open(
-      `/api/download/${encodeURIComponent(identifier)}`,
+      `https://archive.org/download/${identifier}`,
       "_blank"
     );
 
