@@ -1,8 +1,9 @@
-export async function GET(request, { params }) {
+export async function GET(req, { params }) {
 
   try {
 
-    const id = params?.id;
+    const id =
+      decodeURIComponent(params.id);
 
     if (!id) {
 
@@ -12,9 +13,20 @@ export async function GET(request, { params }) {
       );
     }
 
-    const metadataRes = await fetch(
-      `https://archive.org/metadata/${id}`
-    );
+    // FETCH METADATA
+
+    const metadataRes =
+      await fetch(
+        `https://archive.org/metadata/${id}`
+      );
+
+    if (!metadataRes.ok) {
+
+      return new Response(
+        "Metadata fetch failed",
+        { status: 500 }
+      );
+    }
 
     const metadata =
       await metadataRes.json();
@@ -27,65 +39,51 @@ export async function GET(request, { params }) {
       );
     }
 
-    // FIND BEST DOWNLOAD FILE
+    // FIND PDF FILE
 
-let pdfFile =
-  metadata.files.find(
-    (file) =>
-      file.name &&
-      file.name
-        .toLowerCase()
-        .endsWith(".pdf")
-  );
-
-// FALLBACK TO TEXT PDF
-
-if (!pdfFile) {
-
-  pdfFile =
-    metadata.files.find(
-      (file) =>
-        file.name &&
-        file.name
-          .toLowerCase()
-          .includes("_text.pdf")
-    );
-}
-
-// FALLBACK TO JP2 ZIP
-
-if (!pdfFile) {
-
-  pdfFile =
-    metadata.files.find(
-      (file) =>
-        file.name &&
-        file.name
-          .toLowerCase()
-          .endsWith("_jp2.zip")
-    );
-}
+    const pdfFile =
+      metadata.files.find(
+        (file) =>
+          file.name &&
+          file.name
+            .toLowerCase()
+            .endsWith(".pdf")
+      );
 
     if (!pdfFile) {
 
       return new Response(
-        "PDF not found",
+        "PDF not available",
         { status: 404 }
       );
     }
 
+    // REAL PDF URL
+
     const pdfUrl =
-      `https://archive.org/download/${id}/${encodeURIComponent(pdfFile.name)}`;
+      `https://archive.org/download/${id}/${pdfFile.name}`;
+
+    // FETCH PDF
 
     const pdfResponse =
       await fetch(pdfUrl);
+
+    if (!pdfResponse.ok) {
+
+      return new Response(
+        "PDF download failed",
+        { status: 500 }
+      );
+    }
+
+    // RETURN PDF
 
     return new Response(
       pdfResponse.body,
       {
         headers: {
           "Content-Type":
-  "application/octet-stream",
+            "application/pdf",
 
           "Content-Disposition":
             `attachment; filename="${pdfFile.name}"`,
@@ -95,10 +93,11 @@ if (!pdfFile) {
 
   } catch (error) {
 
-    console.error(error);
+    console.log(error);
 
     return new Response(
       "Download failed",
+      
       { status: 500 }
     );
   }
