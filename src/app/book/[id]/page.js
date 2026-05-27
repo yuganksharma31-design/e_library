@@ -1,32 +1,86 @@
+"use client";
 
-  // PREVIOUS PAGE
+import { useParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
-  function prevPage() {
+export default function BookPage() {
 
-    if (page > 1) {
+  const params = useParams();
 
-      setPage((prev) => prev - 1);
+  const identifier =
+    decodeURIComponent(params.id);
+
+  const [page, setPage] =
+    useState(1);
+
+  const [zoom, setZoom] =
+    useState(
+      typeof window !== "undefined" &&
+      window.innerWidth < 768
+        ? 100
+        : 48
+    );
+
+  const [darkMode, setDarkMode] =
+    useState(true);
+
+  const [totalPages] =
+    useState(500);
+
+  const [isMobile, setIsMobile] =
+    useState(false);
+
+  // DEVICE DETECTION
+
+  useEffect(() => {
+
+    function handleResize() {
+
+      setIsMobile(
+        window.innerWidth < 1024
+      );
     }
-  }
 
-  // ZOOM IN
+    handleResize();
 
-  function zoomIn() {
+    window.addEventListener(
+      "resize",
+      handleResize
+    );
 
-    setZoom((prev) => prev + 10);
-  }
+    return () =>
+      window.removeEventListener(
+        "resize",
+        handleResize
+      );
 
-  // ZOOM OUT
+  }, []);
 
-  function zoomOut() {
+  // IMAGE URLS
 
-    if (zoom > 30) {
+  const leftImage =
+    `https://archive.org/download/${identifier}/page/n${page}_w1200.jpg`;
 
-      setZoom((prev) => prev - 10);
-    }
-  }
+  const rightImage =
+    `https://archive.org/download/${identifier}/page/n${page + 1}_w1200.jpg`;
 
-  // KEYBOARD CONTROLS
+  // PRELOAD NEXT PAGES
+
+  useEffect(() => {
+
+    const preload1 = new Image();
+
+    preload1.src =
+      `https://archive.org/download/${identifier}/page/n${page + 1}_w1200.jpg`;
+
+    const preload2 = new Image();
+
+    preload2.src =
+      `https://archive.org/download/${identifier}/page/n${page + 2}_w1200.jpg`;
+
+  }, [page, identifier]);
+
+  // KEYBOARD SUPPORT
 
   useEffect(() => {
 
@@ -54,9 +108,54 @@
         handleKey
       );
 
-  }, [page, totalPages]);
+  }, [page]);
 
-  // DOWNLOAD BOOK
+  // NEXT PAGE
+
+  function nextPage() {
+
+    if (page < totalPages - 1) {
+
+      setPage((prev) =>
+        isMobile
+          ? prev + 1
+          : prev + 2
+      );
+    }
+  }
+
+  // PREV PAGE
+
+  function prevPage() {
+
+    if (page > 1) {
+
+      setPage((prev) =>
+        isMobile
+          ? prev - 1
+          : prev - 2
+      );
+    }
+  }
+
+  // ZOOM IN
+
+  function zoomIn() {
+
+    setZoom((prev) => prev + 5);
+  }
+
+  // ZOOM OUT
+
+  function zoomOut() {
+
+    if (zoom > 30) {
+
+      setZoom((prev) => prev - 5);
+    }
+  }
+
+  // DOWNLOAD
 
   async function downloadBook() {
 
@@ -69,9 +168,7 @@
 
       if (!response.ok) {
 
-        alert(
-          "PDF not available"
-        );
+        alert("PDF not available");
 
         return;
       }
@@ -98,81 +195,156 @@
 
       window.URL.revokeObjectURL(url);
 
-    } catch {
+    } catch (error) {
+
+      console.log(error);
 
       alert("Download failed");
     }
   }
 
-  // IMAGE URL
-
-  const image =
-    identifier
-      ? `https://archive.org/download/${identifier}/page/n${page}_w600.jpg`
-      : "";
-
   return (
 
     <main
-      className={`min-h-screen ${
-        darkMode
-          ? "bg-black text-white"
-          : "bg-gray-100 text-black"
-      }`}
+      className={`
+        h-screen
+        overflow-hidden
+        flex
+        flex-col
+        transition-all
+        duration-300
+        ${
+          darkMode
+            ? "bg-black text-white"
+            : "bg-[#f5f1e8] text-black"
+        }
+      `}
     >
 
       {/* HEADER */}
 
-      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5 p-5 border-b border-gray-800 bg-[#111]">
+      <div
+        className="
+          flex
+          flex-col
+          xl:flex-row
+          justify-between
+          xl:items-center
+          gap-5
+          px-4
+          md:px-8
+          py-5
+          border-b
+          border-gray-800
+          bg-black
+          shrink-0
+        "
+      >
+
+        {/* TITLE */}
 
         <div>
 
-          <h1 className="text-3xl font-bold">
-
+          <h1
+            className="
+              text-3xl
+              md:text-6xl
+              font-bold
+              leading-none
+            "
+          >
             Digital Manuscript Reader
-
           </h1>
 
-          <p className="opacity-70 mt-1">
-
+          <p
+            className="
+              text-lg
+              md:text-2xl
+              text-gray-400
+              mt-3
+            "
+          >
             Page {page} of {totalPages}
-
           </p>
 
         </div>
 
-        <div className="flex flex-wrap items-center gap-3">
+        {/* CONTROLS */}
+
+        <div
+          className="
+            flex
+            flex-wrap
+            items-center
+            gap-3
+          "
+        >
 
           <button
             onClick={prevPage}
-            className="bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-lg"
+            className="
+              px-5
+              py-3
+              rounded-2xl
+              bg-[#111827]
+              hover:bg-[#1f2937]
+              text-lg
+              font-semibold
+            "
           >
-            ←
+            ← Prev
           </button>
 
           <button
             onClick={nextPage}
-            className="bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-lg"
+            className="
+              px-5
+              py-3
+              rounded-2xl
+              bg-[#111827]
+              hover:bg-[#1f2937]
+              text-lg
+              font-semibold
+            "
           >
-            →
+            Next →
           </button>
 
           <button
             onClick={zoomOut}
-            className="bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-lg"
+            className="
+              px-5
+              py-3
+              rounded-2xl
+              bg-[#111827]
+              hover:bg-[#1f2937]
+              text-xl
+            "
           >
             -
           </button>
 
-          <div className="px-2 font-semibold">
-
+          <div
+            className="
+              w-16
+              text-center
+              font-bold
+              text-xl
+            "
+          >
             {zoom}%
-
           </div>
 
           <button
             onClick={zoomIn}
-            className="bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-lg"
+            className="
+              px-5
+              py-3
+              rounded-2xl
+              bg-[#111827]
+              hover:bg-[#1f2937]
+              text-xl
+            "
           >
             +
           </button>
@@ -181,14 +353,31 @@
             onClick={() =>
               setDarkMode(!darkMode)
             }
-            className="bg-blue-600 hover:bg-blue-500 px-5 py-2 rounded-lg"
+            className="
+              px-5
+              py-3
+              rounded-2xl
+              bg-blue-600
+              hover:bg-blue-700
+              text-lg
+              font-semibold
+            "
           >
             {darkMode ? "Light" : "Dark"}
           </button>
 
           <button
             onClick={downloadBook}
-            className="bg-red-600 hover:bg-red-500 px-5 py-2 rounded-lg"
+            className="
+              px-6
+              py-3
+              rounded-2xl
+              bg-red-600
+              hover:bg-red-700
+              text-lg
+              font-bold
+              shadow-[0_0_25px_rgba(255,0,0,0.4)]
+            "
           >
             Download
           </button>
@@ -197,54 +386,152 @@
 
       </div>
 
-      {/* IMAGE */}
+      {/* VIEWER */}
 
-      <div className="flex justify-center items-center p-6 overflow-auto min-h-[70vh]">
+      <div
+        className="
+          flex-1
+          overflow-hidden
+          flex
+          justify-center
+          items-center
+          bg-black
+          p-2
+        "
+      >
 
-        {identifier ? (
+        {isMobile ? (
+
+          // MOBILE SINGLE PAGE
 
           <img
-            src={image}
+            src={leftImage}
             alt={`Page ${page}`}
             loading="eager"
             draggable={false}
-            style={{
-              width: `${zoom}%`,
-              maxWidth: "1000px",
-              height: "auto",
-            }}
             className="
+              max-w-full
+              max-h-full
+              object-contain
               rounded-xl
               shadow-2xl
               select-none
             "
+            style={{
+              width: `${zoom}%`,
+            }}
           />
 
         ) : (
 
-          <div className="text-2xl">
+          // DESKTOP BOOK VIEW
 
-            Loading manuscript...
+          <div
+            className="
+              flex
+              justify-center
+              items-center
+              gap-1
+              w-full
+              h-full
+            "
+          >
+
+            <img
+              src={leftImage}
+              alt={`Page ${page}`}
+              loading="eager"
+              draggable={false}
+              className="
+                object-contain
+                rounded-l-xl
+                shadow-2xl
+                select-none
+              "
+              style={{
+                width: `${zoom}%`,
+                maxHeight: "100%",
+              }}
+            />
+
+            <img
+              src={rightImage}
+              alt={`Page ${page + 1}`}
+              loading="lazy"
+              draggable={false}
+              className="
+                object-contain
+                rounded-r-xl
+                shadow-2xl
+                select-none
+              "
+              style={{
+                width: `${zoom}%`,
+                maxHeight: "100%",
+              }}
+            />
 
           </div>
+
         )}
 
       </div>
 
-      {/* SLIDER */}
+      {/* FOOTER */}
 
-      <div className="bg-[#111] border-t border-gray-800 p-4">
+      <div
+        className="
+          border-t
+          border-gray-800
+          bg-black
+          py-3
+          shrink-0
+        "
+      >
 
-        <input
-          type="range"
-          min="1"
-          max={totalPages}
-          value={page}
-          onChange={(e) =>
-            setPage(Number(e.target.value))
-          }
-          className="w-full"
-        />
+        <div
+          className="
+            flex
+            justify-center
+            items-center
+            gap-5
+          "
+        >
+
+          <button
+            onClick={prevPage}
+            className="
+              px-5
+              py-2
+              rounded-xl
+              bg-[#111827]
+            "
+          >
+            ← Prev
+          </button>
+
+          <div
+            className="
+              text-lg
+              font-semibold
+            "
+          >
+            {page} / {totalPages}
+          </div>
+
+          <button
+            onClick={nextPage}
+            className="
+              px-5
+              py-2
+              rounded-xl
+              bg-[#111827]
+            "
+          >
+            Next →
+          </button>
+
+        </div>
 
       </div>
 
