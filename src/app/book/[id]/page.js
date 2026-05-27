@@ -272,30 +272,28 @@ export default function BookPage() {
     // DIRECT FILE URL
 
     const fileUrl =
-      `https://archive.org/download/${identifier}/${encodeURIComponent(targetFile.name)}`;
+      `https://archive.org/download/${identifier}/${encodeURIComponent(targetFile.name)}?download=1`;
 
-    // FORCE DOWNLOAD DIRECTLY
+    // FORCE DOWNLOAD
 
-    const a =
-      document.createElement("a");
+    const iframe =
+      document.createElement("iframe");
 
-    a.href = fileUrl;
+    iframe.style.display =
+      "none";
 
-    a.setAttribute(
-      "download",
-      targetFile.name
-    );
+    iframe.src =
+      fileUrl;
 
-    a.setAttribute(
-      "target",
-      "_blank"
-    );
+    document.body.appendChild(iframe);
 
-    document.body.appendChild(a);
+    // CLEANUP
 
-    a.click();
+    setTimeout(() => {
 
-    a.remove();
+      document.body.removeChild(iframe);
+
+    }, 5000);
 
   } catch (error) {
 
