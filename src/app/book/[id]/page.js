@@ -76,8 +76,6 @@ export default function BookPage() {
         const data =
           await response.json();
 
-        // FIND JP2 ZIP
-
         const jp2File =
           data.files.find(
             (file) =>
@@ -227,28 +225,16 @@ export default function BookPage() {
       const data =
         await response.json();
 
-      // BEST DOWNLOAD FILE
+      // PDF FIRST
 
       let targetFile =
         data.files.find(
           (file) =>
-            file.format ===
-            "Single Page Processed JP2 ZIP"
+            file.name &&
+            file.name
+              .toLowerCase()
+              .endsWith(".pdf")
         );
-
-      // FALLBACK PDF
-
-      if (!targetFile) {
-
-        targetFile =
-          data.files.find(
-            (file) =>
-              file.name &&
-              file.name
-                .toLowerCase()
-                .endsWith(".pdf")
-          );
-      }
 
       // FALLBACK DJVU
 
@@ -264,6 +250,18 @@ export default function BookPage() {
           );
       }
 
+      // LAST FALLBACK ZIP
+
+      if (!targetFile) {
+
+        targetFile =
+          data.files.find(
+            (file) =>
+              file.format ===
+              "Single Page Processed JP2 ZIP"
+          );
+      }
+
       if (!targetFile) {
 
         alert("No downloadable file found");
@@ -271,7 +269,7 @@ export default function BookPage() {
         return;
       }
 
-      // DIRECT FILE URL
+      // DIRECT DOWNLOAD URL
 
       const fileUrl =
         `https://archive.org/download/${identifier}/${encodeURIComponent(targetFile.name)}`;
@@ -565,64 +563,6 @@ export default function BookPage() {
           </div>
 
         )}
-
-      </div>
-
-      {/* FOOTER */}
-
-      <div
-        className="
-          border-t
-          border-gray-800
-          bg-black
-          py-3
-          shrink-0
-        "
-      >
-
-        <div
-          className="
-            flex
-            justify-center
-            items-center
-            gap-5
-          "
-        >
-
-          <button
-            onClick={prevPage}
-            className="
-              px-5
-              py-2
-              rounded-xl
-              bg-[#111827]
-            "
-          >
-            ← Prev
-          </button>
-
-          <div
-            className="
-              text-lg
-              font-semibold
-            "
-          >
-            {page} / {totalPages}
-          </div>
-
-          <button
-            onClick={nextPage}
-            className="
-              px-5
-              py-2
-              rounded-xl
-              bg-[#111827]
-            "
-          >
-            Next →
-          </button>
-
-        </div>
 
       </div>
 
