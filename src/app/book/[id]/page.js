@@ -64,7 +64,7 @@ export default function BookPage() {
   const rightImage =
     `https://archive.org/download/${identifier}/page/n${page + 1}_w1200.jpg`;
 
-  // PRELOAD NEXT PAGES
+  // PRELOAD
 
   useEffect(() => {
 
@@ -80,7 +80,7 @@ export default function BookPage() {
 
   }, [page, identifier]);
 
-  // KEYBOARD SUPPORT
+  // KEYBOARD
 
   useEffect(() => {
 
@@ -110,7 +110,7 @@ export default function BookPage() {
 
   }, [page]);
 
-  // NEXT PAGE
+  // NEXT
 
   function nextPage() {
 
@@ -124,7 +124,7 @@ export default function BookPage() {
     }
   }
 
-  // PREV PAGE
+  // PREV
 
   function prevPage() {
 
@@ -138,14 +138,12 @@ export default function BookPage() {
     }
   }
 
-  // ZOOM IN
+  // ZOOM
 
   function zoomIn() {
 
     setZoom((prev) => prev + 5);
   }
-
-  // ZOOM OUT
 
   function zoomOut() {
 
@@ -163,7 +161,7 @@ export default function BookPage() {
 
       const response =
         await fetch(
-          `/api/download/${identifier}`
+          `/api/download/${encodeURIComponent(identifier)}`
         );
 
       if (!response.ok) {
@@ -240,8 +238,6 @@ export default function BookPage() {
           shrink-0
         "
       >
-
-        {/* TITLE */}
 
         <div>
 
@@ -402,8 +398,6 @@ export default function BookPage() {
 
         {isMobile ? (
 
-          // MOBILE SINGLE PAGE
-
           <img
             src={leftImage}
             alt={`Page ${page}`}
@@ -423,8 +417,6 @@ export default function BookPage() {
           />
 
         ) : (
-
-          // DESKTOP BOOK VIEW
 
           <div
             className="
@@ -449,7 +441,7 @@ export default function BookPage() {
                 select-none
               "
               style={{
-                width: `${zoom}%`,
+                width: `${zoom / 2}%`,
                 maxHeight: "100%",
               }}
             />
@@ -466,7 +458,7 @@ export default function BookPage() {
                 select-none
               "
               style={{
-                width: `${zoom}%`,
+                width: `${zoom / 2}%`,
                 maxHeight: "100%",
               }}
             />
