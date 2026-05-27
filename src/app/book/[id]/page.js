@@ -4,26 +4,29 @@ import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function BookPage() {
+
   const params = useParams();
 
   const identifier =
-  params?.id
-    ? decodeURIComponent(params.id)
-    : "";
+    params?.id
+      ? decodeURIComponent(params.id)
+      : "";
 
-  const [page, setPage] = useState(1);
+  const [page, setPage] =
+    useState(1);
 
-  const [zoom, setZoom] = useState(
-    typeof window !== "undefined" &&
+  const [zoom, setZoom] =
+    useState(
+      typeof window !== "undefined" &&
       window.innerWidth < 768
-      ? 100
-      : 48
-  );
+        ? 100
+        : 48
+    );
 
   const [darkMode, setDarkMode] =
     useState(true);
 
-  const [totalPages, setTotalPages] =
+  const [totalPages] =
     useState(500);
 
   const [isMobile, setIsMobile] =
@@ -32,7 +35,9 @@ export default function BookPage() {
   // DEVICE DETECTION
 
   useEffect(() => {
+
     function handleResize() {
+
       setIsMobile(
         window.innerWidth < 1024
       );
@@ -50,6 +55,7 @@ export default function BookPage() {
         "resize",
         handleResize
       );
+
   }, []);
 
   // IMAGE URLS
@@ -63,6 +69,9 @@ export default function BookPage() {
   // PRELOAD
 
   useEffect(() => {
+
+    if (!identifier) return;
+
     const preload1 = new Image();
 
     preload1.src =
@@ -72,17 +81,22 @@ export default function BookPage() {
 
     preload2.src =
       `https://archive.org/download/${identifier}/page/n${page + 2}_w1200.jpg`;
+
   }, [page, identifier]);
 
   // KEYBOARD
 
   useEffect(() => {
+
     function handleKey(e) {
+
       if (e.key === "ArrowRight") {
+
         nextPage();
       }
 
       if (e.key === "ArrowLeft") {
+
         prevPage();
       }
     }
@@ -97,12 +111,15 @@ export default function BookPage() {
         "keydown",
         handleKey
       );
+
   }, [page, isMobile]);
 
   // NEXT
 
   function nextPage() {
+
     if (page < totalPages - 1) {
+
       setPage((prev) =>
         isMobile
           ? prev + 1
@@ -114,7 +131,9 @@ export default function BookPage() {
   // PREV
 
   function prevPage() {
+
     if (page > 1) {
+
       setPage((prev) =>
         isMobile
           ? prev - 1
@@ -126,91 +145,114 @@ export default function BookPage() {
   // ZOOM
 
   function zoomIn() {
+
     setZoom((prev) => prev + 5);
   }
 
   function zoomOut() {
+
     if (zoom > 30) {
+
       setZoom((prev) => prev - 5);
     }
   }
 
   // DOWNLOAD
 
- async function downloadBook() {
+  async function downloadBook() {
 
-  try {
+    try {
 
-    if (!identifier) {
+      if (!identifier) {
 
-      alert("Book not loaded");
+        alert("Book not loaded");
 
-      return;
+        return;
+      }
+
+      // GET ARCHIVE METADATA
+
+      const metaResponse =
+        await fetch(
+          `https://archive.org/metadata/${identifier}`
+        );
+
+      if (!metaResponse.ok) {
+
+        alert("Failed to fetch metadata");
+
+        return;
+      }
+
+      const meta =
+        await metaResponse.json();
+
+      // FIND PDF OR DJVU
+
+      const targetFile =
+        meta.files.find(
+          (file) =>
+            file.name &&
+            (
+              file.name
+                .toLowerCase()
+                .endsWith(".pdf") ||
+
+              file.name
+                .toLowerCase()
+                .endsWith(".djvu")
+            )
+        );
+
+      if (!targetFile) {
+
+        alert("No downloadable file found");
+
+        return;
+      }
+
+      // DIRECT FILE URL
+
+      const fileUrl =
+        `https://archive.org/download/${identifier}/${encodeURIComponent(targetFile.name)}`;
+
+      // FORCE DOWNLOAD
+
+      const response =
+        await fetch(fileUrl);
+
+      const blob =
+        await response.blob();
+
+      const blobUrl =
+        window.URL.createObjectURL(blob);
+
+      const a =
+        document.createElement("a");
+
+      a.href = blobUrl;
+
+      a.download =
+        targetFile.name;
+
+      document.body.appendChild(a);
+
+      a.click();
+
+      a.remove();
+
+      window.URL.revokeObjectURL(blobUrl);
+
+    } catch (error) {
+
+      console.log(error);
+
+      alert("Download failed");
     }
-
-    // GET METADATA DIRECTLY
-
-    const metaResponse =
-      await fetch(
-        `https://archive.org/metadata/${identifier}`
-      );
-
-    const meta =
-      await metaResponse.json();
-
-    // FIND DOWNLOADABLE FILE
-
-    const targetFile =
-      meta.files.find(
-        (file) =>
-          file.name &&
-          (
-            file.name
-              .toLowerCase()
-              .endsWith(".pdf") ||
-
-            file.name
-              .toLowerCase()
-              .endsWith(".djvu")
-          )
-      );
-
-    if (!targetFile) {
-
-      alert("No downloadable file found");
-
-      return;
-    }
-
-    // DIRECT DOWNLOAD URL
-
-    const fileUrl =
-      `https://archive.org/download/${identifier}/${encodeURIComponent(targetFile.name)}`;
-
-    // START DOWNLOAD
-
-    const a =
-      document.createElement("a");
-
-    a.href = fileUrl;
-
-    a.download =
-      targetFile.name;
-
-    document.body.appendChild(a);
-
-    a.click();
-
-    a.remove();
-
-  } catch (error) {
-
-    console.log(error);
-
-    alert("Download failed");
   }
-}
+
   return (
+
     <main
       className={`
         h-screen
