@@ -204,100 +204,118 @@ export default function BookPage() {
 
   // DOWNLOAD
 
-  async function downloadBook() {
+ async function downloadBook() {
 
-    try {
+  try {
 
-      if (!identifier) {
+    if (!identifier) {
 
-        alert("Book not loaded");
+      alert("Book not loaded");
 
-        return;
-      }
+      return;
+    }
 
-      // FETCH METADATA
+    // FETCH METADATA
 
-      const response =
-        await fetch(
-          `https://archive.org/metadata/${identifier}`
-        );
+    const metaResponse =
+      await fetch(
+        `https://archive.org/metadata/${identifier}`
+      );
 
-      const data =
-        await response.json();
+    const meta =
+      await metaResponse.json();
 
-      // PDF FIRST
+    // PDF FIRST
 
-      let targetFile =
-        data.files.find(
+    let targetFile =
+      meta.files.find(
+        (file) =>
+          file.name &&
+          file.name
+            .toLowerCase()
+            .endsWith(".pdf")
+      );
+
+    // FALLBACK DJVU
+
+    if (!targetFile) {
+
+      targetFile =
+        meta.files.find(
           (file) =>
             file.name &&
             file.name
               .toLowerCase()
-              .endsWith(".pdf")
-        );
-
-      // FALLBACK DJVU
-
-      if (!targetFile) {
-
-        targetFile =
-          data.files.find(
-            (file) =>
-              file.name &&
-              file.name
-                .toLowerCase()
-                .endsWith(".djvu")
+              .endsWith(".djvu")
           );
-      }
-
-      // LAST FALLBACK ZIP
-
-      if (!targetFile) {
-
-        targetFile =
-          data.files.find(
-            (file) =>
-              file.format ===
-              "Single Page Processed JP2 ZIP"
-          );
-      }
-
-      if (!targetFile) {
-
-        alert("No downloadable file found");
-
-        return;
-      }
-
-      // DIRECT DOWNLOAD URL
-
-      const fileUrl =
-        `https://archive.org/download/${identifier}/${encodeURIComponent(targetFile.name)}`;
-
-      // START DOWNLOAD
-
-      const a =
-        document.createElement("a");
-
-      a.href = fileUrl;
-
-      a.download =
-        targetFile.name;
-
-      document.body.appendChild(a);
-
-      a.click();
-
-      a.remove();
-
-    } catch (error) {
-
-      console.log(error);
-
-      alert("Download failed");
     }
-  }
 
+    // FALLBACK ZIP
+
+    if (!targetFile) {
+
+      targetFile =
+        meta.files.find(
+          (file) =>
+            file.format ===
+            "Single Page Processed JP2 ZIP"
+        );
+    }
+
+    if (!targetFile) {
+
+      alert("No downloadable file found");
+
+      return;
+    }
+
+    // DIRECT FILE URL
+
+    const fileUrl =
+      `https://archive.org/download/${identifier}/${encodeURIComponent(targetFile.name)}`;
+
+    // FETCH ACTUAL FILE
+
+    const fileResponse =
+      await fetch(fileUrl);
+
+    // CONVERT TO BLOB
+
+    const blob =
+      await fileResponse.blob();
+
+    // CREATE LOCAL URL
+
+    const blobUrl =
+      window.URL.createObjectURL(blob);
+
+    // FORCE DOWNLOAD
+
+    const a =
+      document.createElement("a");
+
+    a.href = blobUrl;
+
+    a.download =
+      targetFile.name;
+
+    document.body.appendChild(a);
+
+    a.click();
+
+    a.remove();
+
+    // CLEANUP
+
+    window.URL.revokeObjectURL(blobUrl);
+
+  } catch (error) {
+
+    console.log(error);
+
+    alert("Download failed");
+  }
+}
   return (
 
     <main
