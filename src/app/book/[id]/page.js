@@ -26,7 +26,7 @@ export default function BookPage() {
   const [darkMode, setDarkMode] =
     useState(true);
 
-  const [totalPages] =
+  const [totalPages, setTotalPages] =
     useState(500);
 
   const [isMobile, setIsMobile] =
@@ -57,6 +57,53 @@ export default function BookPage() {
       );
 
   }, []);
+
+  // FETCH TOTAL PAGES
+
+  useEffect(() => {
+
+    async function fetchMetadata() {
+
+      try {
+
+        if (!identifier) return;
+
+        const response =
+          await fetch(
+            `https://archive.org/metadata/${identifier}`
+          );
+
+        const data =
+          await response.json();
+
+        // FIND JP2 ZIP
+
+        const jp2File =
+          data.files.find(
+            (file) =>
+              file.format ===
+              "Single Page Processed JP2 ZIP"
+          );
+
+        if (jp2File?.source) {
+
+          const pages =
+            parseInt(
+              jp2File.source.match(/\d+/)?.[0]
+            ) || 500;
+
+          setTotalPages(pages);
+        }
+
+      } catch (error) {
+
+        console.log(error);
+      }
+    }
+
+    fetchMetadata();
+
+  }, [identifier]);
 
   // IMAGE URLS
 
@@ -170,39 +217,52 @@ export default function BookPage() {
         return;
       }
 
-      // GET ARCHIVE METADATA
+      // FETCH METADATA
 
-      const metaResponse =
+      const response =
         await fetch(
           `https://archive.org/metadata/${identifier}`
         );
 
-      if (!metaResponse.ok) {
+      const data =
+        await response.json();
 
-        alert("Failed to fetch metadata");
+      // BEST DOWNLOAD FILE
 
-        return;
-      }
-
-      const meta =
-        await metaResponse.json();
-
-      // FIND PDF OR DJVU
-
-      const targetFile =
-        meta.files.find(
+      let targetFile =
+        data.files.find(
           (file) =>
-            file.name &&
-            (
+            file.format ===
+            "Single Page Processed JP2 ZIP"
+        );
+
+      // FALLBACK PDF
+
+      if (!targetFile) {
+
+        targetFile =
+          data.files.find(
+            (file) =>
+              file.name &&
               file.name
                 .toLowerCase()
-                .endsWith(".pdf") ||
+                .endsWith(".pdf")
+          );
+      }
 
+      // FALLBACK DJVU
+
+      if (!targetFile) {
+
+        targetFile =
+          data.files.find(
+            (file) =>
+              file.name &&
               file.name
                 .toLowerCase()
                 .endsWith(".djvu")
-            )
-        );
+          );
+      }
 
       if (!targetFile) {
 
@@ -216,21 +276,12 @@ export default function BookPage() {
       const fileUrl =
         `https://archive.org/download/${identifier}/${encodeURIComponent(targetFile.name)}`;
 
-      // FORCE DOWNLOAD
-
-      const response =
-        await fetch(fileUrl);
-
-      const blob =
-        await response.blob();
-
-      const blobUrl =
-        window.URL.createObjectURL(blob);
+      // START DOWNLOAD
 
       const a =
         document.createElement("a");
 
-      a.href = blobUrl;
+      a.href = fileUrl;
 
       a.download =
         targetFile.name;
@@ -240,8 +291,6 @@ export default function BookPage() {
       a.click();
 
       a.remove();
-
-      window.URL.revokeObjectURL(blobUrl);
 
     } catch (error) {
 
