@@ -7,21 +7,25 @@ export default function BookPage() {
 
   const params = useParams();
 
-  const identifier = decodeURIComponent(params.id);
+  const identifier =
+    decodeURIComponent(params.id);
 
-  const [page, setPage] = useState(1);
+  const [page, setPage] =
+    useState(1);
 
-  const [zoom, setZoom] = useState(
-    typeof window !== "undefined" &&
-    window.innerWidth < 768
-      ? 100
-      : 55
-  );
+  const [zoom, setZoom] =
+    useState(
+      typeof window !== "undefined" &&
+      window.innerWidth < 768
+        ? 100
+        : 55
+    );
 
   const [darkMode, setDarkMode] =
     useState(true);
 
-  const [totalPages] = useState(500);
+  const [totalPages] =
+    useState(500);
 
   const isMobile =
     typeof window !== "undefined" &&
@@ -35,7 +39,7 @@ export default function BookPage() {
   const rightImage =
     `https://archive.org/download/${identifier}/page/n${page + 1}_w1200.jpg`;
 
-  // PRELOAD NEXT PAGES
+  // PRELOAD
 
   useEffect(() => {
 
@@ -58,10 +62,12 @@ export default function BookPage() {
     const handleKey = (e) => {
 
       if (e.key === "ArrowRight") {
+
         nextPage();
       }
 
       if (e.key === "ArrowLeft") {
+
         prevPage();
       }
     };
@@ -86,7 +92,9 @@ export default function BookPage() {
     if (page < totalPages - 1) {
 
       setPage((prev) =>
-        isMobile ? prev + 1 : prev + 2
+        isMobile
+          ? prev + 1
+          : prev + 2
       );
     }
   };
@@ -96,7 +104,9 @@ export default function BookPage() {
     if (page > 1) {
 
       setPage((prev) =>
-        isMobile ? prev - 1 : prev - 2
+        isMobile
+          ? prev - 1
+          : prev - 2
       );
     }
   };
@@ -114,6 +124,56 @@ export default function BookPage() {
     }
   };
 
+  // DOWNLOAD
+
+  async function downloadBook() {
+
+    try {
+
+      const response =
+        await fetch(
+          `/api/download/${identifier}`
+        );
+
+      if (!response.ok) {
+
+        alert(
+          "PDF not available"
+        );
+
+        return;
+      }
+
+      const blob =
+        await response.blob();
+
+      const url =
+        window.URL.createObjectURL(blob);
+
+      const a =
+        document.createElement("a");
+
+      a.href = url;
+
+      a.download =
+        `${identifier}.pdf`;
+
+      document.body.appendChild(a);
+
+      a.click();
+
+      a.remove();
+
+      window.URL.revokeObjectURL(url);
+
+    } catch (error) {
+
+      console.log(error);
+
+      alert("Download failed");
+    }
+  }
+
   return (
 
     <div
@@ -122,9 +182,11 @@ export default function BookPage() {
         transition-all
         duration-300
         overflow-hidden
-        ${darkMode
-          ? "bg-black text-white"
-          : "bg-[#f5f1e8] text-black"}
+        ${
+          darkMode
+            ? "bg-black text-white"
+            : "bg-[#f5f1e8] text-black"
+        }
       `}
     >
 
@@ -297,14 +359,15 @@ export default function BookPage() {
                 font-semibold
               "
             >
-              {darkMode ? "Light" : "Dark"}
+              {darkMode
+                ? "Light"
+                : "Dark"}
             </button>
 
             {/* DOWNLOAD */}
 
-            <a
-              href={`/api/download/${encodeURIComponent(identifier)}`}
-              target="_blank"
+            <button
+              onClick={downloadBook}
               className="
                 px-8
                 py-4
@@ -319,7 +382,7 @@ export default function BookPage() {
               "
             >
               Download
-            </a>
+            </button>
 
           </div>
 
@@ -334,14 +397,17 @@ export default function BookPage() {
           flex
           justify-center
           items-center
-          overflow-auto
-          py-8
+          overflow-hidden
+          py-4
           px-2
           bg-black
         "
+        style={{
+          height: "calc(100vh - 210px)",
+        }}
       >
 
-        {/* MOBILE VIEW */}
+        {/* MOBILE */}
 
         {isMobile ? (
 
@@ -353,12 +419,12 @@ export default function BookPage() {
             draggable={false}
             style={{
               width: "100%",
-              maxWidth: "calc(100vh - 240px)",
-              height: "contain",
+              height:
+                "calc(100vh - 240px)",
+              objectFit: "contain",
             }}
             className="
               rounded-xl
-              object-contain
               shadow-2xl
               select-none
             "
@@ -372,10 +438,10 @@ export default function BookPage() {
             className="
               flex
               justify-center
-              items-start
+              items-center
               gap-1
               w-full
-              max-w-[1600px]
+              h-full
             "
           >
 
@@ -388,12 +454,12 @@ export default function BookPage() {
               decoding="async"
               draggable={false}
               style={{
-                width: "48vw",
-                maxWidth: "calc(100vh - 240px)",
-                height: "contain",
+                width: `${zoom}%`,
+                height:
+                  "calc(100vh - 240px)",
+                objectFit: "contain",
               }}
               className="
-                object-contain
                 rounded-l-xl
                 shadow-2xl
                 border-r
@@ -411,12 +477,12 @@ export default function BookPage() {
               decoding="async"
               draggable={false}
               style={{
-                width: "48vw",
-                maxWidth: "calc(100vh - 240px)",
-                height: "contain",
+                width: `${zoom}%`,
+                height:
+                  "calc(100vh - 240px)",
+                objectFit: "contain",
               }}
               className="
-                object-contain
                 rounded-r-xl
                 shadow-2xl
                 select-none
