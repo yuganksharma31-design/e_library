@@ -1,4 +1,4 @@
-export async function GET(req, { params }) {
+export async function GET(request, { params }) {
 
   try {
 
@@ -12,50 +12,61 @@ export async function GET(req, { params }) {
       );
     }
 
+    // FETCH METADATA
+
     const metadataRes = await fetch(
       `https://archive.org/metadata/${id}`
     );
 
-    const metadata =
-      await metadataRes.json();
+    const metadata = await metadataRes.json();
 
-    if (
-      !metadata.files ||
-      metadata.files.length === 0
-    ) {
+    if (!metadata.files) {
 
-      return Response.redirect(
-        `https://archive.org/download/${id}`
+      return new Response(
+        "No files found",
+        { status: 404 }
       );
     }
 
-    const pdfFile =
-      metadata.files.find(
-        (file) =>
-          file.name &&
-          file.name
-            .toLowerCase()
-            .endsWith(".pdf")
-      );
+    // FIND PDF FILE
+
+    const pdfFile = metadata.files.find(
+      (file) =>
+        file.name &&
+        file.name.toLowerCase().endsWith(".pdf")
+    );
 
     if (!pdfFile) {
 
-      return Response.redirect(
-        `https://archive.org/download/${id}`
+      return new Response(
+        "PDF not found",
+        { status: 404 }
       );
     }
 
-    const pdfUrl =
-      `https://archive.org/download/${id}/${pdfFile.name}`;
+    // REAL PDF URL
 
-    const pdfResponse =
-      await fetch(pdfUrl);
+    const pdfUrl =
+      `https://archive.org/download/${id}/${encodeURIComponent(pdfFile.name)}`;
+
+    // FETCH PDF
+
+    const pdfResponse = await fetch(pdfUrl);
+
+    if (!pdfResponse.ok) {
+
+      return new Response(
+        "Download failed",
+        { status: 500 }
+      );
+    }
+
+    // RETURN FILE FROM YOUR WEBSITE
 
     return new Response(
       pdfResponse.body,
       {
         headers: {
-
           "Content-Type":
             "application/pdf",
 
