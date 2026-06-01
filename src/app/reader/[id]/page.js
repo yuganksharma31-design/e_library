@@ -31,7 +31,7 @@ export default function ReaderPage() {
 
   const [touchEnd, setTouchEnd] = useState(0);
 
-  const totalPages = 20;
+  const totalPages = 5;
 useEffect(() => {
 
   if (!id) return;
@@ -208,52 +208,7 @@ useEffect(() => {
 
   }, []);
 
-  // PRELOAD NEXT PAGES
-  useEffect(() => {
-
-    const preload1 =
-      new Image();
-
-    preload1.src =
-      `https://archive.org/download/${id}/page/n${currentPage + 2}.jpg`;
-
-    const preload2 =
-      new Image();
-
-    preload2.src =
-      `https://archive.org/download/${id}/page/n${currentPage + 3}.jpg`;
-
-  }, [currentPage, id]);
-
-  // FETCH OCR TEXT
-  useEffect(() => {
-
-    const fetchOCR = async () => {
-
-      try {
-
-        const response =
-          await fetch(
-            `https://archive.org/download/${id}/${id}_djvu.txt`
-          );
-
-        const text =
-          await response.text();
-
-        setOcrText(text);
-
-      } catch (error) {
-
-        console.log(error);
-      }
-    };
-
-    if (id) {
-      fetchOCR();
-    }
-
-  }, [id]);
-
+    
   // MOBILE SWIPE
   const handleTouchStart = (e) => {
 
@@ -633,7 +588,7 @@ useEffect(() => {
           "
         >
 
-          {Array.from({ length: totalPages }).map((_, index) => (
+          {Array.from({ length: 5 }).map((_, index) => (
 
             <button
               key={index}
@@ -660,10 +615,12 @@ useEffect(() => {
             >
 
               <img
-                src={`https://archive.org/download/${id}/page/n${index + 1}.jpg`}
-                alt={`Page ${index + 1}`}
-                className="w-full object-cover"
-              />
+  loading="lazy"
+  decoding="async"
+  src={`https://archive.org/download/${id}/page/n${index + 1}.jpg`}
+  alt={`Page ${index + 1}`}
+  className="w-full object-cover"
+/>
 
               <div
                 className="
