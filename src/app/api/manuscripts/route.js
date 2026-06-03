@@ -49,11 +49,23 @@ export async function GET() {
             ? `https://archive.org/services/img/${item.identifier}`
             : "/placeholder.jpg"),
 
+        // Future PDF URL support
         pdfUrl:
           item.pdfUrl ||
           item.pdf ||
+          "",
+
+        // Archive Reader URL
+        embedUrl:
+          item.embedUrl ||
           (item.identifier
-            ? `https://archive.org/download/${item.identifier}/${item.identifier}.pdf`
+            ? `https://archive.org/embed/${item.identifier}`
+            : ""),
+
+        archiveUrl:
+          item.archiveUrl ||
+          (item.identifier
+            ? `https://archive.org/details/${item.identifier}`
             : ""),
       })
     );
