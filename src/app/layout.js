@@ -27,45 +27,62 @@ export default function RootLayout({ children }) {
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-black text-white`}
       >
         {!isReaderPage && (
-          <header className="sticky top-0 z-50 border-b border-zinc-800 bg-black/80 backdrop-blur-xl">
-            <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5">
+         <header className="sticky top-0 z-50 border-b border-stone-200 bg-[#F8F5EF]/90 backdrop-blur-2xl">
 
-              <Link href="/">
-                <div className="flex items-center gap-3">
-                  <div className="h-3 w-3 rounded-full bg-amber-500" />
+  <div className="mx-auto flex max-w-7xl items-center justify-between px-8 py-5">
 
-                  <h1 className="text-2xl font-bold tracking-wide">
-                    SMT Library
-                  </h1>
-                </div>
-              </Link>
+    <Link href="/">
+      <div className="flex items-center gap-4">
 
-              <nav className="flex items-center gap-8 text-sm font-medium">
+        <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#8B5E34] text-white text-xl font-bold">
+          ॐ
+        </div>
 
-                <Link
-                  href="/"
-                  className="transition hover:text-amber-400"
-                >
-                  Home
-                </Link>
+        <div>
 
-                <Link
-                  href="/manuscripts"
-                  className="transition hover:text-amber-400"
-                >
-                  Manuscripts
-                </Link>
+          <h1 className="text-xl font-semibold text-stone-900 leading-tight">
+            Seth Shree Surajmal Tapariya
+          </h1>
 
-                <Link
-                  href="/books"
-                  className="transition hover:text-amber-400"
-                >
-                  Books
-                </Link>
+          <p className="text-sm text-stone-500">
+            E-Granthalay
+          </p>
 
-              </nav>
-            </div>
-          </header>
+        </div>
+
+      </div>
+    </Link>
+
+    <nav className="hidden items-center gap-10 text-sm font-medium text-stone-700 md:flex">
+
+      <Link
+        href="/"
+        className="transition hover:text-[#8B5E34]"
+      >
+        Home
+      </Link>
+
+      <Link
+        href="/manuscripts"
+        className="transition hover:text-[#8B5E34]"
+      >
+        Manuscripts
+      </Link>
+
+      <Link
+        href="/books"
+        className="transition hover:text-[#8B5E34]"
+      >
+        Books
+      </Link>
+
+    </nav>
+
+  </div>
+
+</header>
+
+         
         )}
 
         {children}

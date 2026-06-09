@@ -38,66 +38,99 @@ export default function ReaderPage() {
   }
 
   if (!id) {
-    return (
-      <div className="flex h-screen items-center justify-center bg-black text-white">
-        Loading...
-      </div>
-    );
-  }
+  return (
+    <div className="flex h-screen items-center justify-center bg-[#F8F5EF] text-stone-900">
+      Loading...
+    </div>
+  );
+}
 
   return (
-    <div className="flex h-screen flex-col overflow-hidden bg-black">
+   
+<div className="flex min-h-screen flex-col bg-[#F8F5EF]">
 
-      {/* HEADER */}
-      <header className="z-[100] border-b border-zinc-800 bg-black">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
+  {/* HEADER */}
+  <header className="sticky top-0 z-[100] border-b border-stone-200 bg-[#F8F5EF]/95 backdrop-blur-xl">
 
-          <Link href="/">
-            <div className="flex cursor-pointer items-center gap-3">
-              <div className="h-3 w-3 rounded-full bg-amber-500" />
+    <div className="mx-auto flex max-w-7xl items-center justify-between px-8 py-5">
 
-              <h1 className="text-2xl font-bold tracking-wide text-white">
-                SMT Library
-              </h1>
-            </div>
-          </Link>
+      <div className="flex items-center gap-5">
 
-          <nav className="flex items-center gap-8 text-sm font-medium text-white">
+        <Link
+          href="/"
+          className="
+            rounded-full
+            bg-white
+            px-5
+            py-3
+            shadow-lg
+            transition
+            hover:-translate-y-1
+          "
+        >
+          ← Home
+        </Link>
 
-            <Link
-              href="/"
-              className="transition hover:text-amber-400"
-            >
-              Home
-            </Link>
+        <div>
 
-            <Link
-              href="/manuscripts"
-              className="transition hover:text-amber-400"
-            >
-              Manuscripts
-            </Link>
+          <h1 className="text-xl font-bold text-stone-900">
+            Seth Shree Surajmal Tapariya
+          </h1>
 
-            <Link
-              href="/books"
-              className="transition hover:text-amber-400"
-            >
-              Books
-            </Link>
+          <p className="text-sm text-stone-500">
+            E-Granthalay
+          </p>
 
-            <button
-              onClick={downloadBook}
-              className="rounded-lg bg-red-600 px-4 py-2 text-white transition hover:bg-red-500"
-            >
-              Download
-            </button>
-
-          </nav>
         </div>
-      </header>
 
-      {/* VIEWER */}
-      <div className="relative flex-1 overflow-hidden">
+      </div>
+
+      <div className="flex items-center gap-4">
+
+        <button
+          onClick={downloadBook}
+          className="
+            rounded-full
+            bg-[#8B5E34]
+            px-6
+            py-3
+            font-semibold
+            text-white
+            shadow-lg
+            transition
+            hover:bg-[#704823]
+          "
+        >
+          Download PDF
+        </button>
+
+      </div>
+
+    </div>
+
+  </header>
+
+  {/* VIEWER CONTAINER */}
+  <div className="mx-auto flex w-full max-w-7xl flex-1 p-6">
+
+    <div
+  className="
+    relative
+    w-full
+    overflow-hidden
+    rounded-[40px]
+    bg-white
+    shadow-2xl
+  "
+>
+
+  {/* VIEWER */}
+  <div
+    className="relative"
+    style={{
+      height: "calc(100vh - 150px)"
+    }}
+  >
 
         <iframe
           src={`https://archive.org/stream/${id}?ui=embed#mode/2up`}
@@ -105,17 +138,60 @@ export default function ReaderPage() {
           allowFullScreen
         />
 
-        {/* BLOCK CLICK ON ARCHIVE TITLE */}
+        {/* BLOCK TOP TITLE CLICK */}
         <div
           className="absolute left-0 right-0 top-0 z-50"
           style={{
             height: "60px",
-            cursor: "default",
+            cursor: "default"
           }}
         />
 
       </div>
 
     </div>
-  );
+
+  </div>
+
+  {/* FOOTER */}
+  <footer className="border-t border-stone-200">
+
+    <div className="mx-auto max-w-7xl px-8 py-10">
+
+      <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+
+        <div>
+
+          <h3 className="text-xl font-bold text-stone-900">
+
+            Seth Shree Surajmal Tapariya E-Granthalay
+
+          </h3>
+
+          <p className="mt-2 text-stone-500">
+
+            Preserving Sanskrit Manuscripts and Rare Books
+            for Future Generations.
+
+          </p>
+
+        </div>
+
+        <div className="text-sm text-stone-400">
+
+          © 2026 SMTASM
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </footer>
+
+ 
+
+</div>
+
+);
 }

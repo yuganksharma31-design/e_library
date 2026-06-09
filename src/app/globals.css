@@ -5,37 +5,31 @@ html {
 }
 
 body {
-  background: black;
-  color: white;
+  background: #F8F5EF;
+  color: #1f2937;
 }
-
-/* SCROLLBAR */
 
 ::-webkit-scrollbar {
   width: 10px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #09090b;
+  background: #F3EEE6;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #27272a;
+  background: #C8B28D;
   border-radius: 999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #f59e0b;
+  background: #8B5E34;
 }
-
-/* SELECTION */
 
 ::selection {
-  background: #f59e0b;
-  color: black;
+  background: #D6A84A;
+  color: white;
 }
-
-/* SMOOTH */
 
 * {
   transition-property:
@@ -46,21 +40,10 @@ body {
     transform;
 }
 
-/* READER IMAGE */
-
-.reader-page {
-  image-rendering: auto;
-  user-select: none;
-}
-
-/* GLASS EFFECT */
-
 .glass {
-  background: rgba(24, 24, 27, 0.7);
+  background: rgba(255,255,255,.75);
   backdrop-filter: blur(20px);
 }
-
-/* HIDE SCROLLBAR */
 
 .hide-scrollbar::-webkit-scrollbar {
   display: none;

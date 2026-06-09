@@ -80,255 +80,308 @@ useEffect(() => {
 
   return (
 
-    <main className="min-h-screen bg-black text-white">
 
-      {/* HERO */}
-      <section className="border-b border-zinc-800 bg-gradient-to-b from-zinc-950 to-black">
 
-        <div className="mx-auto max-w-7xl px-6 py-20">
 
-          <div className="max-w-4xl">
+<main className="min-h-screen bg-[#F8F5EF] text-stone-900">
 
-            <div className="mb-6 inline-flex rounded-full border border-amber-500/20 bg-amber-500/10 px-4 py-2 text-sm text-amber-400">
-              Digital Archive Collection
-            </div>
+  {/* HERO */}
+  <section className="mx-auto max-w-7xl px-8 pt-24 pb-20">
 
-            <h1 className="text-5xl font-bold md:text-7xl">
-              SMT Library
-            </h1>
+    <div className="max-w-5xl">
 
-            <p className="mt-6 text-lg leading-8 text-zinc-400 md:text-xl">
-              Explore ancient Sanskrit manuscripts,
-              historical books, rare archives,
-              and digitized collections.
-            </p>
-          </div>
-        </div>
-      </section>
+      <div className="inline-flex rounded-full bg-white px-5 py-3 text-sm font-medium text-[#8B5E34] shadow-md">
+        Literary Heritage Collection
+      </div>
 
-      {/* SEARCH */}
-      <section className="border-b border-zinc-900 bg-black py-10">
+      <h1 className="mt-8 text-6xl font-bold leading-tight lg:text-8xl">
 
-        <div className="mx-auto max-w-7xl px-6">
+        Rare Books
+        <br />
+        Collection
 
-          <div className="rounded-3xl border border-zinc-800 bg-zinc-950 p-4 shadow-2xl">
+      </h1>
 
-            <input
-              type="text"
-              placeholder="Search books..."
-              value={search}
-              onChange={(e) =>
-                setSearch(e.target.value)
-              }
-              className="
-                w-full
-                bg-transparent
-                px-4
-                py-4
-                text-lg
-                outline-none
-                placeholder:text-zinc-500
-              "
-            />
-          </div>
-        </div>
-      </section>
+      <p className="mt-8 max-w-3xl text-xl leading-9 text-stone-500">
 
-      {/* CONTENT */}
-      <section className="mx-auto max-w-7xl px-6 py-16">
+        Explore thousands of preserved books, historical literature,
+        philosophy texts and digitized archives.
 
-        {/* TOP BAR */}
-        <div className="mb-12 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+      </p>
 
-          <div>
+    </div>
 
-            <h2 className="text-3xl font-bold">
-              All Books
-            </h2>
+  </section>
 
-            <p className="mt-2 text-zinc-400">
-              {filtered.length} books available
-            </p>
-          </div>
+  {/* SEARCH */}
+  <section className="mx-auto max-w-7xl px-8 pb-16">
 
-          <div className="rounded-2xl border border-zinc-800 bg-zinc-900 px-5 py-3 text-sm text-zinc-300">
-            Showing 50 books per page
-          </div>
-        </div>
+    <div className="rounded-full bg-white px-8 py-6 shadow-xl">
 
-        {/* LOADING */}
-        {loading ? (
+      <input
+        type="text"
+        placeholder="Search books..."
+        value={search}
+        onChange={(e) =>
+          setSearch(e.target.value)
+        }
+        className="
+          w-full
+          bg-transparent
+          text-lg
+          outline-none
+          placeholder:text-stone-400
+        "
+      />
 
-          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+    </div>
 
-            {Array.from({ length: 8 }).map(
-              (_, index) => (
+  </section>
 
-                <div
-                  key={index}
-                  className="
-                    h-[420px]
-                    animate-pulse
-                    rounded-3xl
-                    bg-zinc-900
-                  "
-                />
-              )
-            )}
-          </div>
+  {/* CONTENT */}
+  <section className="mx-auto max-w-7xl px-8 pb-20">
 
-        ) : (
+    <div className="mb-16 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
 
-          <>
-            {/* GRID */}
-            <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <div>
 
-              {paginatedData.map((item) => (
+        <h2 className="text-4xl font-bold">
+          All Books
+        </h2>
 
-                <Link
-                  key={item._id || item.identifier}
-                  href={`/reader/${item.identifier || item._id}`}
-                >
+        <p className="mt-3 text-stone-500">
+          {filtered.length} books available
+        </p>
 
-                  <div
+      </div>
+
+      <div className="rounded-full bg-white px-6 py-4 shadow-md text-stone-500">
+
+        Showing 50 books per page
+
+      </div>
+
+    </div>
+    
+
+    {loading ? (
+
+      <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+
+        {Array.from({ length: 8 }).map((_, index) => (
+
+          <div
+            key={index}
+            className="
+              h-[540px]
+              animate-pulse
+              rounded-[32px]
+              bg-white
+              shadow-xl
+            "
+          />
+
+        ))}
+
+      </div>
+
+    ) : (
+
+      <>
+
+        {/* GRID */}
+        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+
+          {paginatedData.map((item) => (
+
+            <Link
+              key={item._id || item.identifier}
+              href={`/reader/${item.identifier || item._id}`}
+            >
+
+              <div
+                className="
+                  group
+                  overflow-hidden
+                  rounded-[32px]
+                  bg-white
+                  shadow-xl
+                  transition-all
+                  duration-300
+                  hover:-translate-y-2
+                "
+              >
+
+                {/* IMAGE */}
+                <div className="overflow-hidden">
+
+                  <img
+                    src={
+                      item.thumbnail ||
+                      item.cover ||
+                      item.image ||
+                      item.cover_i ||
+                      "/placeholder.jpg"
+                    }
+                    alt={item.title}
                     className="
-                      group
-                      overflow-hidden
-                      rounded-3xl
-                      border
-                      border-zinc-800
-                      bg-zinc-950
-                      shadow-2xl
-                      transition-all
-                      duration-300
-                      hover:-translate-y-2
-                      hover:border-amber-500
-                      hover:shadow-amber-500/20
+                      h-[420px]
+                      w-full
+                      object-cover
+                      transition
+                      duration-700
+                      group-hover:scale-105
+                    "
+                  />
+
+                </div>
+
+                {/* CONTENT */}
+                <div className="p-7">
+
+                  <div className="inline-flex rounded-full bg-[#F8F5EF] px-4 py-2 text-xs font-medium text-[#8B5E34]">
+
+                    Book
+
+                  </div>
+
+                  <h2 className="mt-5 line-clamp-2 text-2xl font-bold leading-8">
+
+                    {item.title}
+
+                  </h2>
+
+                  <div className="mt-5 flex items-center justify-between text-sm text-stone-500">
+
+                    <span>
+                      {item.language || "Unknown"}
+                    </span>
+
+                    <span>
+                      {item.year || "Archive"}
+                    </span>
+
+                  </div>
+
+                  <button
+                    className="
+                      mt-8
+                      w-full
+                      rounded-full
+                      bg-[#8B5E34]
+                      px-6
+                      py-4
+                      font-semibold
+                      text-white
+                      shadow-lg
+                      transition
+                      hover:bg-[#704823]
                     "
                   >
 
-                    {/* IMAGE */}
-                    <div className="relative h-[420px] overflow-hidden">
+                    Read Book
 
-                      <img
-                        src={
-                          item.thumbnail ||
-                          item.cover ||
-                          item.image ||
-                          item.cover_i ||
-                          "/placeholder.jpg"
-                        }
-                        alt={item.title}
-                        className="
-                          h-full
-                          w-full
-                          object-cover
-                          transition-transform
-                          duration-500
-                          group-hover:scale-105
-                        "
-                      />
+                  </button>
 
-                      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
+                </div>
 
-                      {/* BADGE */}
-                      <div className="absolute left-4 top-4">
-
-                        <div className="rounded-full bg-amber-500/20 px-3 py-1 text-xs text-amber-400 backdrop-blur">
-                          Book
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* CONTENT */}
-                    <div className="p-5">
-
-                      <h2 className="line-clamp-2 text-xl font-bold text-white">
-                        {item.title}
-                      </h2>
-
-                      <div className="mt-4 flex items-center justify-between text-sm text-zinc-400">
-
-                        <span>
-                          {item.language || "Unknown"}
-                        </span>
-
-                        <span>
-                          {item.year || "Archive"}
-                        </span>
-                      </div>
-
-                      <button
-                        className="
-                          mt-6
-                          w-full
-                          rounded-2xl
-                          bg-amber-500
-                          px-5
-                          py-4
-                          font-semibold
-                          text-black
-                          transition
-                          hover:opacity-90
-                        "
-                      >
-                        Open Book
-                      </button>
-                    </div>
-                  </div>
-                </Link>
-              ))}
-            </div>
-
-            {/* PAGINATION */}
-            <div className="mt-16 flex items-center justify-center gap-4">
-
-              <button
-                disabled={page === 1}
-                onClick={() =>
-                  setPage((prev) => prev - 1)
-                }
-                className="
-                  rounded-2xl
-                  border
-                  border-zinc-700
-                  px-6
-                  py-3
-                  transition
-                  hover:bg-zinc-900
-                  disabled:opacity-40
-                "
-              >
-                Previous
-              </button>
-
-              <div className="rounded-2xl bg-zinc-900 px-6 py-3">
-
-                Page {page} of {totalPages}
               </div>
 
-              <button
-                disabled={page === totalPages}
-                onClick={() =>
-                  setPage((prev) => prev + 1)
-                }
-                className="
-                  rounded-2xl
-                  border
-                  border-zinc-700
-                  px-6
-                  py-3
-                  transition
-                  hover:bg-zinc-900
-                  disabled:opacity-40
-                "
-              >
-                Next
-              </button>
-            </div>
-          </>
-        )}
-      </section>
-    </main>
-  );
+            </Link>
+
+          ))}
+
+        </div>
+        {/* PAGINATION */}
+        <div className="mt-20 flex items-center justify-center gap-5">
+
+          <button
+            disabled={page === 1}
+            onClick={() => setPage((prev) => prev - 1)}
+            className="
+              rounded-full
+              bg-white
+              px-8
+              py-4
+              shadow-lg
+              transition
+              hover:-translate-y-1
+              disabled:opacity-40
+            "
+          >
+            ← Previous
+          </button>
+
+          <div
+            className="
+              rounded-full
+              bg-white
+              px-8
+              py-4
+              shadow-lg
+              text-stone-500
+            "
+          >
+            {page} / {totalPages}
+          </div>
+
+          <button
+            disabled={page === totalPages}
+            onClick={() => setPage((prev) => prev + 1)}
+            className="
+              rounded-full
+              bg-white
+              px-8
+              py-4
+              shadow-lg
+              transition
+              hover:-translate-y-1
+              disabled:opacity-40
+            "
+          >
+            Next →
+          </button>
+
+        </div>
+
+      </>
+
+    )}
+
+  </section>
+
+  {/* FOOTER */}
+  <footer className="mt-32 border-t border-stone-200">
+
+    <div className="mx-auto max-w-7xl px-8 py-20">
+
+      <h3 className="text-3xl font-bold">
+
+        Seth Shree Surajmal Tapariya
+        E-Granthalay
+
+      </h3>
+
+      <p className="mt-6 max-w-2xl text-lg leading-8 text-stone-500">
+
+        A Digital Repository of Sanskrit Manuscripts,
+        Rare Books and Historical Collections.
+
+      </p>
+
+      <div className="mt-12 text-sm text-stone-400">
+
+        © 2026 SMTASM • Preserving Knowledge For Future Generations
+
+      </div>
+
+    </div>
+
+  </footer>
+
+</main>
+
+);
 }
+
+
