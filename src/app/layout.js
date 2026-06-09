@@ -27,60 +27,123 @@ export default function RootLayout({ children }) {
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-black text-white`}
       >
         {!isReaderPage && (
-         <header className="sticky top-0 z-50 border-b border-stone-200 bg-[#F8F5EF]/90 backdrop-blur-2xl">
+         
+<header className="sticky top-0 z-50 bg-[#F7F5F2]">
 
-  <div className="mx-auto flex max-w-7xl items-center justify-between px-8 py-5">
+  {/* TOP STRIP */}
+  <div className="bg-[#1C1C1C] py-2 text-center text-xs text-white">
 
-    <Link href="/">
-      <div className="flex items-center gap-4">
+    Seth Shree Surajmal Tapariya E-Granthalay
 
-        <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#8B5E34] text-white text-xl font-bold">
-          ॐ
+  </div>
+
+  {/* MAIN NAVBAR */}
+  <div className="border-b border-stone-200 bg-white">
+
+    <div className="mx-auto flex max-w-7xl items-center justify-between px-8 py-5">
+
+      {/* LOGO */}
+      <Link href="/">
+
+        <div className="flex items-center gap-4">
+
+          <div
+            className="
+              flex
+              h-11
+              w-11
+              items-center
+              justify-center
+              rounded-full
+              bg-[#98003A]
+              text-lg
+              font-bold
+              text-white
+            "
+          >
+            ॐ
+          </div>
+
+          <div>
+
+            <h1 className="text-[15px] font-bold leading-tight text-[#98003A]">
+
+              Seth Shree Surajmal Tapariya
+
+            </h1>
+
+            <p className="text-xs tracking-widest text-stone-500">
+
+              E-GRANTHALAY
+
+            </p>
+
+          </div>
+
         </div>
 
-        <div>
+      </Link>
 
-          <h1 className="text-xl font-semibold text-stone-900 leading-tight">
-            Seth Shree Surajmal Tapariya
-          </h1>
+      {/* MENU */}
+      <nav className="hidden items-center gap-10 text-sm font-medium md:flex">
 
-          <p className="text-sm text-stone-500">
-            E-Granthalay
-          </p>
+        <Link
+          href="/"
+          className="border-b-2 border-[#98003A] pb-1 text-[#98003A]"
+        >
+          Home
+        </Link>
 
-        </div>
+        <Link
+          href="/manuscripts"
+          className="transition hover:text-[#98003A]"
+        >
+          Manuscripts
+        </Link>
+
+        <Link
+          href="/books"
+          className="transition hover:text-[#98003A]"
+        >
+          Books
+        </Link>
+
+        <Link
+          href="/about"
+          className="transition hover:text-[#98003A]"
+        >
+          About Us
+        </Link>
+
+      </nav>
+
+      {/* SEARCH */}
+      <div className="hidden lg:block">
+
+        <input
+          type="text"
+          placeholder="Search archive..."
+          className="
+            rounded-full
+            border
+            border-stone-200
+            bg-[#F7F5F2]
+            px-5
+            py-2
+            text-sm
+            outline-none
+          "
+        />
 
       </div>
-    </Link>
 
-    <nav className="hidden items-center gap-10 text-sm font-medium text-stone-700 md:flex">
-
-      <Link
-        href="/"
-        className="transition hover:text-[#8B5E34]"
-      >
-        Home
-      </Link>
-
-      <Link
-        href="/manuscripts"
-        className="transition hover:text-[#8B5E34]"
-      >
-        Manuscripts
-      </Link>
-
-      <Link
-        href="/books"
-        className="transition hover:text-[#8B5E34]"
-      >
-        Books
-      </Link>
-
-    </nav>
+    </div>
 
   </div>
 
 </header>
+
+
 
          
         )}

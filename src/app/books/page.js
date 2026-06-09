@@ -85,33 +85,56 @@ useEffect(() => {
 
 <main className="min-h-screen bg-[#F8F5EF] text-stone-900">
 
-  {/* HERO */}
-  <section className="mx-auto max-w-7xl px-8 pt-24 pb-20">
 
-    <div className="max-w-5xl">
+{/* HERO */}
+<section className="bg-[#F7F5F2]">
 
-      <div className="inline-flex rounded-full bg-white px-5 py-3 text-sm font-medium text-[#8B5E34] shadow-md">
-        Literary Heritage Collection
+  <div className="mx-auto grid max-w-7xl gap-16 px-8 py-24 lg:grid-cols-2 lg:items-center">
+
+    {/* LEFT */}
+    <div>
+
+      <div className="text-sm font-semibold uppercase tracking-[4px] text-[#98003A]">
+
+        Literary Heritage
+
       </div>
 
-      <h1 className="mt-8 text-6xl font-bold leading-tight lg:text-8xl">
+      <h1 className="mt-6 text-6xl font-bold leading-tight text-[#1C1C1C]">
 
         Rare Books
         <br />
+
         Collection
 
       </h1>
 
-      <p className="mt-8 max-w-3xl text-xl leading-9 text-stone-500">
+      <p className="mt-8 max-w-xl text-lg leading-9 text-stone-600">
 
-        Explore thousands of preserved books, historical literature,
-        philosophy texts and digitized archives.
+        Explore philosophy, literature, commentaries and
+        preserved historical books from our digital archive.
 
       </p>
 
     </div>
 
-  </section>
+    {/* IMAGE */}
+    <div>
+
+  <img
+    src="https://images.unsplash.com/photo-1507842217343-583bb7270b66?q=80&w=1200"
+    className="
+      h-[450px]
+      w-full
+      rounded-[40px]
+      object-cover
+      shadow-2xl
+    "
+  />
+
+</div>
+</div>
+</section>
 
   {/* SEARCH */}
   <section className="mx-auto max-w-7xl px-8 pb-16">
@@ -190,106 +213,94 @@ useEffect(() => {
       <>
 
         {/* GRID */}
-        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6">
 
-          {paginatedData.map((item) => (
+       {paginatedData.map((item) => (
 
-            <Link
-              key={item._id || item.identifier}
-              href={`/reader/${item.identifier || item._id}`}
-            >
+  <Link
+    key={item._id || item.identifier}
+    href={`/reader/${item.identifier || item._id}`}
+  >
 
-              <div
-                className="
-                  group
-                  overflow-hidden
-                  rounded-[32px]
-                  bg-white
-                  shadow-xl
-                  transition-all
-                  duration-300
-                  hover:-translate-y-2
-                "
-              >
+    <div
+  className="
+    group
+    overflow-hidden
+    rounded-[24px]
+    bg-white
+    shadow-lg
+    transition
+    duration-300
+    hover:-translate-y-1
+    hover:shadow-2xl
+  "
+>
+      {/* IMAGE */}
+      <img
+        src={
+          item.thumbnail ||
+          item.cover ||
+          item.image ||
+          item.cover_i ||
+          "/placeholder.jpg"
+        }
+        alt={item.title}
+       className="
+  h-[180px]
+  w-full
+  object-cover
+"
+      />
 
-                {/* IMAGE */}
-                <div className="overflow-hidden">
+      {/* OVERLAY */}
+      
 
-                  <img
-                    src={
-                      item.thumbnail ||
-                      item.cover ||
-                      item.image ||
-                      item.cover_i ||
-                      "/placeholder.jpg"
-                    }
-                    alt={item.title}
-                    className="
-                      h-[420px]
-                      w-full
-                      object-cover
-                      transition
-                      duration-700
-                      group-hover:scale-105
-                    "
-                  />
+      {/* CONTENT */}
+      <div className="p-5">
 
-                </div>
+        <div className="inline-flex rounded-full bg-yellow-400 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-black">
+          Literary Heritage
+        </div>
 
-                {/* CONTENT */}
-                <div className="p-7">
+        <h2 className="mt-4 line-clamp-2 text-lg font-bold text-stone-900">
+          {item.title}
+        </h2>
 
-                  <div className="inline-flex rounded-full bg-[#F8F5EF] px-4 py-2 text-xs font-medium text-[#8B5E34]">
+       <div className="mt-3 text-sm text-stone-500">
 
-                    Book
+  {item.language || "Unknown"} • {item.year || "Archive"}
 
-                  </div>
+</div>
 
-                  <h2 className="mt-5 line-clamp-2 text-2xl font-bold leading-8">
+       <div
+  className="
+    mt-5
+    rounded-xl
+    border
+    border-[#98003A]
+    py-3
+    text-center
+    font-semibold
+    text-[#98003A]
+    transition
+    group-hover:bg-[#98003A]
+    group-hover:text-white
+  "
+>
 
-                    {item.title}
+  Read Book →
 
-                  </h2>
+</div>
 
-                  <div className="mt-5 flex items-center justify-between text-sm text-stone-500">
+      </div>
 
-                    <span>
-                      {item.language || "Unknown"}
-                    </span>
+    </div>
 
-                    <span>
-                      {item.year || "Archive"}
-                    </span>
+  </Link>
 
-                  </div>
+))}
 
-                  <button
-                    className="
-                      mt-8
-                      w-full
-                      rounded-full
-                      bg-[#8B5E34]
-                      px-6
-                      py-4
-                      font-semibold
-                      text-white
-                      shadow-lg
-                      transition
-                      hover:bg-[#704823]
-                    "
-                  >
-
-                    Read Book
-
-                  </button>
-
-                </div>
-
-              </div>
-
-            </Link>
-
-          ))}
+          
 
         </div>
         {/* PAGINATION */}
@@ -309,6 +320,7 @@ useEffect(() => {
               disabled:opacity-40
             "
           >
+
             ← Previous
           </button>
 
@@ -347,7 +359,7 @@ useEffect(() => {
       </>
 
     )}
-
+     
   </section>
 
   {/* FOOTER */}

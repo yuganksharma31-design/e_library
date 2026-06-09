@@ -145,293 +145,386 @@ export default function HomePage() {
         </div>
 
       </section>
-            {/* COLLECTIONS */}
-      <section className="mx-auto max-w-7xl px-8 pb-32">
+         
+{/* COLLECTIONS */}
+<section className="mx-auto max-w-7xl px-8 py-32">
 
-        <div className="mb-16">
+  <div className="mb-20">
 
-          <div className="text-sm font-medium text-[#8B5E34]">
-            Discover
-          </div>
+    <div className="text-sm font-semibold uppercase tracking-[4px] text-[#98003A]">
+      Collections
+    </div>
 
-          <h2 className="mt-4 text-5xl font-bold">
-            Explore Collections
-          </h2>
+    <h2 className="mt-5 text-6xl font-bold text-[#1C1C1C]">
 
-          <p className="mt-5 max-w-2xl text-lg leading-8 text-stone-500">
-            Discover rare manuscripts and historical literary archives
-            preserved for future generations.
-          </p>
+      Explore Our Archives
 
-        </div>
+    </h2>
 
-        <div className="grid gap-10 lg:grid-cols-2">
+  </div>
 
-          {/* MANUSCRIPTS */}
-          <Link href="/manuscripts">
+  <div className="grid gap-10 lg:grid-cols-2">
 
-            <div
-              className="
-                group
-                overflow-hidden
-                rounded-[40px]
-                bg-white
-                shadow-2xl
-                transition
-                duration-300
-                hover:-translate-y-2
-              "
-            >
+    {/* MANUSCRIPTS */}
+    <Link href="/manuscripts">
 
-              <div className="overflow-hidden">
+      <div className="group relative overflow-hidden rounded-[40px]">
 
-                <img
-                  src="https://images.unsplash.com/photo-1512820790803-83ca734da794?q=80&w=1200"
-                  alt="Manuscripts"
-                  className="
-                    h-[420px]
-                    w-full
-                    object-cover
-                    transition
-                    duration-700
-                    group-hover:scale-105
-                  "
-                />
+        <img
+          src="https://images.unsplash.com/photo-1512820790803-83ca734da794?q=80&w=1200"
+          className="
+            h-[500px]
+            w-full
+            object-cover
+            transition
+            duration-700
+            group-hover:scale-105
+          "
+        />
 
-              </div>
+        <div className="absolute inset-0 bg-black/55" />
 
-              <div className="p-10">
+        <div className="absolute bottom-10 left-10 right-10 text-white">
 
-                <div className="inline-flex rounded-full bg-[#F8F5EF] px-4 py-2 text-sm text-[#8B5E34]">
-                  Historical Archives
-                </div>
+          <div className="text-sm uppercase tracking-[4px] text-yellow-300">
 
-                <h3 className="mt-6 text-4xl font-bold">
-                  Sanskrit Manuscripts
-                </h3>
-
-                <p className="mt-6 text-lg leading-8 text-stone-500">
-                  Explore thousands of digitized manuscripts,
-                  preserved texts and ancient Sanskrit collections.
-                </p>
-
-                <div className="mt-8 text-[#8B5E34] font-semibold">
-                  Explore →
-                </div>
-
-              </div>
-
-            </div>
-
-          </Link>
-
-          {/* BOOKS */}
-          <Link href="/books">
-
-            <div
-              className="
-                group
-                overflow-hidden
-                rounded-[40px]
-                bg-white
-                shadow-2xl
-                transition
-                duration-300
-                hover:-translate-y-2
-              "
-            >
-
-              <div className="overflow-hidden">
-
-                <img
-                  src="https://images.unsplash.com/photo-1507842217343-583bb7270b66?q=80&w=1200"
-                  alt="Books"
-                  className="
-                    h-[420px]
-                    w-full
-                    object-cover
-                    transition
-                    duration-700
-                    group-hover:scale-105
-                  "
-                />
-
-              </div>
-
-              <div className="p-10">
-
-                <div className="inline-flex rounded-full bg-[#F8F5EF] px-4 py-2 text-sm text-[#8B5E34]">
-                  Literary Heritage
-                </div>
-
-                <h3 className="mt-6 text-4xl font-bold">
-                  Rare Books Collection
-                </h3>
-
-                <p className="mt-6 text-lg leading-8 text-stone-500">
-                  Browse philosophy, literature and historical
-                  archives preserved digitally.
-                </p>
-
-                <div className="mt-8 text-[#8B5E34] font-semibold">
-                  Browse →
-                </div>
-
-              </div>
-
-            </div>
-
-          </Link>
-
-        </div>
-
-      </section>
-            {/* FEATURED */}
-      <section className="mx-auto max-w-7xl px-8 pb-32">
-
-        <div className="mb-20">
-
-          <div className="text-sm font-medium text-[#8B5E34]">
-            Highlights
-          </div>
-
-          <h2 className="mt-4 text-5xl font-bold">
-            Featured Collections
-          </h2>
-
-        </div>
-
-        <div className="grid gap-8 lg:grid-cols-3">
-
-          <div className="rounded-[32px] bg-white p-8 shadow-xl">
-
-            <div className="text-sm text-[#8B5E34]">
-              Featured
-            </div>
-
-            <h3 className="mt-5 text-3xl font-bold">
-              Sanskrit Manuscripts
-            </h3>
-
-            <p className="mt-5 leading-8 text-stone-500">
-              Thousands of preserved manuscripts and rare collections.
-            </p>
+            Historical Archives
 
           </div>
 
-          <div className="rounded-[32px] bg-white p-8 shadow-xl">
+          <h3 className="mt-5 text-5xl font-bold">
 
-            <div className="text-sm text-[#8B5E34]">
-              Rare Books
-            </div>
+            Sanskrit
+            <br />
+            Manuscripts
 
-            <h3 className="mt-5 text-3xl font-bold">
-              Literary Heritage
-            </h3>
-
-            <p className="mt-5 leading-8 text-stone-500">
-              Philosophy, literature and historical archives.
-            </p>
-
-          </div>
-
-          <div className="rounded-[32px] bg-white p-8 shadow-xl">
-
-            <div className="text-sm text-[#8B5E34]">
-              Digital Archive
-            </div>
-
-            <h3 className="mt-5 text-3xl font-bold">
-              Historical Collections
-            </h3>
-
-            <p className="mt-5 leading-8 text-stone-500">
-              Preserved pages and ancient knowledge for future generations.
-            </p>
-
-          </div>
-
-        </div>
-
-      </section>
-
-      {/* CTA */}
-      <section className="mx-auto max-w-7xl px-8 pb-32">
-
-        <div className="overflow-hidden rounded-[48px] bg-[#8B5E34] px-12 py-24 text-center text-white shadow-2xl">
-
-          <div className="mx-auto max-w-4xl">
-
-            <h2 className="text-5xl font-bold leading-tight">
-
-              Begin Your Journey Into
-              <br />
-              Sanskrit Knowledge
-
-            </h2>
-
-            <p className="mx-auto mt-8 max-w-2xl text-lg leading-9 text-stone-200">
-
-              Access rare manuscripts, preserved texts and
-              historical books from anywhere in the world.
-
-            </p>
-
-            <div className="mt-12 flex flex-wrap justify-center gap-5">
-
-              <Link href="/manuscripts">
-
-                <button className="rounded-full bg-white px-8 py-5 font-semibold text-[#8B5E34] shadow-xl">
-
-                  Explore Manuscripts
-
-                </button>
-
-              </Link>
-
-              <Link href="/books">
-
-                <button className="rounded-full border border-white px-8 py-5 font-semibold">
-
-                  Browse Books
-
-                </button>
-
-              </Link>
-
-            </div>
-
-          </div>
-
-        </div>
-
-      </section>
-
-      {/* FOOTER */}
-      <footer className="border-t border-stone-200 py-16">
-
-        <div className="mx-auto max-w-7xl px-8">
-
-          <h3 className="text-3xl font-bold">
-            Seth Shree Surajmal Tapariya E-Granthalay
           </h3>
 
-          <p className="mt-6 max-w-2xl text-lg leading-8 text-stone-500">
+          <p className="mt-6 max-w-md text-lg leading-8 text-stone-200">
 
-            A Digital Repository of Sanskrit Manuscripts,
-            Rare Books and Historical Collections.
+            Explore thousands of digitized manuscripts
+            and ancient Sanskrit collections.
 
           </p>
 
-          <div className="mt-10 text-sm text-stone-400">
+          <div className="mt-8 font-semibold text-yellow-300">
 
-            © 2026 SMTASM • Preserving Knowledge For Future Generations
+            Explore →
 
           </div>
 
         </div>
 
-      </footer>
+      </div>
+
+    </Link>
+
+    {/* BOOKS */}
+    <Link href="/books">
+
+      <div className="group relative overflow-hidden rounded-[40px]">
+
+        <img
+          src="https://images.unsplash.com/photo-1507842217343-583bb7270b66?q=80&w=1200"
+          className="
+            h-[500px]
+            w-full
+            object-cover
+            transition
+            duration-700
+            group-hover:scale-105
+          "
+        />
+
+        <div className="absolute inset-0 bg-black/55" />
+
+        <div className="absolute bottom-10 left-10 right-10 text-white">
+
+          <div className="text-sm uppercase tracking-[4px] text-yellow-300">
+
+            Literary Heritage
+
+          </div>
+
+          <h3 className="mt-5 text-5xl font-bold">
+
+            Rare Books
+            <br />
+            Collection
+
+          </h3>
+
+          <p className="mt-6 max-w-md text-lg leading-8 text-stone-200">
+
+            Browse philosophy, literature and
+            historical archives preserved digitally.
+
+          </p>
+
+          <div className="mt-8 font-semibold text-yellow-300">
+
+            Browse →
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </Link>
+
+  </div>
+
+</section>
+
+           {/* ABOUT */}
+<section
+  className="
+    relative
+    overflow-hidden
+    bg-[#98003A]
+    py-28
+    text-center
+    text-white
+  "
+>
+
+  <div className="mx-auto max-w-5xl px-8">
+
+    <div className="text-sm font-semibold uppercase tracking-[4px] text-yellow-300">
+      About Us
+    </div>
+
+    <h2 className="mt-8 text-6xl font-bold">
+      Preserving Wisdom
+      <br />
+      Across Generations
+    </h2>
+
+    <p className="mx-auto mt-10 max-w-3xl text-lg leading-9 text-stone-200">
+
+      Seth Shree Surajmal Tapariya E-Granthalay is committed to
+      preserving rare manuscripts, historical books and invaluable
+      Sanskrit heritage. Through digitization and global accessibility,
+      we ensure timeless knowledge remains available for future scholars.
+
+    </p>
+
+    <button
+      className="
+        mt-14
+        rounded-full
+        bg-yellow-400
+        px-8
+        py-4
+        font-semibold
+        text-black
+        transition
+        hover:scale-105
+      "
+    >
+      Read More
+    </button>
+
+  </div>
+
+</section>
+   
+{/* MISSION */}
+<section
+  className="
+    relative
+    overflow-hidden
+    bg-[#98003A]
+    py-32
+    text-white
+  "
+>
+
+  {/* Pattern */}
+  <div
+    className="
+      absolute
+      inset-0
+      opacity-10
+    "
+    style={{
+      backgroundImage:
+        "radial-gradient(circle at 1px 1px, white 1px, transparent 0)",
+      backgroundSize: "30px 30px"
+    }}
+  />
+
+  <div className="relative mx-auto max-w-7xl px-8">
+
+    <div className="text-sm font-semibold uppercase tracking-[4px] text-yellow-300">
+
+      Our Mission
+
+    </div>
+
+    <div className="mt-10 grid gap-20 lg:grid-cols-2">
+
+      {/* LEFT */}
+      <div>
+
+        <h2 className="text-6xl font-bold leading-tight">
+
+          Preserving
+          <br />
+
+          Knowledge For
+          <br />
+
+          Future
+          <br />
+
+          Generations
+
+        </h2>
+
+      </div>
+
+      {/* RIGHT */}
+      <div>
+
+        <p className="text-xl leading-10 text-stone-200">
+
+          We are dedicated to safeguarding Sanskrit manuscripts,
+          rare books and historical archives through digitization
+          and worldwide accessibility. Our mission is to preserve
+          the intellectual heritage of generations past and make
+          it available to scholars and seekers everywhere.
+
+        </p>
+
+        <button
+          className="
+            mt-12
+            rounded-full
+            bg-yellow-400
+            px-8
+            py-5
+            font-semibold
+            text-black
+            transition
+            hover:scale-105
+          "
+        >
+
+          Explore Collections
+
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+     
+{/* FOOTER */}
+<footer className="border-t border-stone-200 bg-white">
+
+  <div className="mx-auto grid max-w-7xl gap-16 px-8 py-20 md:grid-cols-4">
+
+    {/* BRAND */}
+    <div>
+
+      <h3 className="text-3xl font-bold text-[#98003A]">
+
+        Seth Shree Surajmal
+        <br />
+        Tapariya
+        <br />
+        E-Granthalay
+
+      </h3>
+
+      <p className="mt-6 leading-8 text-stone-500">
+
+        Preserving Sanskrit manuscripts, rare books and
+        historical collections for future generations.
+
+      </p>
+
+    </div>
+
+    {/* COLLECTIONS */}
+    <div>
+
+      <h4 className="text-lg font-bold text-[#98003A]">
+        Collections
+      </h4>
+
+      <div className="mt-6 space-y-4 text-stone-500">
+
+        <Link href="/manuscripts">
+          <div className="hover:text-[#98003A]">
+            Manuscripts
+          </div>
+        </Link>
+
+        <Link href="/books">
+          <div className="hover:text-[#98003A]">
+            Books
+          </div>
+        </Link>
+
+      </div>
+
+    </div>
+
+    {/* EXPLORE */}
+    <div>
+
+      <h4 className="text-lg font-bold text-[#98003A]">
+        Explore
+      </h4>
+
+      <div className="mt-6 space-y-4 text-stone-500">
+
+        <div>About Us</div>
+
+        <div>Digital Archives</div>
+
+        <div>Collections</div>
+
+      </div>
+
+    </div>
+
+    {/* RESOURCES */}
+    <div>
+
+      <h4 className="text-lg font-bold text-[#98003A]">
+        Resources
+      </h4>
+
+      <div className="mt-6 space-y-4 text-stone-500">
+
+        <div>Privacy Policy</div>
+
+        <div>Terms & Conditions</div>
+
+        <div>Contact</div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <div className="border-t border-stone-200 py-8 text-center text-sm text-stone-400">
+
+    © 2026 SMTASM • Preserving Knowledge For Future Generations
+
+  </div>
+
+</footer>
 
     </main>
   );

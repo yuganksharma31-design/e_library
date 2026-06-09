@@ -73,13 +73,25 @@ export default function ReaderPage() {
 
         <div>
 
-          <h1 className="text-xl font-bold text-stone-900">
-            Seth Shree Surajmal Tapariya
-          </h1>
+          <div className="flex items-center gap-4">
 
-          <p className="text-sm text-stone-500">
-            E-Granthalay
-          </p>
+  <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#98003A] text-white text-xl font-bold">
+    ॐ
+  </div>
+
+  <div>
+
+    <h1 className="text-xl font-bold text-[#98003A]">
+      Seth Shree Surajmal Tapariya
+    </h1>
+
+    <p className="text-sm text-stone-500">
+      E-Granthalay
+    </p>
+
+  </div>
+
+</div>
 
         </div>
 
@@ -89,17 +101,18 @@ export default function ReaderPage() {
 
         <button
           onClick={downloadBook}
-          className="
-            rounded-full
-            bg-[#8B5E34]
-            px-6
-            py-3
-            font-semibold
-            text-white
-            shadow-lg
-            transition
-            hover:bg-[#704823]
-          "
+         className="
+rounded-full
+bg-[#98003A]
+px-7
+py-3
+font-semibold
+text-white
+shadow-xl
+transition
+duration-300
+hover:scale-105
+"
         >
           Download PDF
         </button>
@@ -110,48 +123,66 @@ export default function ReaderPage() {
 
   </header>
 
-  {/* VIEWER CONTAINER */}
-  <div className="mx-auto flex w-full max-w-7xl flex-1 p-6">
+  
+{/* VIEWER CONTAINER */}
+<div className="mx-auto flex w-full max-w-7xl flex-1 p-6">
 
-    <div
-  className="
-    relative
-    w-full
-    overflow-hidden
-    rounded-[40px]
-    bg-white
-    shadow-2xl
-  "
->
-
-  {/* VIEWER */}
   <div
-    className="relative"
-    style={{
-      height: "calc(100vh - 150px)"
-    }}
+    className="
+      w-full
+      overflow-hidden
+      rounded-[40px]
+      bg-white
+      shadow-2xl
+      ring-1
+      ring-stone-200
+    "
   >
 
-        <iframe
-          src={`https://archive.org/stream/${id}?ui=embed#mode/2up`}
-          className="h-full w-full border-0"
-          allowFullScreen
-        />
+    {/* TITLE */}
+    <div className="border-b border-stone-200 bg-white px-8 py-5">
 
-        {/* BLOCK TOP TITLE CLICK */}
-        <div
-          className="absolute left-0 right-0 top-0 z-50"
-          style={{
-            height: "60px",
-            cursor: "default"
-          }}
-        />
-
+      <div className="text-sm font-semibold uppercase tracking-[3px] text-[#98003A]">
+        Digital Manuscript Viewer
       </div>
+
+      <h2 className="mt-2 text-2xl font-bold text-stone-900">
+        Archive Reader
+      </h2>
 
     </div>
 
+    {/* VIEWER */}
+    <div className="relative">
+
+      <iframe
+        src={`https://archive.org/stream/${id}?ui=embed#mode/2up`}
+        className="h-[80vh] w-full border-0"
+        allowFullScreen
+      />
+
+      {/* HIDE ARCHIVE TITLE */}
+     <div
+  className="absolute top-0 left-0 right-0 z-50"
+  style={{
+    height: "45px",
+    background: "transparent",
+    pointerEvents: "auto",
+    cursor: "default"
+  }}
+/>
+
+      {/* HIDE LEFT TOOLBAR */}
+     
+
+    </div>
+
+    {/* CUSTOM BUTTONS */}
+   
   </div>
+
+</div>
+
 
   {/* FOOTER */}
   <footer className="border-t border-stone-200">
@@ -162,13 +193,13 @@ export default function ReaderPage() {
 
         <div>
 
-          <h3 className="text-xl font-bold text-stone-900">
+          <h3 className="text-3xl font-bold text-[#98003A]">
 
             Seth Shree Surajmal Tapariya E-Granthalay
 
           </h3>
 
-          <p className="mt-2 text-stone-500">
+          <p className="mt-4 max-w-2xl text-lg leading-8 text-stone-500">
 
             Preserving Sanskrit Manuscripts and Rare Books
             for Future Generations.
