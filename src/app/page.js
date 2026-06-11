@@ -124,7 +124,7 @@ export default function HomePage() {
           <div className="rounded-[32px] bg-white p-10 shadow-xl">
 
             <h2 className="text-5xl font-bold text-[#8B5E34]">
-              5K+
+              15K+
             </h2>
 
             <p className="mt-4 text-stone-500">
