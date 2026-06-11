@@ -5,18 +5,26 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 
 export default function ManuscriptPage() {
+
   const { id } = useParams();
-  useEffect(() => {
-  window.scrollTo({
-    top: 0,
-    behavior: "instant"
-  });
-}, []);
+
   const [manuscript, setManuscript] = useState(null);
 
   useEffect(() => {
+
+    window.scrollTo({
+      top: 0,
+      behavior: "instant"
+    });
+
+  }, []);
+
+  useEffect(() => {
+
     async function fetchMetadata() {
+
       try {
+
         const response = await fetch(
           `https://archive.org/metadata/${encodeURIComponent(id)}`
         );
@@ -24,25 +32,33 @@ export default function ManuscriptPage() {
         const data = await response.json();
 
         setManuscript(data);
+
       } catch (error) {
+
         console.error(error);
+
       }
+
     }
 
     if (id) {
       fetchMetadata();
     }
+
   }, [id]);
 
   if (!manuscript) {
+
     return (
       <div className="flex min-h-screen items-center justify-center bg-[#F8F5EF] text-stone-900">
         Loading...
       </div>
     );
+
   }
 
   return (
+
     <main className="min-h-screen bg-[#F8F5EF] text-stone-900">
 
       {/* HERO */}
@@ -52,6 +68,7 @@ export default function ManuscriptPage() {
 
           {/* COVER */}
           <div>
+
             <img
               src={`https://archive.org/services/img/${encodeURIComponent(id)}`}
               alt={manuscript.metadata?.title}
@@ -62,46 +79,35 @@ export default function ManuscriptPage() {
                 shadow-2xl
               "
             />
+
           </div>
 
           {/* DETAILS */}
           <div>
 
             <div className="inline-flex rounded-full bg-[#98003A] px-5 py-2 text-sm font-semibold text-white">
+
               Ancient Manuscript
+
             </div>
 
             <h1 className="mt-8 text-5xl font-bold leading-tight">
+
               {manuscript.metadata?.title}
+
             </h1>
 
-            <div className="mt-10 space-y-5 text-lg text-stone-600">
-
-              <div>
-                <span className="font-bold">Author:</span>{" "}
-                {manuscript.metadata?.creator || "Unknown"}
-              </div>
-
-              <div>
-                <span className="font-bold">Language:</span>{" "}
-                {manuscript.metadata?.language || "Unknown"}
-              </div>
-
-              <div>
-                <span className="font-bold">Year:</span>{" "}
-                {manuscript.metadata?.year || "Unknown"}
-              </div>
-
-              <div>
-                <span className="font-bold">Collection:</span>{" "}
-                {Array.isArray(manuscript.metadata?.collection)
-                  ? manuscript.metadata.collection.join(", ")
-                  : manuscript.metadata?.collection || "Archive"}
-              </div>
-
-            </div>
-
-            <div className="mt-14 flex flex-wrap gap-5">
+            {/* BUTTONS */}
+            <div
+              className="
+              mt-8
+              grid
+              gap-5
+              grid-cols-1
+              sm:grid-cols-2
+              lg:grid-cols-3
+              "
+            >
 
               <Link
                 href={`/reader/${encodeURIComponent(id)}`}
@@ -109,7 +115,8 @@ export default function ManuscriptPage() {
                   rounded-full
                   bg-[#98003A]
                   px-8
-                  py-4
+                  py-5
+                  text-center
                   font-semibold
                   text-white
                   shadow-xl
@@ -119,59 +126,93 @@ export default function ManuscriptPage() {
               >
                 📜 Open Manuscript
               </Link>
-<button
-onClick={() => {
 
-navigator.clipboard.writeText(
-window.location.href
-);
+              <button
+                onClick={() => {
 
-alert("Link copied");
+                  navigator.clipboard.writeText(
+                    window.location.href
+                  );
 
-}}
-className="
-rounded-full
-bg-white
-px-8
-py-4
-shadow-lg
-"
->
+                  alert("Link copied");
 
-🔗 Share
-
-</button>
-              <a
-                href={`https://archive.org/details/${encodeURIComponent(id)}`}
-                target="_blank"
+                }}
                 className="
                   rounded-full
                   bg-white
                   px-8
-                  py-4
-                  font-semibold
-                  shadow-lg
+                  py-5
+                  shadow-xl
                   transition
                   hover:-translate-y-1
                 "
               >
-                🌐 Original Archive
-              </a>
+                🔗 Share
+              </button>
 
               <button
                 className="
                   rounded-full
                   bg-white
                   px-8
-                  py-4
+                  py-5
                   font-semibold
-                  shadow-lg
+                  shadow-xl
                   transition
                   hover:-translate-y-1
                 "
               >
                 ❤️ Add to Favorites
               </button>
+
+            </div>
+
+            {/* METADATA */}
+            <div className="mt-12 space-y-5 text-lg text-stone-600">
+
+              <div>
+
+                <span className="font-bold">
+                  Author:
+                </span>{" "}
+
+                {manuscript.metadata?.creator || "Unknown"}
+
+              </div>
+
+              <div>
+
+                <span className="font-bold">
+                  Language:
+                </span>{" "}
+
+                {manuscript.metadata?.language || "Unknown"}
+
+              </div>
+
+              <div>
+
+                <span className="font-bold">
+                  Year:
+                </span>{" "}
+
+                {manuscript.metadata?.year || "Unknown"}
+
+              </div>
+
+              <div>
+
+                <span className="font-bold">
+                  Collection:
+                </span>{" "}
+
+                {
+                  Array.isArray(manuscript.metadata?.collection)
+                    ? manuscript.metadata.collection.join(", ")
+                    : manuscript.metadata?.collection || "Archive"
+                }
+
+              </div>
 
             </div>
 
@@ -187,13 +228,17 @@ shadow-lg
         <div className="rounded-[40px] bg-white p-12 shadow-xl">
 
           <div className="text-sm font-semibold uppercase tracking-[4px] text-[#98003A]">
+
             Description
+
           </div>
 
           <p className="mt-8 text-lg leading-9 text-stone-600">
 
-            {manuscript.metadata?.description ||
-              "No description available for this manuscript."}
+            {
+              manuscript.metadata?.description ||
+              "No description available for this manuscript."
+            }
 
           </p>
 
@@ -202,5 +247,7 @@ shadow-lg
       </section>
 
     </main>
+
   );
+
 }

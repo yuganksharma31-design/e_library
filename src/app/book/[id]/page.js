@@ -6,13 +6,15 @@ import { useEffect, useState } from "react";
 
 export default function BookPage() {
   const { id } = useParams();
-  useEffect(() => {
-  window.scrollTo({
-    top: 0,
-    behavior: "instant"
-  });
-}, []);
+
   const [book, setBook] = useState(null);
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "instant",
+    });
+  }, []);
 
   useEffect(() => {
     async function fetchMetadata() {
@@ -52,16 +54,18 @@ export default function BookPage() {
 
           {/* COVER */}
           <div>
+
             <img
               src={`https://archive.org/services/img/${encodeURIComponent(id)}`}
               alt={book.metadata?.title}
               className="
-                mx-auto
-                max-h-[700px]
-                rounded-[40px]
-                shadow-2xl
-              "
+              mx-auto
+              max-h-[700px]
+              rounded-[40px]
+              shadow-2xl
+            "
             />
+
           </div>
 
           {/* DETAILS */}
@@ -75,104 +79,110 @@ export default function BookPage() {
               {book.metadata?.title}
             </h1>
 
-            <div className="mt-10 space-y-5 text-lg text-stone-600">
-
-              <div>
-                <span className="font-bold">Author:</span>{" "}
-                {book.metadata?.creator || "Unknown"}
-              </div>
-
-              <div>
-                <span className="font-bold">Language:</span>{" "}
-                {book.metadata?.language || "Unknown"}
-              </div>
-
-              <div>
-                <span className="font-bold">Year:</span>{" "}
-                {book.metadata?.year || "Unknown"}
-              </div>
-
-              <div>
-                <span className="font-bold">Collection:</span>{" "}
-                {Array.isArray(book.metadata?.collection)
-                  ? book.metadata.collection.join(", ")
-                  : book.metadata?.collection || "Archive"}
-              </div>
-
-            </div>
-
-            <div className="mt-14 flex flex-wrap gap-5">
+            {/* ACTION BUTTONS */}
+            <div
+              className="
+              mt-8
+              grid
+              gap-5
+              grid-cols-1
+              sm:grid-cols-2
+              lg:grid-cols-3
+            "
+            >
 
               <Link
                 href={`/reader/${encodeURIComponent(id)}`}
                 className="
-                  rounded-full
-                  bg-[#98003A]
-                  px-8
-                  py-4
-                  font-semibold
-                  text-white
-                  shadow-xl
-                  transition
-                  hover:scale-105
-                "
+                rounded-full
+                bg-[#98003A]
+                px-8
+                py-5
+                text-center
+                font-semibold
+                text-white
+                shadow-xl
+                transition
+                hover:scale-105
+              "
               >
                 📖 Open Book
               </Link>
+
               <button
-onClick={() => {
+                onClick={() => {
 
-navigator.clipboard.writeText(
-window.location.href
-);
+                  navigator.clipboard.writeText(
+                    window.location.href
+                  );
 
-alert("Link copied");
+                  alert("Link copied");
 
-}}
-className="
-rounded-full
-bg-white
-px-8
-py-4
-shadow-lg
-"
->
-
-🔗 Share
-
-</button>
-
-              <a
-                href={`https://archive.org/details/${encodeURIComponent(id)}`}
-                target="_blank"
+                }}
                 className="
-                  rounded-full
-                  bg-white
-                  px-8
-                  py-4
-                  font-semibold
-                  shadow-lg
-                  transition
-                  hover:-translate-y-1
-                "
+                rounded-full
+                bg-white
+                px-8
+                py-5
+                shadow-xl
+                transition
+                hover:-translate-y-1
+              "
               >
-                🌐 Original Archive
-              </a>
+                🔗 Share
+              </button>
 
               <button
                 className="
-                  rounded-full
-                  bg-white
-                  px-8
-                  py-4
-                  font-semibold
-                  shadow-lg
-                  transition
-                  hover:-translate-y-1
-                "
+                rounded-full
+                bg-white
+                px-8
+                py-5
+                font-semibold
+                shadow-xl
+                transition
+                hover:-translate-y-1
+              "
               >
                 ❤️ Add to Favorites
               </button>
+
+            </div>
+
+            {/* METADATA */}
+            <div className="mt-12 space-y-5 text-lg text-stone-600">
+
+              <div>
+                <span className="font-bold">
+                  Author:
+                </span>{" "}
+                {book.metadata?.creator || "Unknown"}
+              </div>
+
+              <div>
+                <span className="font-bold">
+                  Language:
+                </span>{" "}
+                {book.metadata?.language || "Unknown"}
+              </div>
+
+              <div>
+                <span className="font-bold">
+                  Year:
+                </span>{" "}
+                {book.metadata?.year || "Unknown"}
+              </div>
+
+              <div>
+                <span className="font-bold">
+                  Collection:
+                </span>{" "}
+                {
+                  Array.isArray(book.metadata?.collection)
+                    ? book.metadata.collection.join(", ")
+                    : book.metadata?.collection || "Archive"
+                }
+              </div>
 
             </div>
 
@@ -193,8 +203,10 @@ shadow-lg
 
           <p className="mt-8 text-lg leading-9 text-stone-600">
 
-            {book.metadata?.description ||
-              "No description available for this book."}
+            {
+              book.metadata?.description ||
+              "No description available for this book."
+            }
 
           </p>
 

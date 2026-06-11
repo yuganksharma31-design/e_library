@@ -63,7 +63,74 @@ overflow-auto
 "
 >
 
+<div className="flex flex-wrap items-center justify-between gap-5 px-8 py-5 bg-white border-b">
 
+  <h1
+    className="
+    text-xl
+    md:text-2xl
+    font-bold
+    text-stone-900
+    line-clamp-2
+    "
+  >
+    {decodeURIComponent(id)}
+  </h1>
+
+  <div className="flex flex-wrap gap-3">
+
+    <button
+      onClick={downloadBook}
+      className="
+      rounded-full
+      bg-[#98003A]
+      px-6
+      py-3
+      font-semibold
+      text-white
+      shadow-xl
+      "
+    >
+      📥 Download
+    </button>
+
+    <button
+      onClick={() => {
+
+        const favorites =
+          JSON.parse(
+            localStorage.getItem("favorites")
+          ) || [];
+
+        favorites.push({
+          id,
+          title: id,
+          cover: `https://archive.org/services/img/${id}`
+        });
+
+        localStorage.setItem(
+          "favorites",
+          JSON.stringify(favorites)
+        );
+
+        alert("Added to favorites ❤️");
+
+      }}
+      className="
+      rounded-full
+      bg-yellow-400
+      px-6
+      py-3
+      font-semibold
+      shadow-xl
+      "
+    >
+      ❤️ Favorite
+    </button>
+
+  </div>
+
+</div>
     {/* VIEWER */}
     <div className="relative">
 
@@ -94,56 +161,6 @@ md:h-[calc(100vh-130px)]
     {/* CUSTOM BUTTONS */}
    
   </div>
-<div className="fixed bottom-5 right-5 z-50 flex gap-3">
-
-  <button
-    onClick={downloadBook}
-    className="
-      rounded-full
-      bg-[#98003A]
-      px-6
-      py-3
-      text-white
-      font-semibold
-      shadow-xl
-    "
-  >
-    📥 Download
-  </button>
-<button
-onClick={() => {
-
-const favorites =
-JSON.parse(
-localStorage.getItem("favorites")
-) || [];
-
-favorites.push({
-id,
-title: id,
-cover: `https://archive.org/services/img/${id}`
-});
-
-localStorage.setItem(
-"favorites",
-JSON.stringify(favorites)
-);
-
-alert("Added to favorites ❤️");
-
-}}
-className="
-rounded-full
-bg-yellow-400
-px-6
-py-3
-font-semibold
-"
->
-❤️ Favorite
-</button>
-  
-</div>
 </div>
 
 
