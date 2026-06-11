@@ -56,12 +56,11 @@ export default function ReaderPage() {
 <div className="w-full flex-1">
 
   <div
-  className="
-    h-full
-    w-full
-    overflow-hidden
-    bg-white
-  "
+className="
+w-full
+bg-white
+overflow-auto
+"
 >
 
 
@@ -69,8 +68,13 @@ export default function ReaderPage() {
     <div className="relative">
 
       <iframe
-src={`https://archive.org/stream/${id}?ui=embed#mode/2up`}
-className="w-full border-0 h-[calc(100vh-130px)]"
+src={`https://archive.org/embed/${id}`}
+className="
+w-full
+border-0
+h-[85vh]
+md:h-[calc(100vh-130px)]
+"
 />
       {/* HIDE ARCHIVE TITLE */}
      <div
@@ -90,7 +94,56 @@ className="w-full border-0 h-[calc(100vh-130px)]"
     {/* CUSTOM BUTTONS */}
    
   </div>
+<div className="fixed bottom-5 right-5 z-50 flex gap-3">
 
+  <button
+    onClick={downloadBook}
+    className="
+      rounded-full
+      bg-[#98003A]
+      px-6
+      py-3
+      text-white
+      font-semibold
+      shadow-xl
+    "
+  >
+    📥 Download
+  </button>
+<button
+onClick={() => {
+
+const favorites =
+JSON.parse(
+localStorage.getItem("favorites")
+) || [];
+
+favorites.push({
+id,
+title: id,
+cover: `https://archive.org/services/img/${id}`
+});
+
+localStorage.setItem(
+"favorites",
+JSON.stringify(favorites)
+);
+
+alert("Added to favorites ❤️");
+
+}}
+className="
+rounded-full
+bg-yellow-400
+px-6
+py-3
+font-semibold
+"
+>
+❤️ Favorite
+</button>
+  
+</div>
 </div>
 
 

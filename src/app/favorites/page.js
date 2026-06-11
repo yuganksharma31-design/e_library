@@ -1,7 +1,7 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 
 export default function FavoritesPage() {
 
@@ -10,55 +10,121 @@ export default function FavoritesPage() {
   useEffect(() => {
 
     const data =
-      JSON.parse(localStorage.getItem("favorites")) || [];
+      JSON.parse(
+        localStorage.getItem("favorites")
+      ) || [];
 
     setFavorites(data);
 
   }, []);
 
+  function removeFavorite(id) {
+
+    const updated = favorites.filter(
+      (item) => item.id !== id
+    );
+
+    setFavorites(updated);
+
+    localStorage.setItem(
+      "favorites",
+      JSON.stringify(updated)
+    );
+
+  }
+
   return (
 
     <main className="min-h-screen bg-[#F8F5EF] px-8 py-20">
 
-      <h1 className="mb-12 text-5xl font-bold">
-        ❤️ Favorite Books
-      </h1>
+      <div className="mx-auto max-w-7xl">
 
-      <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
+        <div className="mb-16">
 
-        {favorites.map((item) => (
+          <div className="text-sm uppercase tracking-[4px] text-[#98003A]">
+            Personal Library
+          </div>
 
-          <Link
-            key={item.id}
-            href={`/book/${item.id}`}
-          >
+          <h1 className="mt-4 text-6xl font-bold text-black">
+            ❤️ Favorites
+          </h1>
 
-            <div className="overflow-hidden rounded-[24px] bg-white shadow-xl">
+          <p className="mt-4 text-stone-500">
+            {favorites.length} saved books and manuscripts
+          </p>
 
-              <img
-                src={item.cover}
-                className="h-[240px] w-full object-cover"
-              />
+        </div>
 
-              <div className="p-5">
+        {favorites.length === 0 ? (
 
-                <h2 className="line-clamp-2 font-bold">
+          <div className="rounded-[40px] bg-white p-20 text-center shadow-xl">
 
-                  {item.title}
+            <h2 className="text-3xl font-bold text-black">
+              No favorites yet
+            </h2>
 
-                </h2>
+            <p className="mt-5 text-stone-500">
+              Add books and manuscripts to your favorites.
+            </p>
+
+          </div>
+
+        ) : (
+
+          <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
+
+            {favorites.map((item) => (
+
+              <div
+                key={item.id}
+                className="overflow-hidden rounded-[30px] bg-white shadow-xl"
+              >
+
+                <Link href={`/reader/${item.id}`}>
+
+                  <img
+                    src={item.cover}
+                    className="h-[260px] w-full object-cover"
+                  />
+
+                </Link>
+
+                <div className="p-5">
+
+                  <h2 className="line-clamp-2 text-lg font-bold text-black">
+                    {item.title}
+                  </h2>
+
+                  <button
+                    onClick={() =>
+                      removeFavorite(item.id)
+                    }
+                    className="
+                    mt-6
+                    w-full
+                    rounded-xl
+                    bg-[#98003A]
+                    py-3
+                    text-white
+                    "
+                  >
+                    Remove
+                  </button>
+
+                </div>
 
               </div>
 
-            </div>
+            ))}
 
-          </Link>
+          </div>
 
-        ))}
+        )}
 
       </div>
 
     </main>
 
   );
+
 }

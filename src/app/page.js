@@ -1,17 +1,45 @@
 "use client";
-
+import { useEffect } from "react";
 import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-
-export default function HomePage() {
-
+import Navbar from "@/components/Navbar";
+export default function HomePage() { 
+const [recentBooks, setRecentBooks] = useState([]);
   const [search, setSearch] = useState("");
   const router = useRouter();
+useEffect(() => {
 
+  async function fetchBooks() {
+
+    try {
+
+      const response = await fetch("/api/library");
+
+      const data = await response.json();
+
+      const books =
+        Array.isArray(data)
+          ? data
+          : data.data || [];
+
+      setRecentBooks(
+        books.slice(0, 8)
+      );
+
+    } catch (error) {
+
+      console.log(error);
+
+    }
+
+  }
+
+  fetchBooks();
+
+}, []);
   return (
-    <main className="min-h-screen bg-[#F8F5EF] text-stone-900">
-
+<main className="min-h-screen bg-[#F8F5EF] text-stone-900">
       {/* HERO */}
       <section className="mx-auto max-w-7xl px-8 pt-24 pb-24">
 
@@ -291,7 +319,88 @@ export default function HomePage() {
   </div>
 
 </section>
+<section className="mx-auto max-w-7xl px-8 py-24">
 
+  <div className="mb-16">
+
+    <div className="text-sm uppercase tracking-[4px] text-[#98003A]">
+      Discover
+    </div>
+
+    <h2 className="mt-4 text-6xl font-bold">
+      Recently Added
+    </h2>
+
+  </div>
+
+  <div className="grid gap-8 md:grid-cols-4">
+
+    {/* cards later */}
+<div className="grid gap-8 md:grid-cols-4">
+
+  {recentBooks.map((item) => (
+
+<Link
+  key={item.identifier}
+  href={`/book/${item.identifier}`}
+>
+
+<div
+className="
+overflow-hidden
+rounded-[30px]
+bg-white
+shadow-xl
+transition
+duration-300
+hover:-translate-y-1
+"
+>
+
+<img
+src={
+item.cover ||
+`https://archive.org/services/img/${item.identifier}`
+}
+className="h-[260px] w-full object-cover"
+/>
+
+<div className="p-6">
+
+<div className="text-sm uppercase tracking-[3px] text-[#98003A]">
+New Arrival
+</div>
+
+<h3 className="mt-4 line-clamp-2 text-xl font-bold">
+{item.title}
+</h3>
+
+<div
+className="
+mt-6
+rounded-full
+bg-[#98003A]
+px-6
+py-3
+text-center
+text-white
+"
+>
+Read →
+</div>
+
+</div>
+
+</div>
+
+</Link>
+
+))}
+
+</div>
+  </div>
+
+</section>
            {/* ABOUT */}
 <section
   className="
@@ -494,54 +603,68 @@ export default function HomePage() {
 
     </div>
 
-    {/* EXPLORE */}
-    <div>
+   {/* QUICK LINKS */}
+   
+<div>
 
-      <h4 className="text-lg font-bold text-[#98003A]">
-        Explore
-      </h4>
+  <h4 className="text-lg font-bold text-[#98003A]">
+    Quick Links
+  </h4>
 
-      <div className="mt-6 space-y-4 text-stone-500">
+  <div className="mt-6 space-y-4 text-stone-500">
 
-        <div>About Us</div>
-
-        <div>Digital Archives</div>
-
-        <div>Collections</div>
-
+    <Link href="/">
+      <div className="hover:text-[#98003A]">
+        Home
       </div>
+    </Link>
 
-    </div>
-
-    {/* RESOURCES */}
-    <div>
-
-      <h4 className="text-lg font-bold text-[#98003A]">
-        Resources
-      </h4>
-
-      <div className="mt-6 space-y-4 text-stone-500">
-
-        <div>Privacy Policy</div>
-
-        <div>Terms & Conditions</div>
-
-        <div>Contact</div>
-
+    <Link href="/book">
+      <div className="hover:text-[#98003A]">
+        Books
       </div>
+    </Link>
 
-    </div>
+    <Link href="/manuscript">
+      <div className="hover:text-[#98003A]">
+        Manuscripts
+      </div>
+    </Link>
+
+    <Link href="/favorites">
+      <div className="hover:text-[#98003A]">
+        Favorites
+      </div>
+    </Link>
+  </div>
+</div>
+  </div>
+
+
+<div>
+
+  <h4 className="text-lg font-bold text-[#98003A]">
+    Resources
+  </h4>
+
+  <div className="mt-6 space-y-4 text-stone-500">
+
+    <div>About Us</div>
+
+    <div>Digital Archives</div>
+
+    <div>Contact</div>
+
+    <div>Privacy Policy</div>
 
   </div>
 
-  <div className="border-t border-stone-200 py-8 text-center text-sm text-stone-400">
+</div>
 
-    © 2026 SMTASM • Preserving Knowledge For Future Generations
-
-  </div>
 
 </footer>
 
-    </main>
-  );
+</main>
+
+);
 }

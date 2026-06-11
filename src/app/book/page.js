@@ -11,7 +11,8 @@ export default function BooksPage() {
   const [loading, setLoading] = useState(true);
 
   const [search, setSearch] = useState("");
-
+  const [language, setLanguage] = useState("All");
+const [sort, setSort] = useState("A-Z");
   const [page, setPage] = useState(1);
 
   const ITEMS_PER_PAGE = 50;
@@ -53,13 +54,39 @@ useEffect(() => {
 
   const timeout = setTimeout(() => {
 
-    const filteredData = books.filter((item) =>
-      item.title
-        ?.toLowerCase()
-        .includes(search.toLowerCase())
-    );
+  const filteredData = books.filter((item) => {
 
-    setFiltered(filteredData);
+  const matchesSearch =
+    item.title
+      ?.toLowerCase()
+      .includes(search.toLowerCase());
+
+  const matchesLanguage =
+    language === "All" ||
+    item.language === language;
+
+  return matchesSearch && matchesLanguage;
+
+});
+    let sorted = [...filteredData];
+
+if (sort === "A-Z") {
+
+  sorted.sort((a, b) =>
+    a.title.localeCompare(b.title)
+  );
+
+}
+
+if (sort === "Z-A") {
+
+  sorted.sort((a, b) =>
+    b.title.localeCompare(a.title)
+  );
+
+}
+
+setFiltered(sorted);
 
     setPage(1);
 
@@ -167,7 +194,54 @@ useEffect(() => {
     <div className="mb-16 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
 
       <div>
+<div className="mb-10 flex flex-wrap gap-4">
 
+  {[
+    "All",
+    "Sanskrit",
+    "Hindi",
+    "English",
+    "Marathi",
+    "Urdu"
+  ].map((lang) => (
+
+    <button
+      key={lang}
+      onClick={() => setLanguage(lang)}
+      className={`
+        rounded-full
+        px-6
+        py-3
+        shadow-lg
+        ${
+          language === lang
+            ? "bg-[#98003A] text-white"
+            : "bg-white"
+        }
+      `}
+    >
+      {lang}
+    </button>
+
+  ))}
+
+</div>
+<select
+  value={sort}
+  onChange={(e) => setSort(e.target.value)}
+  className="
+  rounded-full
+  bg-white
+  px-6
+  py-3
+  shadow-lg
+  "
+>
+
+<option>A-Z</option>
+<option>Z-A</option>
+
+</select>
         <h2 className="text-4xl font-bold">
           All Books
         </h2>
@@ -219,7 +293,8 @@ useEffect(() => {
 
   <Link
   key={item._id || item.identifier}
-  href={`/book/${item.identifier || item._id}`}
+  href={`/book/${encodeURIComponent(item.identifier || item._id)}`}
+  scroll={true}
 >
 
     <div

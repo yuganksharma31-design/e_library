@@ -6,7 +6,12 @@ import { useEffect, useState } from "react";
 
 export default function BookPage() {
   const { id } = useParams();
-
+  useEffect(() => {
+  window.scrollTo({
+    top: 0,
+    behavior: "instant"
+  });
+}, []);
   const [book, setBook] = useState(null);
 
   useEffect(() => {
@@ -114,6 +119,28 @@ export default function BookPage() {
               >
                 📖 Open Book
               </Link>
+              <button
+onClick={() => {
+
+navigator.clipboard.writeText(
+window.location.href
+);
+
+alert("Link copied");
+
+}}
+className="
+rounded-full
+bg-white
+px-8
+py-4
+shadow-lg
+"
+>
+
+🔗 Share
+
+</button>
 
               <a
                 href={`https://archive.org/details/${encodeURIComponent(id)}`}
