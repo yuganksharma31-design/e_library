@@ -1,10 +1,10 @@
 "use client";
 
+import { Suspense, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 
-export default function SearchPage() {
+function SearchContent() {
   const searchParams = useSearchParams();
   const q = searchParams.get("q") || "";
 
@@ -60,7 +60,6 @@ export default function SearchPage() {
 
   return (
     <main className="min-h-screen bg-[#F8F5EF] px-8 py-16">
-
       <h1 className="text-5xl font-bold mb-4">
         Search Results
       </h1>
@@ -73,15 +72,9 @@ export default function SearchPage() {
         <div>Loading...</div>
       ) : (
         <div className="grid gap-8 md:grid-cols-3 lg:grid-cols-4">
-
           {results.map((item, index) => (
-
-            <Link
-              key={index}
-              href={item.url}
-            >
+            <Link key={index} href={item.url}>
               <div className="rounded-3xl bg-white shadow-xl overflow-hidden hover:-translate-y-1 transition">
-
                 <img
                   src={
                     item.thumbnail ||
@@ -89,11 +82,11 @@ export default function SearchPage() {
                     item.image ||
                     "/placeholder.jpg"
                   }
+                  alt={item.title}
                   className="h-[300px] w-full object-cover"
                 />
 
                 <div className="p-5">
-
                   <div className="text-sm text-[#98003A] font-semibold uppercase">
                     {item.type}
                   </div>
@@ -101,17 +94,26 @@ export default function SearchPage() {
                   <h2 className="mt-3 text-xl font-bold line-clamp-3">
                     {item.title}
                   </h2>
-
                 </div>
-
               </div>
             </Link>
-
           ))}
-
         </div>
       )}
-
     </main>
+  );
+}
+
+export default function SearchPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen flex items-center justify-center bg-[#F8F5EF]">
+          Loading...
+        </div>
+      }
+    >
+      <SearchContent />
+    </Suspense>
   );
 }
