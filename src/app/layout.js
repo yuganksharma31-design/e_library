@@ -94,14 +94,14 @@ export default function RootLayout({ children }) {
         </Link>
 
         <Link
-          href="/manuscripts"
+          href="/manuscript"
           className="transition hover:text-[#98003A]"
         >
           Manuscripts
         </Link>
 
         <Link
-          href="/books"
+          href="/book"
           className="transition hover:text-[#98003A]"
         >
           Books

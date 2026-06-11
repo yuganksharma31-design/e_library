@@ -64,7 +64,7 @@ export default function HomePage() {
           {/* BUTTONS */}
           <div className="mt-12 flex flex-wrap gap-5">
 
-            <Link href="/manuscripts">
+            <Link href="/manuscript">
               <button
                 className="
                   rounded-full
@@ -77,11 +77,11 @@ export default function HomePage() {
                   hover:-translate-y-1
                 "
               >
-                Explore Manuscripts
+                Explore Manuscript
               </button>
             </Link>
 
-            <Link href="/books">
+            <Link href="/book">
               <button
                 className="
                   rounded-full
@@ -181,7 +181,7 @@ export default function HomePage() {
   <div className="grid gap-10 lg:grid-cols-2">
 
     {/* MANUSCRIPTS */}
-    <Link href="/manuscripts">
+    <Link href="/manuscript">
 
       <div className="group relative overflow-hidden rounded-[40px]">
 
@@ -235,7 +235,7 @@ export default function HomePage() {
     </Link>
 
     {/* BOOKS */}
-    <Link href="/books">
+    <Link href="/book">
 
       <div className="group relative overflow-hidden rounded-[40px]">
 
@@ -477,13 +477,14 @@ export default function HomePage() {
 
       <div className="mt-6 space-y-4 text-stone-500">
 
-        <Link href="/manuscripts">
+        <Link href="/manuscript">
           <div className="hover:text-[#98003A]">
-            Manuscripts
+            Manuscript
+
           </div>
         </Link>
 
-        <Link href="/books">
+        <Link href="/book">
           <div className="hover:text-[#98003A]">
             Books
           </div>

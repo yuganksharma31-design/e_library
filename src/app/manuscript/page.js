@@ -215,7 +215,7 @@ return (
 
             <Link
   key={item._id || item.identifier}
-  href={`/book/${item.identifier || item._id}`}
+  href={`/manuscript/${encodeURIComponent(item.identifier || item._id)}`}
 >
 
   <div className="
