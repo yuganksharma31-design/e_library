@@ -214,8 +214,8 @@ return (
           {paginatedData.map((item) => (
 
             <Link
-  key={item._id}
-  href={`/reader/${item._id}`}
+  key={item._id || item.identifier}
+  href={`/book/${item.identifier || item._id}`}
 >
 
   <div className="

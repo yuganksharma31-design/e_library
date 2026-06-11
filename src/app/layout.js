@@ -18,15 +18,14 @@ const geistMono = Geist_Mono({
 export default function RootLayout({ children }) {
   const pathname = usePathname();
 
-  const isReaderPage =
-    pathname?.startsWith("/reader/");
+  
 
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-black text-white`}
       >
-        {!isReaderPage && (
+       
          
 <header className="sticky top-0 z-50 bg-[#F7F5F2]">
 
@@ -118,25 +117,7 @@ export default function RootLayout({ children }) {
       </nav>
 
       {/* SEARCH */}
-      <div className="hidden lg:block">
-
-        <input
-          type="text"
-          placeholder="Search archive..."
-          className="
-            rounded-full
-            border
-            border-stone-200
-            bg-[#F7F5F2]
-            px-5
-            py-2
-            text-sm
-            outline-none
-          "
-        />
-
-      </div>
-
+      
     </div>
 
   </div>
@@ -146,7 +127,7 @@ export default function RootLayout({ children }) {
 
 
          
-        )}
+        
 
         {children}
       </body>

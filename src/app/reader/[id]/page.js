@@ -48,129 +48,39 @@ export default function ReaderPage() {
   return (
    
 <div className="flex min-h-screen flex-col bg-[#F8F5EF]">
-
+  
   {/* HEADER */}
-  <header className="sticky top-0 z-[100] border-b border-stone-200 bg-[#F8F5EF]/95 backdrop-blur-xl">
-
-    <div className="mx-auto flex max-w-7xl items-center justify-between px-8 py-5">
-
-      <div className="flex items-center gap-5">
-
-        <Link
-          href="/"
-          className="
-            rounded-full
-            bg-white
-            px-5
-            py-3
-            shadow-lg
-            transition
-            hover:-translate-y-1
-          "
-        >
-          ← Home
-        </Link>
-
-        <div>
-
-          <div className="flex items-center gap-4">
-
-  <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#98003A] text-white text-xl font-bold">
-    ॐ
-  </div>
-
-  <div>
-
-    <h1 className="text-xl font-bold text-[#98003A]">
-      Seth Shree Surajmal Tapariya
-    </h1>
-
-    <p className="text-sm text-stone-500">
-      E-Granthalay
-    </p>
-
-  </div>
-
-</div>
-
-        </div>
-
-      </div>
-
-      <div className="flex items-center gap-4">
-
-        <button
-          onClick={downloadBook}
-         className="
-rounded-full
-bg-[#98003A]
-px-7
-py-3
-font-semibold
-text-white
-shadow-xl
-transition
-duration-300
-hover:scale-105
-"
-        >
-          Download PDF
-        </button>
-
-      </div>
-
-    </div>
-
-  </header>
-
+  
   
 {/* VIEWER CONTAINER */}
-<div className="mx-auto flex w-full max-w-7xl flex-1 p-6">
+<div className="w-full flex-1">
 
   <div
-    className="
-      w-full
-      overflow-hidden
-      rounded-[40px]
-      bg-white
-      shadow-2xl
-      ring-1
-      ring-stone-200
-    "
-  >
+  className="
+    h-full
+    w-full
+    overflow-hidden
+    bg-white
+  "
+>
 
-    {/* TITLE */}
-    <div className="border-b border-stone-200 bg-white px-8 py-5">
-
-      <div className="text-sm font-semibold uppercase tracking-[3px] text-[#98003A]">
-        Digital Manuscript Viewer
-      </div>
-
-      <h2 className="mt-2 text-2xl font-bold text-stone-900">
-        Archive Reader
-      </h2>
-
-    </div>
 
     {/* VIEWER */}
     <div className="relative">
 
       <iframe
-        src={`https://archive.org/stream/${id}?ui=embed#mode/2up`}
-        className="h-[80vh] w-full border-0"
-        allowFullScreen
-      />
-
+src={`https://archive.org/stream/${id}?ui=embed#mode/2up`}
+className="w-full border-0 h-[calc(100vh-130px)]"
+/>
       {/* HIDE ARCHIVE TITLE */}
      <div
   className="absolute top-0 left-0 right-0 z-50"
   style={{
-    height: "45px",
-    background: "transparent",
-    pointerEvents: "auto",
+    height: "50px",
+    pointerEvents: "all",
     cursor: "default"
   }}
-/>
+></div>
 
       {/* HIDE LEFT TOOLBAR */}
      
@@ -193,13 +103,13 @@ hover:scale-105
 
         <div>
 
-          <h3 className="text-3xl font-bold text-[#98003A]">
+          <h3 className="text-xl md:text-3xl font-bold text-[#98003A]">
 
             Seth Shree Surajmal Tapariya E-Granthalay
 
           </h3>
 
-          <p className="mt-4 max-w-2xl text-lg leading-8 text-stone-500">
+          <p className="mt-4 max-w-2xl text-sm md:text-lg leading-7 text-stone-500">
 
             Preserving Sanskrit Manuscripts and Rare Books
             for Future Generations.

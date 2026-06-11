@@ -1,6 +1,14 @@
+"use client";
+
 import Link from "next/link";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function HomePage() {
+
+  const [search, setSearch] = useState("");
+  const router = useRouter();
+
   return (
     <main className="min-h-screen bg-[#F8F5EF] text-stone-900">
 
@@ -31,16 +39,23 @@ export default function HomePage() {
             <div className="rounded-full bg-white px-8 py-6 shadow-xl">
 
               <input
-                type="text"
-                placeholder="Search manuscripts, books and collections..."
-                className="
-                  w-full
-                  bg-transparent
-                  text-lg
-                  outline-none
-                  placeholder:text-stone-400
-                "
-              />
+  type="text"
+  value={search}
+  onChange={(e) => setSearch(e.target.value)}
+  onKeyDown={(e) => {
+    if (e.key === "Enter" && search.trim()) {
+      router.push(`/search?q=${encodeURIComponent(search)}`);
+    }
+  }}
+  placeholder="Search manuscripts, books and collections..."
+  className="
+    w-full
+    bg-transparent
+    text-lg
+    outline-none
+    placeholder:text-stone-400
+  "
+/>
 
             </div>
 
