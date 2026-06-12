@@ -191,74 +191,28 @@ setFiltered(sorted);
   {/* CONTENT */}
   <section className="mx-auto max-w-7xl px-8 pb-20">
 
-    <div className="mb-16 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
 
-      <div>
-<div className="mb-10 flex flex-wrap gap-4">
 
-  {[
-    "All",
-    "Sanskrit",
-    "Hindi",
-    "English",
-    "Marathi",
-    "Urdu"
-  ].map((lang) => (
+       <div className="mb-16">
 
-    <button
-      key={lang}
-      onClick={() => setLanguage(lang)}
-      className={`
-        rounded-full
-        px-6
-        py-3
-        shadow-lg
-        ${
-          language === lang
-            ? "bg-[#98003A] text-white"
-            : "bg-white"
-        }
-      `}
-    >
-      {lang}
-    </button>
+  <div className="text-sm font-semibold uppercase tracking-[4px] text-[#D6A700]">
+    Digital Collection
+  </div>
 
-  ))}
+  <h1 className="mt-5 text-7xl font-bold text-[#1C1C1C]">
+    All Books
+  </h1>
+
+  <p className="mt-6 text-xl text-stone-500">
+    Explore
+    <span className="font-bold text-[#D6A700]">
+      {" "}15,489+{" "}
+    </span>
+    books preserved for future generations.
+  </p>
 
 </div>
-<select
-  value={sort}
-  onChange={(e) => setSort(e.target.value)}
-  className="
-  rounded-full
-  bg-white
-  px-6
-  py-3
-  shadow-lg
-  "
->
-
-<option>A-Z</option>
-<option>Z-A</option>
-
-</select>
-        <h2 className="text-4xl font-bold">
-          All Books
-        </h2>
-
-        <p className="mt-3 text-stone-500">
-          {filtered.length} books available
-        </p>
-
-      </div>
-
-      <div className="rounded-full bg-white px-6 py-4 shadow-md text-stone-500">
-
-        Showing 50 books per page
-
-      </div>
-
-    </div>
+    
     
 
     {loading ? (
@@ -293,7 +247,7 @@ setFiltered(sorted);
 
   <Link
   key={item._id || item.identifier}
-  href={`/book/${encodeURIComponent(item.identifier || item._id)}`}
+  href={`/reader/${encodeURIComponent(item.identifier || item._id)}`}
   scroll={true}
 >
 

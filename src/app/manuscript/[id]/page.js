@@ -1,8 +1,7 @@
 "use client";
 
-import { useParams } from "next/navigation";
-import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useParams, useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export default function ManuscriptPage() {
 

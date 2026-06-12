@@ -2,20 +2,20 @@ import Image from "next/image";
 
 export default function AboutPage() {
   return (
-    <main className="min-h-screen bg-[#F8F5EF] text-stone-900">
+    <main className="min-h-screen bg-[#98003A] text-white">
 
       {/* HERO */}
-      <section className="bg-[#F7F5F2]">
+      <section className="bg-[#98003A]">
 
         <div className="mx-auto grid max-w-7xl gap-16 px-8 py-24 lg:grid-cols-2 lg:items-center">
 
           <div>
 
-            <div className="text-sm font-semibold uppercase tracking-[4px] text-[#98003A]">
+            <div className="text-sm font-semibold uppercase tracking-[4px] text-yellow-300">
               About Us
             </div>
 
-            <h1 className="mt-6 text-6xl font-bold leading-tight">
+            <h1 className="mt-6 text-7xl font-bold leading-tight text-white">
 
               Preserving
               <br />
@@ -25,7 +25,7 @@ export default function AboutPage() {
 
             </h1>
 
-            <p className="mt-8 max-w-xl text-lg leading-9 text-stone-600">
+            <p className="mt-8 max-w-xl text-lg leading-9 text-stone-200">
 
               Seth Shree Surajmal Tapariya E-Granthalay is a
               digital repository dedicated to preserving
@@ -57,9 +57,15 @@ export default function AboutPage() {
       {/* OUR STORY */}
 <section className="mx-auto max-w-7xl px-8 py-24">
 
-  <div className="rounded-[50px] bg-white p-16 shadow-2xl">
+  <div className="
+rounded-[50px]
+bg-white/10
+border border-white/10
+backdrop-blur-xl
+p-16
+">
 
-    <div className="text-sm font-semibold uppercase tracking-[4px] text-[#98003A]">
+    <div className="text-sm font-semibold uppercase tracking-[4px] text-yellow-300">
       Our Story
     </div>
 
@@ -67,7 +73,7 @@ export default function AboutPage() {
       Preserving Heritage Through Technology
     </h2>
 
-    <p className="mt-8 max-w-4xl text-lg leading-9 text-stone-600">
+    <p className="mt-8 max-w-4xl text-lg leading-9 text-stone-200">
 
       Seth Shree Surajmal Tapariya E-Granthalay was established
       with the vision of preserving rare Sanskrit manuscripts,
@@ -91,49 +97,61 @@ export default function AboutPage() {
 
   <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
 
-    <div className="rounded-[36px] bg-white p-10 shadow-xl">
+    <div className="rounded-[36px] bg-[#B31255]
+border border-pink-400/20
+shadow-2xl
+p-10">
 
-      <div className="text-5xl font-bold text-[#98003A]">
+      <div className="text-5xl font-bold text-yellow-300">
         13K+
       </div>
 
-      <div className="mt-4 text-stone-500">
+      <div className="mt-4 text-stone-200">
         Manuscripts
       </div>
 
     </div>
 
-    <div className="rounded-[36px] bg-white p-10 shadow-xl">
+    <div className="rounded-[36px] bg-[#B31255]
+border border-pink-400/20
+shadow-2xl
+p-10">
 
-      <div className="text-5xl font-bold text-[#98003A]">
+      <div className="text-5xl font-bold text-yellow-300">
         5K+
       </div>
 
-      <div className="mt-4 text-stone-500">
+      <div className="mt-4 text-stone-200">
         Books
       </div>
 
     </div>
 
-    <div className="rounded-[36px] bg-white p-10 shadow-xl">
+    <div className="rounded-[36px] bg-[#B31255]
+border border-pink-400/20
+shadow-2xl
+p-10">
 
-      <div className="text-5xl font-bold text-[#98003A]">
+      <div className="text-5xl font-bold text-yellow-300">
         1.2M+
       </div>
 
-      <div className="mt-4 text-stone-500">
+      <div className="mt-4 text-stone-200">
         Pages Archived
       </div>
 
     </div>
 
-    <div className="rounded-[36px] bg-white p-10 shadow-xl">
+    <div className="rounded-[36px] bg-[#B31255]
+border border-pink-400/20
+shadow-2xl
+p-10">
 
-      <div className="text-5xl font-bold text-[#98003A]">
+      <div className="text-5xl font-bold text-yellow-300">
         25+
       </div>
 
-      <div className="mt-4 text-stone-500">
+      <div className="mt-4 text-stone-200">
         Collections
       </div>
 
@@ -149,7 +167,7 @@ export default function AboutPage() {
 
     <div className="mb-16 text-center">
 
-      <div className="text-sm font-semibold uppercase tracking-[4px] text-white/70">
+      <div className="text-sm font-semibold uppercase tracking-[4px] text-yellow-300">
         Mission & Vision
       </div>
 
@@ -162,17 +180,21 @@ export default function AboutPage() {
     <div className="grid gap-10 lg:grid-cols-2">
 
       {/* MISSION */}
-      <div className="rounded-[40px] bg-white p-14 shadow-2xl">
+      <div className="rounded-[40px]
+bg-white/10
+border border-white/10
+backdrop-blur-xl
+p-14">
 
-        <div className="text-sm font-semibold uppercase tracking-[4px] text-[#98003A]">
+        <div className="text-sm font-semibold uppercase tracking-[4px] text-yellow-300">
           Mission
         </div>
 
-        <h3 className="mt-6 text-4xl font-bold text-stone-900">
+        <h3 className="mt-6 text-4xl font-bold text-white">
           Preserve Ancient Knowledge
         </h3>
 
-        <p className="mt-8 text-lg leading-9 text-stone-600">
+        <p className="mt-8 text-lg leading-9 text-stone-200">
 
           To digitally preserve Sanskrit manuscripts,
           rare books and historical collections while
@@ -184,17 +206,21 @@ export default function AboutPage() {
       </div>
 
       {/* VISION */}
-      <div className="rounded-[40px] bg-white p-14 shadow-2xl">
+      <div className="rounded-[40px]
+bg-white/10
+border border-white/10
+backdrop-blur-xl
+p-14">
 
-        <div className="text-sm font-semibold uppercase tracking-[4px] text-[#98003A]">
+        <div className="text-sm font-semibold uppercase tracking-[4px] text-yellow-300">
           Vision
         </div>
 
-        <h3 className="mt-6 text-4xl font-bold text-stone-900">
+        <h3 className="mt-6 text-4xl font-bold text-white">
           A Global Digital Heritage Library
         </h3>
 
-        <p className="mt-8 text-lg leading-9 text-stone-600">
+        <p className="mt-8 text-lg leading-9 text-stone-200">
 
           To become a world-class digital repository
           safeguarding valuable literary treasures and
@@ -211,7 +237,7 @@ export default function AboutPage() {
 
 </section>
 {/* FOOTER */}
-<footer className="bg-[#F8F5EF]">
+<footer className="bg-[#7A002F]">
 
   <div className="mx-auto max-w-7xl px-8 py-24">
 
@@ -219,11 +245,11 @@ export default function AboutPage() {
 
       <div>
 
-        <div className="text-sm font-semibold uppercase tracking-[4px] text-[#98003A]">
+        <div className="text-sm font-semibold uppercase tracking-[4px] text-yellow-300">
           Digital Heritage Library
         </div>
 
-        <h2 className="mt-6 text-5xl font-bold text-stone-900">
+        <h2 className="mt-6 text-5xl font-bold text-white">
 
           Seth Shree Surajmal
           <br />
@@ -231,7 +257,7 @@ export default function AboutPage() {
 
         </h2>
 
-        <p className="mt-8 max-w-2xl text-lg leading-9 text-stone-500">
+        <p className="mt-8 max-w-2xl text-lg leading-9 text-stone-200">
 
           A digital repository dedicated to preserving
           Sanskrit manuscripts, rare books and historical
@@ -244,15 +270,21 @@ export default function AboutPage() {
 
       <div className="flex flex-col justify-end">
 
-        <div className="rounded-[40px] bg-white p-12 shadow-2xl">
+        <div className="
+rounded-[40px]
+bg-white/10
+border border-white/10
+backdrop-blur-xl
+p-12
+">
 
-          <h3 className="text-3xl font-bold text-[#98003A]">
+          <h3 className="text-3xl font-bold text-yellow-300">
 
             Preserving Knowledge Through Technology
 
           </h3>
 
-          <p className="mt-6 text-lg leading-9 text-stone-600">
+          <p className="mt-6 text-lg leading-9 text-stone-200">
 
             Our vision is to make ancient literary heritage
             accessible globally while safeguarding invaluable
@@ -266,7 +298,7 @@ export default function AboutPage() {
 
     </div>
 
-    <div className="mt-24 border-t border-stone-200 pt-10 text-sm text-stone-400">
+    <div className="mt-24 border-t border-white/10 pt-10 text-sm text-stone-300">
 
       © 2026 SMTASM • All Rights Reserved
 

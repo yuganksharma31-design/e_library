@@ -190,78 +190,71 @@ return (
   {/* CONTENT */}
   <section className="mx-auto max-w-7xl px-8 pb-20">
 
-    <div className="mb-16 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-
-      <div>
-<div className="mb-10 flex flex-wrap items-center gap-4">
-
-  {[
-    "All",
-    "Sanskrit",
-    "Hindi",
-    "English",
-    "Marathi",
-    "Urdu"
-  ].map((lang) => (
-
-    <button
-      key={lang}
-      onClick={() => setLanguage(lang)}
-      className={`
-        rounded-full
-        px-6
-        py-3
-        shadow-lg
-        transition
-        ${
-          language === lang
-            ? "bg-[#98003A] text-white"
-            : "bg-white"
-        }
-      `}
-    >
-      {lang}
-    </button>
-
-  ))}
-
-  <select
-    value={sort}
-    onChange={(e) => setSort(e.target.value)}
-    className="
-    rounded-full
-    bg-white
-    px-6
-    py-3
-    shadow-lg
-    "
-  >
     
 
-    <option>A-Z</option>
+        <div className="mb-16">
 
-    <option>Z-A</option>
+  <div className="text-sm font-semibold uppercase tracking-[4px] text-[#D6A700]">
+    Digital Collection
+  </div>
 
-  </select>
+  <h2 className="mt-5 text-7xl font-bold text-[#1C1C1C]">
+    All Manuscripts
+  </h2>
+
+  <p className="mt-6 text-xl text-stone-500">
+    Explore
+    <span className="font-bold text-[#D6A700]">
+      {" "}{filtered.length.toLocaleString()}+{" "}
+    </span>
+    manuscripts preserved for future generations.
+  </p>
 
 </div>
-        <h2 className="text-4xl font-bold">
-          All Manuscripts
-        </h2>
 
-        <p className="mt-3 text-stone-500">
-          {filtered.length} manuscripts available
-        </p>
+<div
+  className="
+    mb-16
+    rounded-[30px]
+    border
+    border-stone-200
+    bg-white
+    px-10
+    py-8
+    shadow-xl
+  "
+>
 
+  <div className="flex items-center justify-between">
+
+    <div>
+
+      <div className="text-5xl font-bold text-[#D6A700]">
+        {filtered.length.toLocaleString()}+
       </div>
 
-      <div className="rounded-full bg-white px-6 py-4 shadow-md text-stone-500">
-
-        Showing 50 manuscripts per page
-
+      <div className="mt-3 text-stone-500">
+        Manuscripts Available
       </div>
 
     </div>
+
+    <div className="text-right">
+
+      <div className="text-3xl font-bold text-[#98003A]">
+        50
+      </div>
+
+      <div className="mt-3 text-stone-500">
+        Manuscripts Per Page
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+    
 
     {loading ? (
 
@@ -295,7 +288,7 @@ return (
 
             <Link
   key={item._id || item.identifier}
-  href={`/manuscript/${encodeURIComponent(item.identifier || item._id)}`}
+  href={`/reader/${encodeURIComponent(item.identifier || item._id)}`}
   scroll={true}
 >
 

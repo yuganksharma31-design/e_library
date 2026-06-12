@@ -39,28 +39,51 @@ useEffect(() => {
 
 }, []);
   return (
-<main className="min-h-screen bg-[#98003A] text-white">
+<main className="min-h-screen bg-[#F8F5EF] text-stone-900">
       {/* HERO */}
       <section className="mx-auto max-w-7xl px-8 pt-24 pb-24">
 
         <div className="max-w-5xl">
 
-          <div className="inline-flex rounded-full bg-white/10 border border-white/20 px-5 py-3 text-sm font-medium text-yellow-300">
-            Digital Sanskrit Heritage Collection
-          </div>
+          <div className="
+inline-flex
+items-center
+rounded-full
+bg-[#FFF8E6]
+px-7
+py-3
+text-sm
+font-semibold
+tracking-[4px]
+uppercase
+text-[#D6A700]
+">
+  Rare Manuscripts • Books 
+</div>
 
-          <h1 className="mt-8 text-6xl font-bold leading-tight lg:text-8xl">
+          <h1 className="
+mt-10
+max-w-6xl
+text-6xl
+font-bold
+leading-[1.1]
+text-[#1C1C1C]
+lg:text-8xl
+">
             Seth Shree Surajmal
             <br />
             Tapariya E-Granthalay
           </h1>
 
-          <p className="mt-8 max-w-3xl text-xl leading-9 text-stone-200">
-            Preserving Sanskrit heritage through rare manuscripts,
-            historical books, digitized archives and timeless knowledge
-            for future generations.
-          </p>
-
+          <p className="
+mt-10
+max-w-3xl
+text-xl
+leading-10
+text-stone-500
+">
+Preserving Sanskrit manuscripts, rare books, digitized archives and timeless wisdom for scholars and future generations.
+</p>
           {/* SEARCH */}
           <div className="mt-14 max-w-3xl">
 
@@ -99,7 +122,7 @@ useEffect(() => {
                   bg-yellow-400 text-black
                   px-8
                   py-5
-                  text-white
+                  text-[#1C1C1C]
                   shadow-lg
                   transition
                   hover:-translate-y-1
@@ -117,7 +140,7 @@ useEffect(() => {
 border border-white/20
 px-8
 py-5
-text-white
+text-[#1C1C1C]
 shadow-lg
                   transition
                   hover:-translate-y-1
@@ -139,32 +162,32 @@ shadow-lg
         <div className="grid gap-8 md:grid-cols-4">
 
           <div className="rounded-[32px]
-bg-white/10
-border border-white/10
-backdrop-blur-xl
+bg-white
+border border-stone-200
+shadow-xl
 p-10">
 
             <h2 className="text-5xl font-bold text-yellow-300">
               13K+
             </h2>
 
-            <p className="mt-4 text-stone-200">
+            <p className="mt-4 text-stone-500">
               Manuscripts
             </p>
 
           </div>
 
           <div className="rounded-[32px]
-bg-white/10
-border border-white/10
-backdrop-blur-xl
+bg-white
+border border-stone-200
+shadow-xl
 p-10">
 
             <h2 className="text-5xl font-bold text-yellow-300">
               15K+
             </h2>
 
-            <p className="mt-4 text-stone-200">
+            <p className="mt-4 text-stone-500">
               Books
             </p>
 
@@ -172,16 +195,16 @@ p-10">
 
          
           <div className="rounded-[32px]
-bg-white/10
-border border-white/10
-backdrop-blur-xl
+bg-white
+border border-stone-200
+shadow-xl
 p-10">
 
             <h2 className="text-5xl font-bold text-yellow-300">
               25+
             </h2>
 
-            <p className="mt-4 text-stone-200">
+            <p className="mt-4 text-stone-500">
               Collections
             </p>
 
@@ -200,7 +223,7 @@ p-10">
       Collections
     </div>
 
-    <h2 className="mt-5 text-6xl font-bold text-white">
+    <h2 className="mt-5 text-6xl font-bold text-[#1C1C1C]">
 
       Explore Our Archives
 
@@ -229,7 +252,7 @@ p-10">
 
         <div className="absolute inset-0 bg-black/55" />
 
-        <div className="absolute bottom-10 left-10 right-10 text-white">
+        <div className="absolute bottom-10 left-10 right-10 text-[#1C1C1C]">
 
           <div className="text-sm uppercase tracking-[4px] text-yellow-300">
 
@@ -245,7 +268,7 @@ p-10">
 
           </h3>
 
-          <p className="mt-6 max-w-md text-lg leading-8 text-stone-200">
+          <p className="mt-6 max-w-md text-lg leading-8 text-stone-500">
 
             Explore thousands of digitized manuscripts
             and ancient Sanskrit collections.
@@ -283,7 +306,7 @@ p-10">
 
         <div className="absolute inset-0 bg-black/55" />
 
-        <div className="absolute bottom-10 left-10 right-10 text-white">
+        <div className="absolute bottom-10 left-10 right-10 text-[#1C1C1C]">
 
           <div className="text-sm uppercase tracking-[4px] text-yellow-300">
 
@@ -299,7 +322,7 @@ p-10">
 
           </h3>
 
-          <p className="mt-6 max-w-md text-lg leading-8 text-stone-200">
+          <p className="mt-6 max-w-md text-lg leading-8 text-stone-500">
 
             Browse philosophy, literature and
             historical archives preserved digitally.
@@ -329,16 +352,13 @@ p-10">
       Discover
     </div>
 
-    <h2 className="mt-4 text-6xl font-bold text-white">
+    <h2 className="mt-4 text-6xl font-bold text-[#1C1C1C]">
       Recently Added
     </h2>
 
   </div>
 
-  <div className="grid gap-8 md:grid-cols-4">
-
-    {/* cards later */}
-<div className="grid gap-8 md:grid-cols-4">
+<div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
 
   {recentBooks.map((item) => (
 
@@ -351,13 +371,13 @@ p-10">
 className="
 overflow-hidden
 rounded-[30px]
-bg-white/10
-border border-white/10
-backdrop-blur-xl
+bg-white
+border border-stone-200
 shadow-xl
 transition
 duration-300
 hover:-translate-y-1
+h-full
 "
 >
 
@@ -366,7 +386,7 @@ src={
 item.cover ||
 `https://archive.org/services/img/${item.identifier}`
 }
-className="h-[260px] w-full object-cover"
+className="h-[320px] w-full object-cover"
 />
 
 <div className="p-6">
@@ -375,7 +395,7 @@ className="h-[260px] w-full object-cover"
 New Arrival
 </div>
 
-<h3 className="mt-4 line-clamp-2 text-xl font-bold">
+<h3 className="mt-4 line-clamp-2 text-xl font-bold text-[#1C1C1C]">
 {item.title}
 </h3>
 
@@ -403,7 +423,7 @@ Read →
 ))}
 
 </div>
-  </div>
+  
 
 </section>
            {/* ABOUT */}
@@ -411,10 +431,10 @@ Read →
   className="
     relative
     overflow-hidden
-    bg-[#98003A]
+    bg-white
     py-28
     text-center
-    text-white
+    text-[#1C1C1C]
   "
 >
 
@@ -430,7 +450,7 @@ Read →
       Across Generations
     </h2>
 
-    <p className="mx-auto mt-10 max-w-3xl text-lg leading-9 text-stone-200">
+    <p className="mx-auto mt-10 max-w-3xl text-lg leading-9 text-stone-500">
 
       Seth Shree Surajmal Tapariya E-Granthalay is committed to
       preserving rare manuscripts, historical books and invaluable
@@ -464,9 +484,9 @@ Read →
   className="
     relative
     overflow-hidden
-    bg-[#98003A]
+    bg-white
     py-32
-    text-white
+    text-[#1C1C1C]
   "
 >
 
@@ -510,7 +530,7 @@ Read →
 
       </h3>
 
-      <p className="mt-6 leading-8 text-stone-200">
+      <p className="mt-6 leading-8 text-stone-500">
 
         Preserving Sanskrit manuscripts, rare books and
         historical collections for future generations.
@@ -526,7 +546,7 @@ Read →
         Collections
       </h4>
 
-      <div className="mt-6 space-y-4 text-stone-200">
+      <div className="mt-6 space-y-4 text-stone-500">
 
         <Link href="/manuscript">
           <div className="hover:text-yellow-300">
@@ -553,7 +573,7 @@ Read →
     Quick Links
   </h4>
 
-  <div className="mt-6 space-y-4 text-stone-200">
+  <div className="mt-6 space-y-4 text-stone-500">
 
     <Link href="/">
       <div className="hover:text-yellow-300">
