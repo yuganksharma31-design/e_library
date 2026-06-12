@@ -168,7 +168,20 @@ return (
   {/* SEARCH */}
   <section className="mx-auto max-w-7xl px-8 pb-16">
 
-  <div className="rounded-full bg-white px-8 py-6 shadow-xl">
+  <div
+className="
+rounded-[40px]
+bg-white
+border
+border-[#E8D9B5]
+px-8
+py-6
+shadow-xl
+transition
+duration-300
+hover:-translate-y-2
+"
+>
 
     <input
       type="text"
@@ -198,7 +211,7 @@ return (
     Digital Collection
   </div>
 
-  <h2 className="mt-5 text-7xl font-bold text-[#1C1C1C]">
+  <h2 className="mt-5 text-5xl font-bold text-[#1C1C1C]">
     All Manuscripts
   </h2>
 
@@ -213,23 +226,25 @@ return (
 </div>
 
 <div
-  className="
-    mb-16
-    rounded-[30px]
-    border
-    border-stone-200
-    bg-white
-    px-10
-    py-8
-    shadow-xl
-  "
+  
+className="
+mb-16
+rounded-[30px]
+bg-white
+border-l-[8px]
+border-l-[#98003A]
+px-10
+py-8
+shadow-xl
+"
+
 >
 
-  <div className="flex items-center justify-between">
+  <div className="flex flex-col gap-10 md:flex-row md:items-center md:justify-between">
 
     <div>
 
-      <div className="text-5xl font-bold text-[#D6A700]">
+      <div className="text-6xl font-bold text-[#98003A]">
         {filtered.length.toLocaleString()}+
       </div>
 
@@ -282,7 +297,7 @@ return (
       <>
 
         {/* GRID */}
-        <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6">
+        <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
 
           {paginatedData.map((item) => (
 
@@ -315,7 +330,7 @@ hover:shadow-2xl
       }
       alt={item.title}
       className="
-  h-[180px]
+  h-[250px]
   w-full
   object-cover
 "
@@ -333,7 +348,7 @@ hover:shadow-2xl
 
       </div>
 
-      <h2 className="line-clamp-2 text-lg font-bold text-stone-900">
+      <h2 className="mt-4 line-clamp-2 text-lg font-bold text-stone-900">
 
         {item.title}
 
@@ -348,13 +363,14 @@ hover:shadow-2xl
       <div
   className="
     mt-5
-    rounded-xl
+    rounded-2xl
     border
     border-[#98003A]
     py-3
     text-center
     font-semibold
     text-[#98003A]
+    shadow-md
     transition
     group-hover:bg-[#98003A]
     group-hover:text-white
@@ -381,15 +397,16 @@ hover:shadow-2xl
             disabled={page === 1}
             onClick={() => setPage((prev) => prev - 1)}
             className="
-              rounded-full
-              bg-white
-              px-8
-              py-4
-              shadow-lg
-              transition
-              hover:-translate-y-1
-              disabled:opacity-40
-            "
+rounded-full
+bg-[#98003A]
+text-white
+px-8
+py-4
+shadow-lg
+transition
+hover:bg-[#7F0030]
+disabled:opacity-40
+"
           >
 
             ← Previous
@@ -398,13 +415,16 @@ hover:shadow-2xl
 
           <div
             className="
-              rounded-full
-              bg-white
-              px-8
-              py-4
-              shadow-lg
-              text-stone-500
-            "
+rounded-full
+bg-[#FFF8E6]
+border
+border-[#E8D9B5]
+px-8
+py-4
+shadow-lg
+font-semibold
+text-[#98003A]
+"
           >
 
             {page} / {totalPages}
@@ -415,15 +435,16 @@ hover:shadow-2xl
             disabled={page === totalPages}
             onClick={() => setPage((prev) => prev + 1)}
             className="
-              rounded-full
-              bg-white
-              px-8
-              py-4
-              shadow-lg
-              transition
-              hover:-translate-y-1
-              disabled:opacity-40
-            "
+rounded-full
+bg-[#98003A]
+text-white
+px-8
+py-4
+shadow-lg
+transition
+hover:bg-[#7F0030]
+disabled:opacity-40
+"
           >
 
             Next →
@@ -439,7 +460,7 @@ hover:shadow-2xl
   </section>
 
   {/* FOOTER */}
-  <footer className="mt-32 border-t border-stone-200">
+  <footer className="mt-32 bg-[#98003A] text-white">
 
     <div className="mx-auto max-w-7xl px-8 py-20">
 

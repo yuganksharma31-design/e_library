@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Navbar from "@/components/Navbar";
+
 export default function HomePage() { 
 const [recentBooks, setRecentBooks] = useState([]);
   const [search, setSearch] = useState("");
@@ -43,7 +44,7 @@ useEffect(() => {
       {/* HERO */}
       <section className="mx-auto max-w-7xl px-8 pt-24 pb-24">
 
-        <div className="max-w-5xl">
+        <div className="max-w-6xl">
 
           <div className="
 inline-flex
@@ -60,20 +61,22 @@ text-[#D6A700]
 ">
   Rare Manuscripts • Books 
 </div>
-
-          <h1 className="
+<h1
+className="
 mt-10
-max-w-6xl
-text-6xl
+max-w-5xl
+text-5xl
 font-bold
-leading-[1.1]
+leading-tight
 text-[#1C1C1C]
-lg:text-8xl
-">
-            Seth Shree Surajmal
-            <br />
-            Tapariya E-Granthalay
-          </h1>
+md:text-6xl
+lg:text-7xl
+"
+>
+  Seth Shri Surajmal
+  <br />
+  Taparia&nbsp;E-Granthalay
+</h1>
 
           <p className="
 mt-10
@@ -84,34 +87,7 @@ text-stone-500
 ">
 Preserving Sanskrit manuscripts, rare books, digitized archives and timeless wisdom for scholars and future generations.
 </p>
-          {/* SEARCH */}
-          <div className="mt-14 max-w-3xl">
-
-            <div className="rounded-full bg-white px-8 py-6 shadow-xl">
-
-              <input
-  type="text"
-  value={search}
-  onChange={(e) => setSearch(e.target.value)}
-  onKeyDown={(e) => {
-    if (e.key === "Enter" && search.trim()) {
-      router.push(`/search?q=${encodeURIComponent(search)}`);
-    }
-  }}
-  placeholder="Search manuscripts, books and collections..."
-  className="
-    w-full
-    bg-transparent
-    text-lg
-    outline-none
-    placeholder:text-stone-400
-  "
-/>
-
-            </div>
-
-          </div>
-
+          
           {/* BUTTONS */}
           <div className="mt-12 flex flex-wrap gap-5">
 
@@ -162,12 +138,14 @@ shadow-lg
         <div className="grid gap-8 md:grid-cols-4">
 
           <div className="rounded-[32px]
-bg-white
+bg-gradient-to-br from-white to-[#FFF8E8]
+border border-[#E8D9B5]
 border border-stone-200
 shadow-xl
 p-10">
 
-            <h2 className="text-5xl font-bold text-yellow-300">
+            <h2 className="text-5xl font-bold text-[#98003A]">
+             <div className="h-2 rounded-t-[32px] bg-gradient-to-r from-[#98003A] to-[#D6A700]" />
               13K+
             </h2>
 
@@ -183,7 +161,8 @@ border border-stone-200
 shadow-xl
 p-10">
 
-            <h2 className="text-5xl font-bold text-yellow-300">
+            <h2 className="text-5xl font-bold text-[#98003A]">
+             <div className="h-2 rounded-t-[32px] bg-gradient-to-r from-[#98003A] to-[#D6A700]" />
               15K+
             </h2>
 
@@ -200,7 +179,8 @@ border border-stone-200
 shadow-xl
 p-10">
 
-            <h2 className="text-5xl font-bold text-yellow-300">
+            <h2 className="text-5xl font-bold text-[#98003A]">
+              <div className="h-2 rounded-t-[32px] bg-gradient-to-r from-[#98003A] to-[#D6A700]" />
               25+
             </h2>
 
@@ -252,7 +232,7 @@ p-10">
 
         <div className="absolute inset-0 bg-black/55" />
 
-        <div className="absolute bottom-10 left-10 right-10 text-[#1C1C1C]">
+        <div className="absolute bottom-10 left-10 right-10 text-white drop-shadow-2xl">
 
           <div className="text-sm uppercase tracking-[4px] text-yellow-300">
 
@@ -260,7 +240,7 @@ p-10">
 
           </div>
 
-          <h3 className="mt-5 text-5xl font-bold">
+          <h3 className="mt-5 text-5xl font-bold text-white">
 
             Sanskrit
             <br />
@@ -268,7 +248,7 @@ p-10">
 
           </h3>
 
-          <p className="mt-6 max-w-md text-lg leading-8 text-stone-500">
+          <p className="mt-6 max-w-md text-lg leading-8 text-white/90">
 
             Explore thousands of digitized manuscripts
             and ancient Sanskrit collections.
@@ -306,7 +286,7 @@ p-10">
 
         <div className="absolute inset-0 bg-black/55" />
 
-        <div className="absolute bottom-10 left-10 right-10 text-[#1C1C1C]">
+        <div className="absolute bottom-10 left-10 right-10 text-white drop-shadow-2xl">
 
           <div className="text-sm uppercase tracking-[4px] text-yellow-300">
 
@@ -314,7 +294,7 @@ p-10">
 
           </div>
 
-          <h3 className="mt-5 text-5xl font-bold">
+          <h3 className="mt-5 text-5xl font-bold text-white">
 
             Rare Books
             <br />
@@ -322,7 +302,7 @@ p-10">
 
           </h3>
 
-          <p className="mt-6 max-w-md text-lg leading-8 text-stone-500">
+          <p className="mt-6 max-w-md text-lg leading-8 text-white/90">
 
             Browse philosophy, literature and
             historical archives preserved digitally.
@@ -376,7 +356,8 @@ border border-stone-200
 shadow-xl
 transition
 duration-300
-hover:-translate-y-1
+hover:-translate-y-3
+hover:shadow-2xl
 h-full
 "
 >
@@ -438,7 +419,19 @@ Read →
   "
 >
 
-  <div className="mx-auto max-w-5xl px-8">
+  <div
+className="
+mx-auto
+max-w-5xl
+rounded-[50px]
+bg-white
+border
+border-[#E8D9B5]
+shadow-2xl
+px-12
+py-24
+"
+>
 
     <div className="text-sm font-semibold uppercase tracking-[4px] text-yellow-300">
       About Us
@@ -459,56 +452,31 @@ Read →
 
     </p>
 
-    <button
-      className="
-        mt-14
-        rounded-full
-        bg-yellow-400
-        px-8
-        py-4
-        font-semibold
-        text-black
-        transition
-        hover:scale-105
-      "
-    >
-      Read More
-    </button>
+    <Link href="/about">
+  <button
+    className="
+    rounded-full
+    bg-yellow-400
+    px-12
+    py-6
+    text-lg
+    font-semibold
+    shadow-lg
+    transition
+    duration-300
+    hover:-translate-y-1
+    hover:bg-[#98003A]
+    hover:text-white
+    "
+  >
+    Read More →
+  </button>
+</Link>
 
   </div>
 
 </section>
    
-{/* MISSION */}
-<section
-  className="
-    relative
-    overflow-hidden
-    bg-white
-    py-32
-    text-[#1C1C1C]
-  "
->
-
-  {/* Pattern */}
-  <div
-    className="
-      absolute
-      inset-0
-      opacity-10
-    "
-    style={{
-      backgroundImage:
-        "radial-gradient(circle at 1px 1px, white 1px, transparent 0)",
-      backgroundSize: "30px 30px"
-    }}
-  />
-
-  
-       
-
-
-</section>
 
 
      
@@ -530,7 +498,7 @@ Read →
 
       </h3>
 
-      <p className="mt-6 leading-8 text-stone-500">
+      <p className="mt-6 leading-8 text-white/80">
 
         Preserving Sanskrit manuscripts, rare books and
         historical collections for future generations.
@@ -546,7 +514,7 @@ Read →
         Collections
       </h4>
 
-      <div className="mt-6 space-y-4 text-stone-500">
+      <div className="mt-6 space-y-4 text-white/80">
 
         <Link href="/manuscript">
           <div className="hover:text-yellow-300">
@@ -567,13 +535,20 @@ Read →
 
    {/* QUICK LINKS */}
    
-<div>
+<div
+className="
+rounded-[30px]
+bg-[#8C0034]
+border border-white/10
+p-10
+"
+>
 
   <h4 className="text-lg font-bold text-yellow-300">
     Quick Links
   </h4>
 
-  <div className="mt-6 space-y-4 text-stone-500">
+  <div className="mt-6 space-y-4 text-white/80">
 
     <Link href="/">
       <div className="hover:text-yellow-300">
