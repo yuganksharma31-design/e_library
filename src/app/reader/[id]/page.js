@@ -125,7 +125,7 @@ overflow-auto
       shadow-xl
       "
     >
-      ❤️ Favorite
+      Bookmark
     </button>
 
   </div>
