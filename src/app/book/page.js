@@ -163,33 +163,9 @@ setFiltered(sorted);
 </div>
 </section>
 
-  {/* SEARCH */}
-  <section className="mx-auto max-w-7xl px-8 pb-16">
-
-    <div className="rounded-full bg-white px-8 py-6 shadow-xl">
-
-      <input
-        type="text"
-        placeholder="Search books..."
-        value={search}
-        onChange={(e) =>
-          setSearch(e.target.value)
-        }
-        className="
-          w-full
-          bg-transparent
-          text-lg
-          outline-none
-          placeholder:text-stone-400
-        "
-      />
-
-    </div>
-
-  </section>
-
+ 
   {/* CONTENT */}
-  <section className="mx-auto max-w-7xl px-8 pb-20">
+  <section className="mx-auto max-w-7xl px-8 py-20">
 
 
 
@@ -241,7 +217,7 @@ setFiltered(sorted);
       <>
 
         {/* GRID */}
-        <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6">
+        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
 
        {paginatedData.map((item) => (
 
@@ -251,79 +227,93 @@ setFiltered(sorted);
   scroll={true}
 >
 
-    <div
+<div
   className="
-    group
-    overflow-hidden
-    rounded-[24px]
-    bg-white
-    shadow-lg
-    transition
-    duration-300
-    hover:-translate-y-1
-    hover:shadow-2xl
-  "
->
-      {/* IMAGE */}
-      <img
-        src={
-          item.thumbnail ||
-          item.cover ||
-          item.image ||
-          item.cover_i ||
-          "/placeholder.jpg"
-        }
-        alt={item.title}
-       className="
-  h-[180px]
-  w-full
-  object-cover
+  group
+  overflow-hidden
+  rounded-[36px]
+  bg-white
+  shadow-xl
+  transition-all
+  duration-300
+  hover:-translate-y-2
+  hover:shadow-2xl
 "
-      />
-
-      {/* OVERLAY */}
-      
-
-      {/* CONTENT */}
-      <div className="p-5">
-
-        <div className="inline-flex rounded-full bg-yellow-400 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-black">
-          Literary Heritage
-        </div>
-
-        <h2 className="mt-4 line-clamp-2 text-lg font-bold text-stone-900">
-          {item.title}
-        </h2>
-
-       <div className="mt-3 text-sm text-stone-500">
-
-  {item.language || "Unknown"} • {item.year || "Archive"}
-
-</div>
-
-       <div
-  className="
-    mt-5
-    rounded-xl
-    border
-    border-[#98003A]
-    py-3
-    text-center
-    font-semibold
-    text-[#98003A]
-    transition
-    group-hover:bg-[#98003A]
-    group-hover:text-white
-  "
 >
 
-  Read Book →
+  {/* IMAGE */}
+  <img
+    src={
+      item.thumbnail ||
+      item.cover ||
+      item.image ||
+      item.cover_i ||
+      "/placeholder.jpg"
+    }
+    alt={item.title}
+    className="
+      h-[320px]
+      w-full
+      object-cover
+      transition
+      duration-500
+      group-hover:scale-105
+    "
+  />
 
-</div>
+  {/* CONTENT */}
+  <div className="p-8">
 
-      </div>
+    {/* TITLE */}
+    <h2
+      className="
+      text-[18px]
+      font-bold
+      leading-9
+      text-[#111]
+      line-clamp-2
+      min-h-[80px]
+      "
+    >
+      {item.title}
+    </h2>
+
+    {/* AUTHOR */}
+    <div className="mt-4 text-stone-500 line-clamp-1">
+
+      {item.creator ||
+       item.author ||
+       "Digital Collection"}
 
     </div>
+
+    {/* BUTTON */}
+    <div
+      className="
+      mt-8
+      rounded-full
+      bg-[#F5C400]
+      py-4
+      text-center
+      font-semibold
+      text-black
+      transition
+      group-hover:bg-[#98003A]
+      group-hover:text-white
+      "
+    >
+
+      Read →
+
+    </div>
+
+  </div>
+
+</div>
+
+      
+
+
 
   </Link>
 
@@ -333,58 +323,68 @@ setFiltered(sorted);
 
         </div>
         {/* PAGINATION */}
-        <div className="mt-20 flex items-center justify-center gap-5">
+<div className="mt-16 flex items-center justify-center gap-8">
 
-          <button
-            disabled={page === 1}
-            onClick={() => setPage((prev) => prev - 1)}
-            className="
-              rounded-full
-              bg-white
-              px-8
-              py-4
-              shadow-lg
-              transition
-              hover:-translate-y-1
-              disabled:opacity-40
-            "
-          >
+  {/* Previous */}
+  <button
+    disabled={page === 1}
+    onClick={() => setPage((prev) => prev - 1)}
+    className="
+      rounded-full
+      bg-[#D59AAF]
+      px-10
+      py-5
+      text-white
+      font-medium
+      shadow-lg
+      transition-all
+      duration-300
+      hover:bg-[#C9879E]
+      disabled:opacity-50
+    "
+  >
+    ← Previous
+  </button>
 
-            ← Previous
-          </button>
+  {/* Page Number */}
+  <div
+    className="
+      rounded-full
+      border
+      border-[#E6D19E]
+      bg-[#F5F0DE]
+      px-10
+      py-5
+      font-semibold
+      text-[#98003A]
+      shadow-lg
+    "
+  >
+    {page} / {totalPages}
+  </div>
 
-          <div
-            className="
-              rounded-full
-              bg-white
-              px-8
-              py-4
-              shadow-lg
-              text-stone-500
-            "
-          >
-            {page} / {totalPages}
-          </div>
+  {/* Next */}
+  <button
+    disabled={page === totalPages}
+    onClick={() => setPage((prev) => prev + 1)}
+    className="
+      rounded-full
+      bg-[#98003A]
+      px-10
+      py-5
+      text-white
+      font-medium
+      shadow-lg
+      transition-all
+      duration-300
+      hover:bg-[#7A002F]
+      disabled:opacity-50
+    "
+  >
+    Next →
+  </button>
 
-          <button
-            disabled={page === totalPages}
-            onClick={() => setPage((prev) => prev + 1)}
-            className="
-              rounded-full
-              bg-white
-              px-8
-              py-4
-              shadow-lg
-              transition
-              hover:-translate-y-1
-              disabled:opacity-40
-            "
-          >
-            Next →
-          </button>
-
-        </div>
-
+</div>
       </>
 
     )}
@@ -392,34 +392,26 @@ setFiltered(sorted);
   </section>
 
   {/* FOOTER */}
-  <footer className="mt-32 border-t border-stone-200">
+  <footer className="mt-0 bg-[#98003A] text-white">
 
-    <div className="mx-auto max-w-7xl px-8 py-20">
+  <div className="mx-auto max-w-7xl px-8 py-20">
 
-      <h3 className="text-3xl font-bold">
+    <h3 className="text-4xl font-bold text-white">
+      Seth Shree Surajmal Tapariya E-Granthalay
+    </h3>
 
-        Seth Shree Surajmal Tapariya
-        E-Granthalay
+    <p className="mt-6 max-w-3xl text-lg leading-8 text-stone-200">
+      A Digital Repository of Sanskrit Manuscripts,
+      Rare Books and Historical Collections.
+    </p>
 
-      </h3>
-
-      <p className="mt-6 max-w-2xl text-lg leading-8 text-stone-500">
-
-        A Digital Repository of Sanskrit Manuscripts,
-        Rare Books and Historical Collections.
-
-      </p>
-
-      <div className="mt-12 text-sm text-stone-400">
-
-        © 2026 SMTASM • Preserving Knowledge For Future Generations
-
-      </div>
-
+    <div className="mt-12 text-sm text-stone-300">
+      © 2026 SMTASM • Preserving Knowledge For Future Generations
     </div>
 
-  </footer>
+  </div>
 
+</footer>
 </main>
 
 );

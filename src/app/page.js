@@ -57,7 +57,7 @@ text-sm
 font-semibold
 tracking-[4px]
 uppercase
-text-[#D6A700]
+text-[#98003A]
 ">
   Rare Manuscripts • Books 
 </div>
@@ -145,7 +145,6 @@ shadow-xl
 p-10">
 
             <h2 className="text-5xl font-bold text-[#98003A]">
-             <div className="h-2 rounded-t-[32px] bg-gradient-to-r from-[#98003A] to-[#D6A700]" />
               13K+
             </h2>
 
@@ -162,7 +161,6 @@ shadow-xl
 p-10">
 
             <h2 className="text-5xl font-bold text-[#98003A]">
-             <div className="h-2 rounded-t-[32px] bg-gradient-to-r from-[#98003A] to-[#D6A700]" />
               15K+
             </h2>
 
@@ -180,7 +178,6 @@ shadow-xl
 p-10">
 
             <h2 className="text-5xl font-bold text-[#98003A]">
-              <div className="h-2 rounded-t-[32px] bg-gradient-to-r from-[#98003A] to-[#D6A700]" />
               25+
             </h2>
 
@@ -197,12 +194,12 @@ p-10">
 {/* COLLECTIONS */}
 <section className="mx-auto max-w-7xl px-8 py-32">
 
+
   <div className="mb-20">
 
-    <div className="text-sm font-semibold uppercase tracking-[4px] text-yellow-300">
-      Collections
-    </div>
-
+    <div className="text-sm font-semibold uppercase tracking-[6px] text-[#98003A]">
+  Collections
+</div>
     <h2 className="mt-5 text-6xl font-bold text-[#1C1C1C]">
 
       Explore Our Archives
@@ -328,7 +325,7 @@ p-10">
 
   <div className="mb-16">
 
-    <div className="text-sm uppercase tracking-[4px] text-yellow-300">
+    <div className="text-sm uppercase tracking-[4px] text-[#98003A]">
       Discover
     </div>
 
@@ -372,7 +369,7 @@ className="h-[320px] w-full object-cover"
 
 <div className="p-6">
 
-<div className="text-sm uppercase tracking-[3px] text-yellow-300">
+<div className="text-sm uppercase tracking-[3px] text-[#98003A]">
 New Arrival
 </div>
 
@@ -433,7 +430,7 @@ py-24
 "
 >
 
-    <div className="text-sm font-semibold uppercase tracking-[4px] text-yellow-300">
+    <div className="text-sm font-semibold uppercase tracking-[4px] text-[#98003A]">
       About Us
     </div>
 
@@ -483,12 +480,17 @@ py-24
 {/* FOOTER */}
 <footer className="border-t border-white/10 bg-[#7F0030]">
 
-  <div className="mx-auto grid max-w-7xl gap-16 px-8 py-20 md:grid-cols-4">
+  <div className="mx-auto grid max-w-7xl gap-10 px-8 py-20 lg:grid-cols-3">
 
     {/* BRAND */}
     <div>
 
-      <h3 className="text-3xl font-bold text-yellow-300">
+      <h3 className="
+text-5xl
+font-bold
+leading-tight
+text-yellow-300
+">
 
         Seth Shree Surajmal
         <br />
@@ -508,14 +510,20 @@ py-24
     </div>
 
     {/* COLLECTIONS */}
-    <div>
+<div
+className="
+rounded-[30px]
+bg-[#8C0034]
+border border-white/10
+p-10
+"
+>
 
-      <h4 className="text-lg font-bold text-yellow-300">
-        Collections
-      </h4>
+  <h4 className="text-lg font-bold text-yellow-300">
+    Collections
+  </h4>
 
-      <div className="mt-6 space-y-4 text-white/80">
-
+  <div className="mt-6 space-y-4 text-white/80">
         <Link href="/manuscript">
           <div className="hover:text-yellow-300">
             Manuscript
@@ -573,7 +581,13 @@ p-10
         Bookmarks
       </div>
     </Link>
+    <Link href="/about">
+  <div className="hover:text-yellow-300">
+    About
   </div>
+</Link>
+  </div>
+  
 </div>
   </div>
 
@@ -581,7 +595,11 @@ p-10
 
 
   
+<div className="mt-16 border-t border-white/10 pt-8 text-center text-white/60">
 
+  © 2026 SMTASM • Preserving Knowledge For Future Generations
+
+</div>
 </footer>
 
 </main>

@@ -165,41 +165,6 @@ return (
   </div>
 
 </section>
-  {/* SEARCH */}
-  <section className="mx-auto max-w-7xl px-8 pb-16">
-
-  <div
-className="
-rounded-[40px]
-bg-white
-border
-border-[#E8D9B5]
-px-8
-py-6
-shadow-xl
-transition
-duration-300
-hover:-translate-y-2
-"
->
-
-    <input
-      type="text"
-      placeholder="Search manuscripts and archives..."
-      value={search}
-      onChange={(e) => setSearch(e.target.value)}
-      className="
-        w-full
-        bg-transparent
-        text-lg
-        outline-none
-        placeholder:text-stone-400
-      "
-    />
-
-  </div>
-
-</section>
   {/* CONTENT */}
   <section className="mx-auto max-w-7xl px-8 pb-20">
 
