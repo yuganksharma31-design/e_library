@@ -109,11 +109,11 @@ overflow-auto
         });
 
         localStorage.setItem(
-          "favorites",
+          "Bookmarks",
           JSON.stringify(favorites)
         );
 
-        alert("Added to favorites ❤️");
+        alert("Added to Bookmarks");
 
       }}
       className="

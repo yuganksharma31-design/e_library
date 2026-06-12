@@ -39,13 +39,13 @@ useEffect(() => {
 
 }, []);
   return (
-<main className="min-h-screen bg-[#F8F5EF] text-stone-900">
+<main className="min-h-screen bg-[#98003A] text-white">
       {/* HERO */}
       <section className="mx-auto max-w-7xl px-8 pt-24 pb-24">
 
         <div className="max-w-5xl">
 
-          <div className="inline-flex rounded-full bg-white px-5 py-3 shadow-md text-sm font-medium text-[#8B5E34]">
+          <div className="inline-flex rounded-full bg-white/10 border border-white/20 px-5 py-3 text-sm font-medium text-yellow-300">
             Digital Sanskrit Heritage Collection
           </div>
 
@@ -55,7 +55,7 @@ useEffect(() => {
             Tapariya E-Granthalay
           </h1>
 
-          <p className="mt-8 max-w-3xl text-xl leading-9 text-stone-500">
+          <p className="mt-8 max-w-3xl text-xl leading-9 text-stone-200">
             Preserving Sanskrit heritage through rare manuscripts,
             historical books, digitized archives and timeless knowledge
             for future generations.
@@ -96,7 +96,7 @@ useEffect(() => {
               <button
                 className="
                   rounded-full
-                  bg-[#8B5E34]
+                  bg-yellow-400 text-black
                   px-8
                   py-5
                   text-white
@@ -113,11 +113,12 @@ useEffect(() => {
               <button
                 className="
                   rounded-full
-                  bg-white
-                  px-8
-                  py-5
-                  text-[#8B5E34]
-                  shadow-lg
+                  bg-white/10
+border border-white/20
+px-8
+py-5
+text-white
+shadow-lg
                   transition
                   hover:-translate-y-1
                 "
@@ -137,49 +138,50 @@ useEffect(() => {
 
         <div className="grid gap-8 md:grid-cols-4">
 
-          <div className="rounded-[32px] bg-white p-10 shadow-xl">
+          <div className="rounded-[32px]
+bg-white/10
+border border-white/10
+backdrop-blur-xl
+p-10">
 
-            <h2 className="text-5xl font-bold text-[#8B5E34]">
+            <h2 className="text-5xl font-bold text-yellow-300">
               13K+
             </h2>
 
-            <p className="mt-4 text-stone-500">
+            <p className="mt-4 text-stone-200">
               Manuscripts
             </p>
 
           </div>
 
-          <div className="rounded-[32px] bg-white p-10 shadow-xl">
+          <div className="rounded-[32px]
+bg-white/10
+border border-white/10
+backdrop-blur-xl
+p-10">
 
-            <h2 className="text-5xl font-bold text-[#8B5E34]">
+            <h2 className="text-5xl font-bold text-yellow-300">
               15K+
             </h2>
 
-            <p className="mt-4 text-stone-500">
+            <p className="mt-4 text-stone-200">
               Books
             </p>
 
           </div>
 
-          <div className="rounded-[32px] bg-white p-10 shadow-xl">
+         
+          <div className="rounded-[32px]
+bg-white/10
+border border-white/10
+backdrop-blur-xl
+p-10">
 
-            <h2 className="text-5xl font-bold text-[#8B5E34]">
-              1.2M+
-            </h2>
-
-            <p className="mt-4 text-stone-500">
-              Pages Archived
-            </p>
-
-          </div>
-
-          <div className="rounded-[32px] bg-white p-10 shadow-xl">
-
-            <h2 className="text-5xl font-bold text-[#8B5E34]">
+            <h2 className="text-5xl font-bold text-yellow-300">
               25+
             </h2>
 
-            <p className="mt-4 text-stone-500">
+            <p className="mt-4 text-stone-200">
               Collections
             </p>
 
@@ -194,11 +196,11 @@ useEffect(() => {
 
   <div className="mb-20">
 
-    <div className="text-sm font-semibold uppercase tracking-[4px] text-[#98003A]">
+    <div className="text-sm font-semibold uppercase tracking-[4px] text-yellow-300">
       Collections
     </div>
 
-    <h2 className="mt-5 text-6xl font-bold text-[#1C1C1C]">
+    <h2 className="mt-5 text-6xl font-bold text-white">
 
       Explore Our Archives
 
@@ -323,11 +325,11 @@ useEffect(() => {
 
   <div className="mb-16">
 
-    <div className="text-sm uppercase tracking-[4px] text-[#98003A]">
+    <div className="text-sm uppercase tracking-[4px] text-yellow-300">
       Discover
     </div>
 
-    <h2 className="mt-4 text-6xl font-bold">
+    <h2 className="mt-4 text-6xl font-bold text-white">
       Recently Added
     </h2>
 
@@ -349,7 +351,9 @@ useEffect(() => {
 className="
 overflow-hidden
 rounded-[30px]
-bg-white
+bg-white/10
+border border-white/10
+backdrop-blur-xl
 shadow-xl
 transition
 duration-300
@@ -367,7 +371,7 @@ className="h-[260px] w-full object-cover"
 
 <div className="p-6">
 
-<div className="text-sm uppercase tracking-[3px] text-[#98003A]">
+<div className="text-sm uppercase tracking-[3px] text-yellow-300">
 New Arrival
 </div>
 
@@ -379,11 +383,12 @@ New Arrival
 className="
 mt-6
 rounded-full
-bg-[#98003A]
+bg-yellow-400
 px-6
 py-3
 text-center
-text-white
+text-black
+font-semibold
 "
 >
 Read →
@@ -479,86 +484,23 @@ Read →
     }}
   />
 
-  <div className="relative mx-auto max-w-7xl px-8">
+  
+       
 
-    <div className="text-sm font-semibold uppercase tracking-[4px] text-yellow-300">
-
-      Our Mission
-
-    </div>
-
-    <div className="mt-10 grid gap-20 lg:grid-cols-2">
-
-      {/* LEFT */}
-      <div>
-
-        <h2 className="text-6xl font-bold leading-tight">
-
-          Preserving
-          <br />
-
-          Knowledge For
-          <br />
-
-          Future
-          <br />
-
-          Generations
-
-        </h2>
-
-      </div>
-
-      {/* RIGHT */}
-      <div>
-
-        <p className="text-xl leading-10 text-stone-200">
-
-          We are dedicated to safeguarding Sanskrit manuscripts,
-          rare books and historical archives through digitization
-          and worldwide accessibility. Our mission is to preserve
-          the intellectual heritage of generations past and make
-          it available to scholars and seekers everywhere.
-
-        </p>
-
-        <button
-          className="
-            mt-12
-            rounded-full
-            bg-yellow-400
-            px-8
-            py-5
-            font-semibold
-            text-black
-            transition
-            hover:scale-105
-          "
-        >
-
-          Explore Collections
-
-        </button>
-
-      </div>
-
-    </div>
-
-  </div>
 
 </section>
 
 
      
 {/* FOOTER */}
-<footer className="border-t border-stone-200 bg-white">
+<footer className="border-t border-white/10 bg-[#7F0030]">
 
   <div className="mx-auto grid max-w-7xl gap-16 px-8 py-20 md:grid-cols-4">
 
     {/* BRAND */}
     <div>
 
-      <h3 className="text-3xl font-bold text-[#98003A]">
+      <h3 className="text-3xl font-bold text-yellow-300">
 
         Seth Shree Surajmal
         <br />
@@ -568,7 +510,7 @@ Read →
 
       </h3>
 
-      <p className="mt-6 leading-8 text-stone-500">
+      <p className="mt-6 leading-8 text-stone-200">
 
         Preserving Sanskrit manuscripts, rare books and
         historical collections for future generations.
@@ -580,21 +522,21 @@ Read →
     {/* COLLECTIONS */}
     <div>
 
-      <h4 className="text-lg font-bold text-[#98003A]">
+      <h4 className="text-lg font-bold text-yellow-300">
         Collections
       </h4>
 
-      <div className="mt-6 space-y-4 text-stone-500">
+      <div className="mt-6 space-y-4 text-stone-200">
 
         <Link href="/manuscript">
-          <div className="hover:text-[#98003A]">
+          <div className="hover:text-yellow-300">
             Manuscript
 
           </div>
         </Link>
 
         <Link href="/book">
-          <div className="hover:text-[#98003A]">
+          <div className="hover:text-yellow-300">
             Books
           </div>
         </Link>
@@ -607,33 +549,33 @@ Read →
    
 <div>
 
-  <h4 className="text-lg font-bold text-[#98003A]">
+  <h4 className="text-lg font-bold text-yellow-300">
     Quick Links
   </h4>
 
-  <div className="mt-6 space-y-4 text-stone-500">
+  <div className="mt-6 space-y-4 text-stone-200">
 
     <Link href="/">
-      <div className="hover:text-[#98003A]">
+      <div className="hover:text-yellow-300">
         Home
       </div>
     </Link>
 
     <Link href="/book">
-      <div className="hover:text-[#98003A]">
+      <div className="hover:text-yellow-300">
         Books
       </div>
     </Link>
 
     <Link href="/manuscript">
-      <div className="hover:text-[#98003A]">
+      <div className="hover:text-yellow-300">
         Manuscripts
       </div>
     </Link>
 
-    <Link href="/favorites">
-      <div className="hover:text-[#98003A]">
-        Favorites
+    <Link href="/bookmarks">
+      <div className="hover:text-yellow-300">
+        Bookmarks
       </div>
     </Link>
   </div>
@@ -641,26 +583,9 @@ Read →
   </div>
 
 
-<div>
 
-  <h4 className="text-lg font-bold text-[#98003A]">
-    Resources
-  </h4>
 
-  <div className="mt-6 space-y-4 text-stone-500">
-
-    <div>About Us</div>
-
-    <div>Digital Archives</div>
-
-    <div>Contact</div>
-
-    <div>Privacy Policy</div>
-
-  </div>
-
-</div>
-
+  
 
 </footer>
 

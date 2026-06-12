@@ -5,13 +5,13 @@ import Link from "next/link";
 
 export default function FavoritesPage() {
 
-  const [favorites, setFavorites] = useState([]);
+  const [bookmarks, setFavorites] = useState([]);
 
   useEffect(() => {
 
     const data =
       JSON.parse(
-        localStorage.getItem("favorites")
+        localStorage.getItem("bookmarks")
       ) || [];
 
     setFavorites(data);
@@ -20,14 +20,14 @@ export default function FavoritesPage() {
 
   function removeFavorite(id) {
 
-    const updated = favorites.filter(
+    const updated = bookmarks.filter(
       (item) => item.id !== id
     );
 
     setFavorites(updated);
 
     localStorage.setItem(
-      "favorites",
+      "bookmarks",
       JSON.stringify(updated)
     );
 
@@ -46,25 +46,25 @@ export default function FavoritesPage() {
           </div>
 
           <h1 className="mt-4 text-6xl font-bold text-black">
-            ❤️ Favorites
+            Bookmarks
           </h1>
 
           <p className="mt-4 text-stone-500">
-            {favorites.length} saved books and manuscripts
+            {bookmarks.length} saved books and manuscripts
           </p>
 
         </div>
 
-        {favorites.length === 0 ? (
+        {bookmarks.length === 0 ? (
 
           <div className="rounded-[40px] bg-white p-20 text-center shadow-xl">
 
             <h2 className="text-3xl font-bold text-black">
-              No favorites yet
+              No bookmarks yet
             </h2>
 
             <p className="mt-5 text-stone-500">
-              Add books and manuscripts to your favorites.
+              Add books and manuscripts to your bookmarks.
             </p>
 
           </div>
@@ -73,7 +73,7 @@ export default function FavoritesPage() {
 
           <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
 
-            {favorites.map((item) => (
+            {bookmarks.map((item) => (
 
               <div
                 key={item.id}
