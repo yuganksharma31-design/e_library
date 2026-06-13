@@ -28,10 +28,19 @@ export default function Navbar() {
       {/* NAVBAR */}
       <div className="border-b border-white/10 bg-[#98003A]/90">
 
-        <div className="mx-auto flex max-w-7xl items-center px-8 py-5">
+        <div className="
+mx-auto
+max-w-7xl
+flex
+items-center
+justify-between
+gap-10
+px-8
+py-5
+">
 
           {/* LOGO */}
-          <Link href="/">
+          <Link href="/" className="shrink-0">
             <div className="flex cursor-pointer items-center gap-4">
 
               <div className="flex h-12 w-12 items-center justify-center rounded-full bg-yellow-400 text-xl font-bold text-[#98003A] shadow-lg">
@@ -50,11 +59,98 @@ export default function Navbar() {
 
             </div>
           </Link>
+{/* MENU DESKTOP */}
+          <nav className="
+hidden
+lg:flex
+flex-1
+justify-center
+items-center
+gap-10
+text-[15px]
+font-semibold
+text-white
+">
+
+            <Link
+              href="/"
+              className="
+transition-all
+duration-300
+hover:text-yellow-300
+hover:-translate-y-1
+"
+            >
+              Home
+            </Link>
+
+            <Link
+              href="/book"
+              className="
+transition-all
+duration-300
+hover:text-yellow-300
+hover:-translate-y-1
+"
+            >
+              Books
+            </Link>
+
+            <Link
+              href="/manuscript"
+              className="
+transition-all
+duration-300
+hover:text-yellow-300
+hover:-translate-y-1
+"
+            >
+              Manuscripts
+            </Link>
+
+            <Link
+              href="/bookmarks"
+              className="
+transition-all
+duration-300
+hover:text-yellow-300
+hover:-translate-y-1
+"
+            >
+              Bookmarks
+            </Link>
+
+            <Link
+              href="/about"
+              className="
+transition-all
+duration-300
+hover:text-yellow-300
+hover:-translate-y-1
+"
+            >
+              About
+            </Link>
+
+          </nav>
 
           {/* SEARCH BAR DESKTOP */}
-          <div className="hidden lg:flex w-[500px] ml-20">
+          <div className="hidden lg:flex shrink-0">
 
-            <div className="flex w-full items-center rounded-full border border-white/20 bg-white/10 px-6 py-3">
+            <div
+className="
+flex
+w-[280px]
+items-center
+rounded-full
+border
+border-white/20
+bg-white/10
+px-5
+py-3
+backdrop-blur-xl
+"
+>
 
               <input
                 type="text"
@@ -86,60 +182,17 @@ export default function Navbar() {
 
           </div>
 
-          {/* MENU DESKTOP */}
-          <nav className="
-hidden
-lg:flex
-items-center
-gap-12
-text-sm
-font-medium
-text-white
-ml-16
-">
-
-            <Link
-              href="/"
-              className="transition hover:text-yellow-300"
-            >
-              Home
-            </Link>
-
-            <Link
-              href="/book"
-              className="transition hover:text-yellow-300"
-            >
-              Books
-            </Link>
-
-            <Link
-              href="/manuscript"
-              className="transition hover:text-yellow-300"
-            >
-              Manuscripts
-            </Link>
-
-            <Link
-              href="/bookmarks"
-              className="transition hover:text-yellow-300"
-            >
-              Bookmarks
-            </Link>
-
-            <Link
-              href="/about"
-              className="transition hover:text-yellow-300"
-            >
-              About
-            </Link>
-
-          </nav>
-
+          
           {/* HAMBURGER */}
           <button
-            onClick={() => setMenuOpen(!menuOpen)}
-            className="text-3xl text-yellow-300 lg:hidden"
-          >
+  onClick={() => setMenuOpen(!menuOpen)}
+  className="
+lg:hidden
+ml-auto
+text-3xl
+text-yellow-300
+"
+>
             ☰
           </button>
 

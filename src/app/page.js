@@ -340,8 +340,9 @@ p-10">
   {recentBooks.map((item) => (
 
 <Link
-  key={item.identifier}
-  href={`/book/${item.identifier}`}
+  href={`/reader/${encodeURIComponent(
+    item.identifier || item._id
+  )}`}
 >
 
 <div
