@@ -201,7 +201,12 @@ return (
 
     {loading ? (
 
-      <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <div className="
+grid
+gap-10
+md:grid-cols-2
+xl:grid-cols-3
+">
 
         {Array.from({ length: 8 }).map((_, index) => (
 
@@ -225,7 +230,14 @@ return (
       <>
 
         {/* GRID */}
-        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <div
+  className="
+  grid
+  gap-10
+  md:grid-cols-2
+  xl:grid-cols-3
+"
+>
 
   {paginatedData.map((item) => (
 
@@ -248,7 +260,7 @@ return (
         duration-300
         hover:-translate-y-2
         hover:shadow-2xl
-        min-h-[560px]
+        min-h-[600px]
       "
       >
 
@@ -262,7 +274,7 @@ return (
           }
           alt={item.title}
           className="
-          h-[260px]
+          h-[320px]
           w-full
           object-cover
           rounded-t-[36px]
@@ -329,17 +341,28 @@ return (
         
         
         {/* PAGINATION */}
-        <div className="mt-20 flex items-center justify-center gap-5">
+        <div
+className="
+mt-16
+flex
+flex-col
+sm:flex-row
+items-center
+justify-center
+gap-4
+"
+>
 
           <button
             disabled={page === 1}
             onClick={() => setPage((prev) => prev - 1)}
             className="
+w-[150px]
 rounded-full
 bg-[#98003A]
 text-white
-px-8
 py-4
+font-semibold
 shadow-lg
 transition
 hover:bg-[#7F0030]
@@ -353,15 +376,16 @@ disabled:opacity-40
 
           <div
             className="
+w-[130px]
 rounded-full
 bg-[#FFF8E6]
 border
 border-[#E8D9B5]
-px-8
 py-4
-shadow-lg
 font-semibold
 text-[#98003A]
+shadow-lg
+text-center
 "
           >
 
@@ -373,11 +397,12 @@ text-[#98003A]
             disabled={page === totalPages}
             onClick={() => setPage((prev) => prev + 1)}
             className="
+w-[150px]
 rounded-full
 bg-[#98003A]
 text-white
-px-8
 py-4
+font-semibold
 shadow-lg
 transition
 hover:bg-[#7F0030]

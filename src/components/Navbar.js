@@ -31,23 +31,25 @@ Seth Shri Surajmal Taparia E-Granthalay      </div>
 mx-auto
 max-w-7xl
 flex
+flex-wrap
 items-center
 justify-between
-gap-10
-px-8
-py-5
+gap-6
+px-4
+md:px-8
+py-4
 ">
 
           {/* LOGO */}
           <Link href="/" className="shrink-0">
             <div className="flex cursor-pointer items-center gap-4">
 
-              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-yellow-400 text-xl font-bold text-[#98003A] shadow-lg">
+             <div className="flex h-10 w-10 md:h-12 md:w-12 items-center justify-center rounded-full">
                 ॐ
               </div>
 
               <div>
-                <h1 className="text-[15px] font-bold text-white">
+                <h1 className="text-sm md:text-[15px] font-bold text-white">
                   Seth Shri Surajmal Taparia 
                 </h1>
 
@@ -61,11 +63,13 @@ py-5
 {/* MENU DESKTOP */}
           <nav className="
 hidden
-lg:flex
+md:flex
 flex-1
 justify-center
 items-center
-gap-10
+gap-6
+text-sm
+xl:gap-10
 text-[15px]
 font-semibold
 text-white
@@ -186,7 +190,7 @@ backdrop-blur-xl
           <button
   onClick={() => setMenuOpen(!menuOpen)}
   className="
-lg:hidden
+md:hidden
 ml-auto
 text-3xl
 text-yellow-300

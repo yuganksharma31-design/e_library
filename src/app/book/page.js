@@ -193,7 +193,14 @@ setFiltered(sorted);
 
     {loading ? (
 
-      <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <div
+className="
+grid
+gap-10
+md:grid-cols-2
+xl:grid-cols-3
+"
+>
 
         {Array.from({ length: 8 }).map((_, index) => (
 
@@ -217,7 +224,14 @@ setFiltered(sorted);
       <>
 
         {/* GRID */}
-        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <div
+className="
+grid
+gap-10
+md:grid-cols-2
+xl:grid-cols-3
+"
+>
 
        {paginatedData.map((item) => (
 
@@ -228,16 +242,19 @@ setFiltered(sorted);
 >
 
 <div
-  className="
-  group
-  overflow-hidden
-  rounded-[36px]
-  bg-white
-  shadow-xl
-  transition-all
-  duration-300
-  hover:-translate-y-2
-  hover:shadow-2xl
+ className="
+group
+flex
+flex-col
+overflow-hidden
+rounded-[36px]
+bg-white
+shadow-xl
+transition-all
+duration-300
+hover:-translate-y-2
+hover:shadow-2xl
+min-h-[600px]
 "
 >
 
@@ -252,7 +269,7 @@ setFiltered(sorted);
     }
     alt={item.title}
     className="
-      h-[320px]
+      h-[360px]
       w-full
       object-cover
       transition
@@ -267,11 +284,11 @@ setFiltered(sorted);
     {/* TITLE */}
     <h2
       className="
-      text-[18px]
+      text-[22px]
       font-bold
       leading-9
       text-[#111]
-      line-clamp-2
+      line-clamp-3
       min-h-[80px]
       "
     >
@@ -323,42 +340,52 @@ setFiltered(sorted);
 
         </div>
         {/* PAGINATION */}
-<div className="mt-16 flex items-center justify-center gap-8">
+<div
+className="
+mt-16
+flex
+flex-col
+sm:flex-row
+items-center
+justify-center
+gap-4
+"
+>
 
   {/* Previous */}
   <button
     disabled={page === 1}
     onClick={() => setPage((prev) => prev - 1)}
-    className="
-      rounded-full
-      bg-[#D59AAF]
-      px-10
-      py-5
-      text-white
-      font-medium
-      shadow-lg
-      transition-all
-      duration-300
-      hover:bg-[#C9879E]
-      disabled:opacity-50
-    "
+   className="
+w-[150px]
+rounded-full
+bg-[#98003A]
+text-white
+py-4
+font-semibold
+shadow-lg
+transition
+hover:bg-[#7F0030]
+disabled:opacity-40
+"
   >
     ← Previous
   </button>
 
   {/* Page Number */}
   <div
-    className="
-      rounded-full
-      border
-      border-[#E6D19E]
-      bg-[#F5F0DE]
-      px-10
-      py-5
-      font-semibold
-      text-[#98003A]
-      shadow-lg
-    "
+   className="
+w-[130px]
+rounded-full
+bg-[#FFF8E6]
+border
+border-[#E8D9B5]
+py-4
+font-semibold
+text-[#98003A]
+shadow-lg
+text-center
+"
   >
     {page} / {totalPages}
   </div>
@@ -368,18 +395,17 @@ setFiltered(sorted);
     disabled={page === totalPages}
     onClick={() => setPage((prev) => prev + 1)}
     className="
-      rounded-full
-      bg-[#98003A]
-      px-10
-      py-5
-      text-white
-      font-medium
-      shadow-lg
-      transition-all
-      duration-300
-      hover:bg-[#7A002F]
-      disabled:opacity-50
-    "
+w-[150px]
+rounded-full
+bg-[#98003A]
+text-white
+py-4
+font-semibold
+shadow-lg
+transition
+hover:bg-[#7F0030]
+disabled:opacity-40
+"
   >
     Next →
   </button>
