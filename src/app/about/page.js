@@ -6,6 +6,8 @@ export default function AboutPage() {
     <main className="min-h-screen bg-[#F8F5EF] text-[#1C1C1C]">
 
       {/* HERO */}
+        
+  
       <section className="bg-[#F7F5F2]">
 
         <div className="mx-auto grid max-w-7xl gap-16 px-8 py-24 lg:grid-cols-2 lg:items-center">
@@ -13,7 +15,7 @@ export default function AboutPage() {
           <div>
 
             <div className="text-sm font-semibold uppercase tracking-[4px] text-[#98003A]">
-              About Us
+             
             </div>
 
             <h1 className="mt-6 text-6xl font-bold leading-tight lg:text-7xl">
@@ -57,6 +59,82 @@ export default function AboutPage() {
       </section>
 
       {/* ABOUT */}
+      {/* BOARD OF TRUSTEES */}
+<section className="mx-auto max-w-7xl px-8 py-24">
+
+  <div className="mb-16">
+    <div className="text-sm uppercase tracking-[4px] text-[#98003A]">
+      Leadership
+    </div>
+
+    <h2 className="mt-4 text-5xl font-bold">
+      Board of Trustees & Principal
+    </h2>
+  </div>
+
+  <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-3">
+
+    {[
+      {
+        image: "/trustees/trustee1.jpg",
+        name: "Shri XYZ",
+        role: "Trustee"
+      },
+      {
+        image: "/trustees/trustee2.jpg",
+        name: "Shri M. P. Taparia",
+        role: "Trustee"
+      },
+      {
+        image: "/trustees/trustee3.jpg",
+        name: "Shri S. J. Taparia",
+        role: "Trustee"
+      },
+      {
+        image: "/trustees/trustee4.jpg",
+        name: "Shri V. K. Taparia",
+        role: "Trustee"
+      },
+      {
+        image: "/trustees/principal.jpg",
+        name: "Dr. Hemant Krishan Mishra",
+        role: "Principal"
+      }
+    ].map((person) => (
+
+      <div key={person.name}>
+
+        <div className="overflow-hidden rounded-[24px] bg-[#EEF2F3]">
+
+          <img
+            src={person.image}
+            alt={person.name}
+            className="
+  h-[360px]
+  w-full
+  object-cover
+  object-top
+"
+          />
+
+        </div>
+
+        <h3 className="mt-6 text-2xl font-semibold text-[#1C1C1C]">
+          {person.name}
+        </h3>
+
+        <p className="mt-2 text-lg text-stone-500">
+          {person.role}
+        </p>
+
+      </div>
+
+    ))}
+
+  </div>
+
+</section>
+      
       <section className="mx-auto max-w-7xl px-8 py-24">
 
         <div className="rounded-[50px] bg-white border border-[#E8D9B5] p-16 shadow-2xl">
@@ -227,82 +305,7 @@ export default function AboutPage() {
 
       </section>
 
-      {/* BOARD OF TRUSTEES */}
-<section className="mx-auto max-w-7xl px-8 py-24">
-
-  <div className="mb-16">
-    <div className="text-sm uppercase tracking-[4px] text-[#98003A]">
-      Leadership
-    </div>
-
-    <h2 className="mt-4 text-5xl font-bold">
-      Board of Trustees & Principal
-    </h2>
-  </div>
-
-  <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
-
-    {[
-      {
-        image: "/trustees/trustee1.jpg",
-        name: "Shri XYZ",
-        role: "Chairman"
-      },
-      {
-        image: "/trustees/trustee2.jpg",
-        name: "Shri XYZ",
-        role: "Trustee"
-      },
-      {
-        image: "/trustees/trustee3.jpg",
-        name: "Shri XYZ",
-        role: "Trustee"
-      },
-      {
-        image: "/trustees/trustee4.jpg",
-        name: "Shri XYZ",
-        role: "Trustee"
-      },
-      {
-        image: "/trustees/principal.jpg",
-        name: "Dr. XYZ",
-        role: "Principal"
-      }
-    ].map((person) => (
-
-      <div key={person.name}>
-
-        <div className="overflow-hidden rounded-[24px] bg-[#EEF2F3]">
-
-          <img
-            src={person.image}
-            alt={person.name}
-            className="
-              h-[360px]
-              w-full
-              object-contain
-              object-bottom
-            "
-          />
-
-        </div>
-
-        <h3 className="mt-6 text-2xl font-semibold text-[#1C1C1C]">
-          {person.name}
-        </h3>
-
-        <p className="mt-2 text-lg text-stone-500">
-          {person.role}
-        </p>
-
-      </div>
-
-    ))}
-
-  </div>
-
-</section>
-      {/* QUOTE */}
+        {/* QUOTE */}
       <section className="bg-[#7A002F] py-28 text-center">
 
         <div className="mx-auto max-w-5xl px-8">
