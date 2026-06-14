@@ -77,7 +77,7 @@ export default function AboutPage() {
     {[
       {
         image: "/trustees/trustee1.jpg",
-        name: "Shri XYZ",
+        name: "Shri Bajranglal Taparia",
         role: "Trustee"
       },
       {
