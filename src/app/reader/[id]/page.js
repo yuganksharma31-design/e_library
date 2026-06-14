@@ -134,38 +134,41 @@ overflow-auto
     {/* VIEWER */}
     <div className="relative">
 
-      <iframe
-src={`https://archive.org/embed/${id}`}
-className="
-w-full
-border-0
-h-[85vh]
-md:h-[calc(100vh-130px)]
-"
-/>
-      {/* HIDE ARCHIVE TITLE */}
-     <div
-  className="absolute top-0 left-0 right-0 z-50"
-  style={{
-    height: "50px",
-    pointerEvents: "all",
-    cursor: "default"
-  }}
-></div>
+  <iframe
+    src={`https://archive.org/embed/${id}`}
+    className="
+      w-full
+      border-0
+      h-[85vh]
+      md:h-[calc(100vh-130px)]
+    "
+  />
 
+ {/* Hide search and three-dot buttons */}
+<div
+  className="absolute z-50"
+  style={{
+    left: 0,
+    top: 42,
+    width: 70,
+    height: 110,
+    background: "transparent"
+  }}
+/>
       {/* HIDE LEFT TOOLBAR */}
      
 
-    </div>
+    
 
     {/* CUSTOM BUTTONS */}
    
   </div>
-</div>
+</div> {/* closes bg-white overflow-auto */}
 
+</div> {/* closes w-full flex-1 */}
 
-  {/* FOOTER */}
-  <footer className="border-t border-stone-200">
+{/* FOOTER */}
+<footer className="border-t border-stone-200">
 
     <div className="mx-auto max-w-7xl px-8 py-10">
 

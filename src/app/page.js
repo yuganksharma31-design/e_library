@@ -443,7 +443,7 @@ py-24
 
     <p className="mx-auto mt-10 max-w-3xl text-lg leading-9 text-stone-500">
 
-      Seth Shree Surajmal Tapariya E-Granthalay is committed to
+      Seth Shri Surajmal Taparia E-Granthalay is committed to
       preserving rare manuscripts, historical books and invaluable
       Sanskrit heritage. Through digitization and global accessibility,
       we ensure timeless knowledge remains available for future scholars.
@@ -452,23 +452,21 @@ py-24
 
     <Link href="/about">
   <button
-    className="
+  className="
+    mt-10
     rounded-full
-    bg-yellow-400
-    px-12
-    py-6
-    text-lg
+    bg-[#F5C400]
+    px-16
+    py-5
+    text-xl
     font-semibold
-    shadow-lg
+    shadow-xl
     transition
-    duration-300
-    hover:-translate-y-1
-    hover:bg-[#98003A]
-    hover:text-white
-    "
-  >
-    Read More →
-  </button>
+    hover:scale-105
+  "
+>
+  Read More →
+</button>
 </Link>
 
   </div>
@@ -493,9 +491,9 @@ leading-tight
 text-yellow-300
 ">
 
-        Seth Shree Surajmal
+        Seth Shri Surajmal 
         <br />
-        Tapariya
+        Taparia 
         <br />
         E-Granthalay
 

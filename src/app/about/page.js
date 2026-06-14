@@ -227,62 +227,81 @@ export default function AboutPage() {
 
       </section>
 
-      {/* DIRECTORS */}
-      <section className="mx-auto max-w-7xl px-8 py-24">
+      {/* BOARD OF TRUSTEES */}
+<section className="mx-auto max-w-7xl px-8 py-24">
 
-        <div className="mb-16 text-center">
+  <div className="mb-16">
+    <div className="text-sm uppercase tracking-[4px] text-[#98003A]">
+      Leadership
+    </div>
 
-          <div className="text-sm uppercase tracking-[4px] text-[#98003A]">
-            Leadership
-          </div>
+    <h2 className="mt-4 text-5xl font-bold">
+      Board of Trustees & Principal
+    </h2>
+  </div>
 
-          <h2 className="mt-5 text-5xl font-bold">
-            Our Directors
-          </h2>
+  <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+
+    {[
+      {
+        image: "/trustees/trustee1.jpg",
+        name: "Shri XYZ",
+        role: "Chairman"
+      },
+      {
+        image: "/trustees/trustee2.jpg",
+        name: "Shri XYZ",
+        role: "Trustee"
+      },
+      {
+        image: "/trustees/trustee3.jpg",
+        name: "Shri XYZ",
+        role: "Trustee"
+      },
+      {
+        image: "/trustees/trustee4.jpg",
+        name: "Shri XYZ",
+        role: "Trustee"
+      },
+      {
+        image: "/trustees/principal.jpg",
+        name: "Dr. XYZ",
+        role: "Principal"
+      }
+    ].map((person) => (
+
+      <div key={person.name}>
+
+        <div className="overflow-hidden rounded-[24px] bg-[#EEF2F3]">
+
+          <img
+            src={person.image}
+            alt={person.name}
+            className="
+              h-[360px]
+              w-full
+              object-contain
+              object-bottom
+            "
+          />
 
         </div>
 
-        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+        <h3 className="mt-6 text-2xl font-semibold text-[#1C1C1C]">
+          {person.name}
+        </h3>
 
-          {[1,2,3,4,5].map((item)=>(
+        <p className="mt-2 text-lg text-stone-500">
+          {person.role}
+        </p>
 
-            <div
-              key={item}
-              className="
-              overflow-hidden
-              rounded-[32px]
-              bg-white
-              shadow-xl
-              transition
-              hover:-translate-y-2
-              "
-            >
+      </div>
 
-              <img
-                src="/placeholder.jpg"
-                className="h-80 w-full object-cover"
-              />
+    ))}
 
-              <div className="p-6 text-center">
+  </div>
 
-                <h3 className="text-xl font-bold">
-                  Director Name
-                </h3>
-
-                <div className="mt-2 text-stone-500">
-                  Position
-                </div>
-
-              </div>
-
-            </div>
-
-          ))}
-
-        </div>
-
-      </section>
-
+</section>
       {/* QUOTE */}
       <section className="bg-[#7A002F] py-28 text-center">
 

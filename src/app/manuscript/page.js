@@ -190,50 +190,13 @@ return (
 
 </div>
 
-<div
+
+
+
+
   
-className="
-mb-16
-rounded-[30px]
-bg-white
-border-l-[8px]
-border-l-[#98003A]
-px-10
-py-8
-shadow-xl
-"
 
->
 
-  <div className="flex flex-col gap-10 md:flex-row md:items-center md:justify-between">
-
-    <div>
-
-      <div className="text-6xl font-bold text-[#98003A]">
-        {filtered.length.toLocaleString()}+
-      </div>
-
-      <div className="mt-3 text-stone-500">
-        Manuscripts Available
-      </div>
-
-    </div>
-
-    <div className="text-right">
-
-      <div className="text-3xl font-bold text-[#98003A]">
-        50
-      </div>
-
-      <div className="mt-3 text-stone-500">
-        Manuscripts Per Page
-      </div>
-
-    </div>
-
-  </div>
-
-</div>
     
 
     {loading ? (
@@ -262,98 +225,108 @@ shadow-xl
       <>
 
         {/* GRID */}
-        <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
 
-          {paginatedData.map((item) => (
+  {paginatedData.map((item) => (
 
-            <Link
-  key={item._id || item.identifier}
-  href={`/reader/${encodeURIComponent(item.identifier || item._id)}`}
-  scroll={true}
->
+    <Link
+      key={item._id || item.identifier}
+      href={`/reader/${encodeURIComponent(item.identifier || item._id)}`}
+      scroll={true}
+    >
 
-  <div className="
-group
-overflow-hidden
-rounded-[24px]
-bg-white
-shadow-lg
-transition
-duration-300
-hover:-translate-y-1
-hover:shadow-2xl
-">
+      <div
+        className="
+        group
+        flex
+        flex-col
+        overflow-hidden
+        rounded-[36px]
+        bg-white
+        shadow-xl
+        transition-all
+        duration-300
+        hover:-translate-y-2
+        hover:shadow-2xl
+        min-h-[560px]
+      "
+      >
 
-    {/* IMAGE */}
-    <img
-      src={
-        item.thumbnail ||
-        item.cover ||
-        item.image ||
-        item.cover_i ||
-        "/placeholder.jpg"
-      }
-      alt={item.title}
-      className="
-  h-[250px]
-  w-full
-  object-cover
-"
-    />
+        {/* IMAGE */}
+        <img
+          src={
+            item.thumbnail ||
+            item.cover ||
+            item.image ||
+            `https://archive.org/services/img/${item.identifier}`
+          }
+          alt={item.title}
+          className="
+          h-[260px]
+          w-full
+          object-cover
+          rounded-t-[36px]
+          transition
+          duration-500
+          group-hover:scale-105
+        "
+        />
 
-    {/* OVERLAY */}
-    
+        {/* CONTENT */}
+        <div className="flex flex-1 flex-col p-8">
 
-    {/* CONTENT */}
-    <div className="p-5">
+          {/* TITLE */}
+          <h2
+            className="
+            text-[18px]
+            font-bold
+            leading-8
+            text-[#111]
+            line-clamp-3
+            min-h-[90px]
+          "
+          >
+            {item.title}
+          </h2>
 
-      <div className="inline-flex rounded-full bg-yellow-400 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-black">
+          {/* LANGUAGE */}
+          <div className="mt-4 text-stone-500">
+            {item.language || "Sanskrit"} • Unknown
+          </div>
 
-        Historical Archives
+          {/* BUTTON */}
+          <div className="mt-auto pt-8">
+
+            <div
+              className="
+              rounded-full
+              bg-[#F5C400]
+              py-4
+              text-center
+              font-semibold
+              text-black
+              transition
+              group-hover:bg-[#98003A]
+              group-hover:text-white
+            "
+            >
+              Open Manuscript →
+            </div>
+
+          </div>
+
+        </div>
 
       </div>
 
-      <h2 className="mt-4 line-clamp-2 text-lg font-bold text-stone-900">
+    </Link>
 
-        {item.title}
-
-      </h2>
-
-      <div className="mt-3 text-sm text-stone-500">
-
-  {item.language || "Sanskrit"} • {item.year || "Archive"}
+  ))}
 
 </div>
 
-      <div
-  className="
-    mt-5
-    rounded-2xl
-    border
-    border-[#98003A]
-    py-3
-    text-center
-    font-semibold
-    text-[#98003A]
-    shadow-md
-    transition
-    group-hover:bg-[#98003A]
-    group-hover:text-white
-  "
->
 
-  Open Manuscript →
-
-</div>
-
-    </div>
-
-  </div>
-
-</Link>
-          ))}
-
-        </div>
+        
         
         {/* PAGINATION */}
         <div className="mt-20 flex items-center justify-center gap-5">
@@ -421,6 +394,7 @@ disabled:opacity-40
       </>
 
     )}
+    
 
   </section>
 
@@ -431,7 +405,7 @@ disabled:opacity-40
 
       <h3 className="text-3xl font-bold">
 
-        Seth Shree Surajmal Tapariya
+        Seth Shri Surajmal Taparia 
         E-Granthalay
 
       </h3>

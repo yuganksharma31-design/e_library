@@ -22,8 +22,7 @@ export default function Navbar() {
 
       {/* TOP STRIP */}
       <div className="bg-[#7A002F] py-2 text-center text-xs tracking-wider text-yellow-300">
-        Seth Shree Surajmal Tapariya E-Granthalay
-      </div>
+Seth Shri Surajmal Taparia E-Granthalay      </div>
 
       {/* NAVBAR */}
       <div className="border-b border-white/10 bg-[#98003A]/90">
@@ -49,11 +48,11 @@ py-5
 
               <div>
                 <h1 className="text-[15px] font-bold text-white">
-                  Seth Shree Surajmal Tapariya
+                  Seth Shri Surajmal Taparia 
                 </h1>
 
                 <p className="text-xs tracking-widest text-yellow-300">
-                  E-GRANTHALAY
+                  E-Granthalay
                 </p>
               </div>
 
