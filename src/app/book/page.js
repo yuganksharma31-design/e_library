@@ -16,6 +16,17 @@ const [sort, setSort] = useState("A-Z");
   const [page, setPage] = useState(1);
 
   const ITEMS_PER_PAGE = 50;
+  function formatCount(num) {
+
+  if (num >= 1000) {
+
+    return `${(num / 1000).toFixed(1)}K+`;
+
+  }
+
+  return num.toString();
+
+}
 
   useEffect(() => {
 
@@ -180,12 +191,12 @@ setFiltered(sorted);
   </h1>
 
   <p className="mt-6 text-xl text-stone-500">
-    Explore
-    <span className="font-bold text-[#D6A700]">
-      {" "}15,489+{" "}
-    </span>
-    books preserved for future generations.
-  </p>
+  Explore
+  <span className="font-bold text-[#D6A700]">
+    {" "}{formatCount(books.length)}{" "}
+  </span>
+  books preserved for future generations.
+</p>
 
 </div>
     

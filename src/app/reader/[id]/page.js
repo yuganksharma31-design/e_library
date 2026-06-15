@@ -95,38 +95,50 @@ overflow-auto
     </button>
 
     <button
-      onClick={() => {
+  onClick={() => {
 
-        const favorites =
-          JSON.parse(
-            localStorage.getItem("favorites")
-          ) || [];
+    const favorites =
+      JSON.parse(
+        localStorage.getItem("favorites")
+      ) || [];
 
-        favorites.push({
-          id,
-          title: id,
-          cover: `https://archive.org/services/img/${id}`
-        });
+    const exists = favorites.some(
+      (book) => book.id === id
+    );
 
-        localStorage.setItem(
-          "Bookmarks",
-          JSON.stringify(favorites)
-        );
+    if (!exists) {
 
-        alert("Added to Bookmarks");
+      favorites.push({
+        id,
+        title: decodeURIComponent(id),
+        cover: `https://archive.org/services/img/${id}`
+      });
 
-      }}
-      className="
-      rounded-full
-      bg-yellow-400
-      px-6
-      py-3
-      font-semibold
-      shadow-xl
-      "
-    >
-      Bookmark
-    </button>
+      localStorage.setItem(
+        "favorites",
+        JSON.stringify(favorites)
+      );
+
+      alert("Added to Bookmarks");
+
+    } else {
+
+      alert("Already in Bookmarks");
+
+    }
+
+  }}
+  className="
+  rounded-full
+  bg-yellow-400
+  px-6
+  py-3
+  font-semibold
+  shadow-xl
+  "
+>
+  Bookmark
+</button>
 
   </div>
 
@@ -168,36 +180,26 @@ overflow-auto
 </div> {/* closes w-full flex-1 */}
 
 {/* FOOTER */}
-<footer className="border-t border-stone-200">
+<footer className="mt-0 bg-[#98003A] text-white">
 
     <div className="mx-auto max-w-7xl px-8 py-10">
 
-      <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+      <div className="mx-auto max-w-7xl px-8 py-20">
 
-        <div>
+  <h3 className="text-4xl font-bold text-white">
+    Seth Shree Surajmal Tapariya E-Granthalay
+  </h3>
 
-          <h3 className="text-xl md:text-3xl font-bold text-[#98003A]">
+  <p className="mt-6 max-w-3xl text-lg leading-8 text-stone-200">
+    A Digital Repository of Sanskrit Manuscripts,
+    Rare Books and Historical Collections.
+  </p>
 
-            Seth Shree Surajmal Tapariya E-Granthalay
+  <div className="mt-12 text-sm text-stone-300">
+    © 2026 SMTASM • Preserving Knowledge For Future Generations
+  </div>
 
-          </h3>
-
-          <p className="mt-4 max-w-2xl text-sm md:text-lg leading-7 text-stone-500">
-
-            Preserving Sanskrit Manuscripts and Rare Books
-            for Future Generations.
-
-          </p>
-
-        </div>
-
-        <div className="text-sm text-stone-400">
-
-          © 2026 SMTASM
-
-        </div>
-
-      </div>
+</div>
 
     </div>
 

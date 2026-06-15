@@ -7,6 +7,8 @@ import Navbar from "@/components/Navbar";
 
 export default function HomePage() { 
 const [recentBooks, setRecentBooks] = useState([]);
+const [bookCount, setBookCount] = useState(0);
+const [manuscriptCount, setManuscriptCount] = useState(0);
   const [search, setSearch] = useState("");
   const router = useRouter();
 useEffect(() => {
@@ -23,6 +25,7 @@ useEffect(() => {
         Array.isArray(data)
           ? data
           : data.data || [];
+          setBookCount(books.length);
 
       setRecentBooks(
         books.slice(0, 8)
@@ -39,6 +42,40 @@ useEffect(() => {
   fetchBooks();
 
 }, []);
+useEffect(() => {
+
+  async function fetchManuscripts() {
+
+    try {
+
+      const response = await fetch("/api/manuscripts");
+
+      const data = await response.json();
+
+      const manuscripts =
+        Array.isArray(data)
+          ? data
+          : data.data || [];
+
+      setManuscriptCount(manuscripts.length);
+
+    } catch (error) {
+
+      console.log(error);
+
+    }
+
+  }
+
+  fetchManuscripts();
+
+}, []);
+function formatCount(num) {
+  if (num >= 1000) {
+    return `${Math.round(num / 1000)}K+`;
+  }
+  return num.toString();
+}
   return (
 <main className="min-h-screen bg-[#F8F5EF] text-stone-900">
       {/* HERO */}
@@ -145,7 +182,7 @@ shadow-xl
 p-10">
 
             <h2 className="text-5xl font-bold text-[#98003A]">
-              13K+
+              {formatCount(manuscriptCount)}
             </h2>
 
             <p className="mt-4 text-stone-500">
@@ -161,7 +198,7 @@ shadow-xl
 p-10">
 
             <h2 className="text-5xl font-bold text-[#98003A]">
-              15K+
+              {formatCount(bookCount)}
             </h2>
 
             <p className="mt-4 text-stone-500">
@@ -239,7 +276,7 @@ p-10">
 
           <h3 className="mt-5 text-5xl font-bold text-white">
 
-            Sanskrit
+            Rare
             <br />
             Manuscripts
 

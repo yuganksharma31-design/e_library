@@ -5,14 +5,14 @@ import Link from "next/link";
 
 export default function FavoritesPage() {
 
-  const [bookmarks, setFavorites] = useState([]);
+  const [favorites, setFavorites] = useState([]);
 
   useEffect(() => {
 
     const data =
-      JSON.parse(
-        localStorage.getItem("bookmarks")
-      ) || [];
+  JSON.parse(
+    localStorage.getItem("favorites")
+  ) || [];
 
     setFavorites(data);
 
@@ -20,14 +20,14 @@ export default function FavoritesPage() {
 
   function removeFavorite(id) {
 
-    const updated = bookmarks.filter(
-      (item) => item.id !== id
-    );
+    const updated = favorites.filter(
+  (item) => item.id !== id
+);
 
     setFavorites(updated);
 
     localStorage.setItem(
-      "bookmarks",
+      "favorites",
       JSON.stringify(updated)
     );
 
@@ -50,12 +50,12 @@ export default function FavoritesPage() {
           </h1>
 
           <p className="mt-4 text-stone-500">
-            {bookmarks.length} saved books and manuscripts
+            {favorites.length} saved books and manuscripts
           </p>
 
         </div>
 
-        {bookmarks.length === 0 ? (
+        {favorites.length === 0 ? (
 
           <div className="rounded-[40px] bg-white p-20 text-center shadow-xl">
 
@@ -73,7 +73,7 @@ export default function FavoritesPage() {
 
           <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
 
-            {bookmarks.map((item) => (
+            {favorites.map((item) => (
 
               <div
                 key={item.id}

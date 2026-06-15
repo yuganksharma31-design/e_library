@@ -63,7 +63,7 @@ py-4
 {/* MENU DESKTOP */}
           <nav className="
 hidden
-md:flex
+lg:flex
 flex-1
 justify-center
 items-center
@@ -190,7 +190,7 @@ backdrop-blur-xl
           <button
   onClick={() => setMenuOpen(!menuOpen)}
   className="
-md:hidden
+lg:hidden
 ml-auto
 text-3xl
 text-yellow-300
@@ -216,7 +216,7 @@ text-yellow-300
           py-8
           text-lg
           font-medium
-          md:hidden
+          lg:hidden
         "
         >
 
