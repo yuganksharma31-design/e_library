@@ -71,9 +71,16 @@ export default function ManuscriptsPage() {
     }
 
     fetchManuscripts();
+     
 
     return () => controller.abort();
   }, [page, search, language]);
+  useEffect(() => {
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth",
+  });
+}, [page]);
 
   const totalPages = Math.max(1, Math.ceil(total / ITEMS_PER_PAGE));
 
@@ -145,7 +152,15 @@ export default function ManuscriptsPage() {
           </div>
         ) : (
           <>
-            <div className="grid gap-10 md:grid-cols-2 xl:grid-cols-3">
+            <div
+  className="
+  grid
+  grid-cols-1
+  gap-8
+  sm:grid-cols-2
+  xl:grid-cols-3
+"
+>
               {manuscripts.map((item) => {
                 const id = String(item.identifier || item._id || "");
                 const title = getText(item.title);
@@ -156,7 +171,23 @@ export default function ManuscriptsPage() {
                     href={`/reader/${encodeURIComponent(id)}`}
                     scroll={true}
                   >
-                    <div className="group flex min-h-[600px] flex-col overflow-hidden rounded-[36px] bg-white shadow-xl transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl">
+                    <div
+  className="
+  group
+  flex
+  w-full
+  min-h-[600px]
+  flex-col
+  overflow-hidden
+  rounded-[36px]
+  bg-white
+  shadow-xl
+  transition-all
+  duration-300
+  hover:-translate-y-2
+  hover:shadow-2xl
+"
+>
                       <img
                         src={
                           item.image ||
@@ -165,11 +196,31 @@ export default function ManuscriptsPage() {
                           `https://archive.org/services/img/${id}`
                         }
                         alt={title || "Manuscript"}
-                        className="h-[320px] w-full rounded-t-[36px] object-cover transition duration-500 group-hover:scale-105"
+                        className="
+h-[320px]
+w-full
+max-w-full
+rounded-t-[36px]
+object-cover
+transition
+duration-500
+group-hover:scale-105
+"
                       />
 
                       <div className="flex flex-1 flex-col p-8">
-                        <h2 className="min-h-[90px] text-[18px] font-bold leading-8 text-[#111] line-clamp-3">
+                        <h2
+  className="
+  min-h-[90px]
+  break-words
+  overflow-hidden
+  text-[18px]
+  font-bold
+  leading-8
+  text-[#111]
+  line-clamp-3
+"
+>
                           {title}
                         </h2>
 
@@ -192,7 +243,13 @@ export default function ManuscriptsPage() {
             <div className="mt-16 flex flex-col items-center justify-center gap-4 sm:flex-row">
               <button
                 disabled={page === 1}
-                onClick={() => setPage((prev) => prev - 1)}
+                onClick={() => {
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth",
+  });
+  setPage((prev) => prev - 1);
+}}
                 className="w-[150px] rounded-full bg-[#98003A] py-4 font-semibold text-white shadow-lg transition hover:bg-[#7F0030] disabled:opacity-40"
               >
                 ← Previous
@@ -204,7 +261,14 @@ export default function ManuscriptsPage() {
 
               <button
                 disabled={page === totalPages}
-                onClick={() => setPage((prev) => prev + 1)}
+                onClick={() => {
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth",
+  });
+  setPage((prev) => prev + 1);
+}}
+                
                 className="w-[150px] rounded-full bg-[#98003A] py-4 font-semibold text-white shadow-lg transition hover:bg-[#7F0030] disabled:opacity-40"
               >
                 Next →

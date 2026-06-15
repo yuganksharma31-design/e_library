@@ -9,6 +9,7 @@ export default function HomePage() {
 const [recentBooks, setRecentBooks] = useState([]);
 const [bookCount, setBookCount] = useState(0);
 const [manuscriptCount, setManuscriptCount] = useState(0);
+
   const [search, setSearch] = useState("");
   const router = useRouter();
 useEffect(() => {
@@ -43,32 +44,20 @@ useEffect(() => {
 
 }, []);
 useEffect(() => {
-
   async function fetchManuscripts() {
-
     try {
-
       const response = await fetch("/api/manuscripts");
 
       const data = await response.json();
 
-      const manuscripts =
-        Array.isArray(data)
-          ? data
-          : data.data || [];
-
-      setManuscriptCount(manuscripts.length);
+      setManuscriptCount(data.total || 0);
 
     } catch (error) {
-
       console.log(error);
-
     }
-
   }
 
   fetchManuscripts();
-
 }, []);
 function formatCount(num) {
   if (num >= 1000) {

@@ -25,40 +25,57 @@ function SearchContent() {
         setResults(data.data || []);
       } catch (error) {
         console.error(error);
+        setResults([]);
       }
 
       setLoading(false);
     }
 
-    if (q) {
-  fetchData();
-} else {
-  setResults([]);
-}
+    if (q.trim()) {
+      fetchData();
+    } else {
+      setResults([]);
+    }
   }, [q]);
 
   return (
     <main className="min-h-screen bg-[#F8F5EF] p-10">
-      <h1 className="text-4xl font-bold mb-8">
+      <h1 className="mb-3 text-5xl font-bold">
         Search Results
       </h1>
-      <p className="mb-8 text-stone-500">
-  {results.length} results found for "{q}"
-</p>
+
+      <p className="mb-10 text-stone-500">
+        {results.length} results found for "{q}"
+      </p>
 
       {loading ? (
-  <div className="flex h-[300px] items-center justify-center text-2xl text-stone-500">
-  Searching...
-</div>
-) : results.length === 0 ? (
-  <div className="flex h-[300px] items-center justify-center text-2xl text-stone-500">
-  No results found for "{q}"
-</div>
-) : (
-  <div className="grid gap-8 md:grid-cols-3 lg:grid-cols-4">
-    {results.map((item) => (
-  <Link key={item.url} href={item.url}>
-              <div className="bg-white rounded-3xl shadow-xl overflow-hidden">
+        <div className="flex h-[300px] items-center justify-center text-2xl text-stone-500">
+          Searching...
+        </div>
+      ) : results.length === 0 ? (
+        <div className="flex h-[300px] items-center justify-center text-2xl text-stone-500">
+          No results found for "{q}"
+        </div>
+      ) : (
+        <div className="grid gap-8 md:grid-cols-3 lg:grid-cols-4">
+          {results.map((item, index) => (
+            <Link
+              key={index}
+              href={`/reader/${encodeURIComponent(
+                item.identifier
+              )}`}
+            >
+              <div
+                className="
+                  overflow-hidden
+                  rounded-3xl
+                  bg-white
+                  shadow-xl
+                  transition
+                  duration-300
+                  hover:-translate-y-1
+                "
+              >
                 <img
                   src={item.image || "/placeholder.jpg"}
                   alt={item.title || "Untitled"}
@@ -66,11 +83,11 @@ function SearchContent() {
                 />
 
                 <div className="p-6">
-                  <div className="text-[#98003A] text-sm font-semibold">
+                  <div className="text-sm font-semibold text-[#98003A] uppercase">
                     {item.type}
                   </div>
 
-                  <h2 className="mt-3 text-xl font-bold line-clamp-3">
+                  <h2 className="mt-3 line-clamp-3 text-xl font-bold">
                     {item.title || "Untitled"}
                   </h2>
                 </div>
@@ -85,7 +102,13 @@ function SearchContent() {
 
 export default function SearchPage() {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense
+      fallback={
+        <div className="flex min-h-screen items-center justify-center">
+          Loading...
+        </div>
+      }
+    >
       <SearchContent />
     </Suspense>
   );
