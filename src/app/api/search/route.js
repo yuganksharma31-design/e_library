@@ -22,7 +22,12 @@ export async function GET(req) {
       item.title &&
       item.title.toLowerCase().includes(q)
     ) {
-      results.push(item);
+      results.push({
+        ...item,
+        url:
+          item.url ||
+          `/reader/${item.identifier || item._id}`,
+      });
 
       if (results.length >= 100) {
         break;

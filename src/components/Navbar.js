@@ -251,38 +251,38 @@ backdrop-blur-xl
 
       return (
         <Link
-          key={`${id}-${index}`}
-          href={`/reader/${encodeURIComponent(id)}`}
-          className="
-          flex
-          gap-4
-          p-4
-          hover:bg-stone-100
-          transition
-          "
-          onClick={() => setSuggestions([])}
-        >
-          <img
-            src={
-              item.image ||
-              item.cover ||
-              item.thumbnail ||
-              `https://archive.org/services/img/${id}`
-            }
-            alt={item.title || "Book"}
-            className="h-16 w-16 rounded-xl object-cover"
-          />
+  key={`${item.identifier}-${index}`}
+  href={item.url}
+  className="
+    flex
+    gap-4
+    p-4
+    hover:bg-stone-100
+    transition
+  "
+  onClick={() => setSuggestions([])}
+>
+  <img
+    src={
+      item.image ||
+      item.cover ||
+      item.thumbnail ||
+      "/placeholder.jpg"
+    }
+    alt={item.title || "Book"}
+    className="h-16 w-16 rounded-xl object-cover"
+  />
 
-          <div>
-            <div className="text-xs text-[#98003A] font-semibold">
-              {item.type}
-            </div>
+  <div>
+    <div className="text-xs text-[#98003A] font-semibold">
+      {item.type}
+    </div>
 
-            <div className="text-black font-medium line-clamp-2">
-              {item.title || "Untitled"}
-            </div>
-          </div>
-        </Link>
+    <div className="text-black font-medium line-clamp-2">
+      {item.title || "Untitled"}
+    </div>
+  </div>
+</Link>
       );
     })}
   </div>
