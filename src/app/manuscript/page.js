@@ -14,7 +14,7 @@ export default function ManuscriptsPage() {
   const [language, setLanguage] = useState("All");
 
   const [page, setPage] = useState(1);
-  const [sort, setSort] = useState("A-Z");
+  
 
   const ITEMS_PER_PAGE = 50;
   function formatCount(num) {
@@ -63,9 +63,13 @@ useEffect(() => {
     const filteredData = manuscripts.filter((item) => {
 
   const matchesSearch =
-    item.title
-      ?.toLowerCase()
-      .includes(search.toLowerCase());
+  String(
+    Array.isArray(item.title)
+      ? item.title.join(" ")
+      : item.title || ""
+  )
+    .toLowerCase()
+    .includes(search.toLowerCase());
 
   const matchesLanguage =
     language === "All" ||
@@ -75,26 +79,7 @@ useEffect(() => {
 
 });
 
-    let sorted = [...filteredData];
-
-if (sort === "A-Z") {
-
-  sorted.sort((a, b) =>
-    a.title.localeCompare(b.title)
-  );
-
-}
-
-if (sort === "Z-A") {
-
-  sorted.sort((a, b) =>
-    b.title.localeCompare(a.title)
-  );
-
-}
-
-setFiltered(sorted);
-
+    
     setPage(1);
 
   }, 300);

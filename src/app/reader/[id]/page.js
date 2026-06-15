@@ -1,8 +1,7 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import Link from "next/link";
-import Image from "next/image";
+
 export default function ReaderPage() {
   
   const { id } = useParams();
@@ -89,7 +88,49 @@ export default function ReaderPage() {
             </button>
           </div>
         </div>
+{/* 🔍 Search icon */}
+<div
+  className="fixed z-50"
+  style={{
+    top: "210px",
+    left: "0px",
+    width: "70px",
+    height: "70px",
+    background: "transparent",
+    pointerEvents: "auto",
+    cursor: "default"
+  }}
+/>
 
+{/* ⋯ Menu icon */}
+<div
+  className="fixed z-50"
+  style={{
+    top: "270px",
+    left: "0px",
+    width: "70px",
+    height: "70px",
+    background: "transparent",
+    pointerEvents: "auto",
+    cursor: "default"
+  }}
+/>
+
+
+
+{/* Entire left toolbar */}
+<div
+  className="fixed z-50"
+  style={{
+    top: "190px",
+    left: "0px",
+    width: "100px",
+    height: "700px",
+    background: "transparent",
+    pointerEvents: "auto",
+    cursor: "default"
+  }}
+/>
         <div className="relative overflow-hidden bg-white">
           <iframe
             src={`https://archive.org/embed/${id}?ui=embed`}
@@ -97,59 +138,33 @@ export default function ReaderPage() {
           />
           {/* Disable search icon and menu button */}
           {/* Home logo over search icon */}
-<Link
-  href="/"
-  className="absolute z-50"
-  style={{
-    top: "48px",
-    left: "-8px",
-  }}
->
-  <img
-    src="/logo.jpg"
-    alt="Home"
-    className="h-[55px] w-[55px] rounded-full shadow-lg"
-  />
-</Link>
-
+{/* Title bar */}
 <div
-  className="absolute z-50"
+  className="absolute z-[9999]"
   style={{
-    top: "60px",
-    left: 0,
-    width: "200px",
-    height: "250px",
-    background: "transparent",
-    pointerEvents: "auto",
-    cursor: "default"
+    top: "0px",
+    left: "20%",
+    width: "60%",
+    height: "55px",
+    background: "rgba(0,0,0,0.001)",
+    pointerEvents: "all"
   }}
 />
 
           {/* Disable title click */}
-<div
-  className="absolute z-50"
-  style={{
-    top: 0,
-    left: "18%",
-    width: "64%",
-    height: "65px",
-    background: "transparent",
-    pointerEvents: "auto",
-    cursor: "default",
-  }}
-/>
+
 
 {/* Disable left toolbar click */}
 <div
   className="absolute z-50"
   style={{
-    top: 65,
+    top: "45px",
     left: 0,
-    width: "100px",
-    bottom: 0,
+    width: "140px",
+    height: "100%",
     background: "transparent",
     pointerEvents: "auto",
-    cursor: "default",
+    cursor: "default"
   }}
 />
           
