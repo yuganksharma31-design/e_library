@@ -2,21 +2,51 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [search, setSearch] = useState("");
+  const [suggestions, setSuggestions] = useState([]);
   const router = useRouter();
+  useEffect(() => {
+  async function fetchSuggestions() {
+    if (!search.trim()) {
+      setSuggestions([]);
+      return;
+    }
+
+    try {
+      const res = await fetch(
+        `/api/search?q=${encodeURIComponent(search)}`
+      );
+
+      const data = await res.json();
+
+      setSuggestions(data.data.slice(0, 5));
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  const timer = setTimeout(fetchSuggestions, 300);
+
+  return () => clearTimeout(timer);
+}, [search]);
 
   const handleSearch = () => {
-    if (search.trim()) {
-      router.push(`/search?q=${encodeURIComponent(search)}`);
-      setMenuOpen(false);
-    }
-  };
+  if (!search.trim()) return;
+
+  setSuggestions([]);
+
+  router.push(
+    `/search?q=${encodeURIComponent(search)}`
+  );
+
+  setMenuOpen(false);
+};
 
   return (
     <header className="sticky top-0 z-50 bg-[#98003A]/90 backdrop-blur-xl border-b border-white/10">
@@ -157,7 +187,8 @@ hover:-translate-y-1
           </nav>
 
           {/* SEARCH BAR DESKTOP */}
-          <div className="hidden lg:flex shrink-0">
+          <div className="hidden lg:flex shrink-0 relative">
+            
 
             <div
 className="
@@ -199,7 +230,50 @@ backdrop-blur-xl
               >
                 🔍
               </button>
+{suggestions.length > 0 && (
+  <div
+    className="
+    absolute
+    top-full
+    mt-3
+    w-[350px]
+    rounded-3xl
+    bg-white
+    shadow-2xl
+    overflow-hidden
+    z-50
+  "
+  >
+    {suggestions.map((item) => (
+      <Link
+        key={item.url}
+        href={item.url}
+        className="
+        flex
+        gap-4
+        p-4
+        hover:bg-stone-100
+        transition
+      "
+      >
+        <img
+          src={item.image || "/placeholder.jpg"}
+          className="h-16 w-16 rounded-xl object-cover"
+        />
 
+        <div>
+          <div className="text-xs text-[#98003A] font-semibold">
+            {item.type}
+          </div>
+
+          <div className="text-black font-medium line-clamp-2">
+            {item.title}
+          </div>
+        </div>
+      </Link>
+    ))}
+  </div>
+)}
             </div>
 
           </div>

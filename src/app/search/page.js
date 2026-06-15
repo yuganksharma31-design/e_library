@@ -9,45 +9,20 @@ function SearchContent() {
   const q = searchParams.get("q") || "";
 
   const [results, setResults] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     async function fetchData() {
+      setLoading(true);
+
       try {
-        const [booksRes, manuscriptsRes] = await Promise.all([
-          fetch("/api/library"),
-          fetch("/api/manuscripts"),
-        ]);
-
-        const booksData = await booksRes.json();
-        const manuscriptsData = await manuscriptsRes.json();
-
-        const books = Array.isArray(booksData)
-          ? booksData
-          : booksData.data || [];
-
-        const manuscripts = Array.isArray(manuscriptsData)
-          ? manuscriptsData
-          : manuscriptsData.data || [];
-
-        const combined = [
-          ...books.map((item) => ({
-            ...item,
-            type: "Book",
-            url: `/reader/${item.identifier || item._id}`,
-          })),
-          ...manuscripts.map((item) => ({
-            ...item,
-            type: "Manuscript",
-            url: `/reader/${item.identifier || item._id}`,
-          })),
-        ];
-
-        const filtered = combined.filter((item) =>
-          item.title?.toLowerCase().includes(q.toLowerCase())
+        const res = await fetch(
+          `/api/search?q=${encodeURIComponent(q)}`
         );
 
-        setResults(filtered);
+        const data = await res.json();
+
+        setResults(data.data || []);
       } catch (error) {
         console.error(error);
       }
@@ -55,44 +30,48 @@ function SearchContent() {
       setLoading(false);
     }
 
-    fetchData();
+    if (q) {
+  fetchData();
+} else {
+  setResults([]);
+}
   }, [q]);
 
   return (
-    <main className="min-h-screen bg-[#F8F5EF] px-8 py-16">
-      <h1 className="text-5xl font-bold mb-4">
+    <main className="min-h-screen bg-[#F8F5EF] p-10">
+      <h1 className="text-4xl font-bold mb-8">
         Search Results
       </h1>
-
-      <p className="text-stone-500 mb-10">
-        {results.length} results found for "{q}"
-      </p>
+      <p className="mb-8 text-stone-500">
+  {results.length} results found for "{q}"
+</p>
 
       {loading ? (
-        <div>Loading...</div>
-      ) : (
-        <div className="grid gap-8 md:grid-cols-3 lg:grid-cols-4">
-          {results.map((item, index) => (
-            <Link key={index} href={item.url}>
-              <div className="rounded-3xl bg-white shadow-xl overflow-hidden hover:-translate-y-1 transition">
+  <div className="flex h-[300px] items-center justify-center text-2xl text-stone-500">
+  Searching...
+</div>
+) : results.length === 0 ? (
+  <div className="flex h-[300px] items-center justify-center text-2xl text-stone-500">
+  No results found for "{q}"
+</div>
+) : (
+  <div className="grid gap-8 md:grid-cols-3 lg:grid-cols-4">
+    {results.map((item) => (
+  <Link key={item.url} href={item.url}>
+              <div className="bg-white rounded-3xl shadow-xl overflow-hidden">
                 <img
-                  src={
-                    item.thumbnail ||
-                    item.cover ||
-                    item.image ||
-                    "/placeholder.jpg"
-                  }
-                  alt={item.title}
+                  src={item.image || "/placeholder.jpg"}
+                  alt={item.title || "Untitled"}
                   className="h-[300px] w-full object-cover"
                 />
 
-                <div className="p-5">
-                  <div className="text-sm text-[#98003A] font-semibold uppercase">
+                <div className="p-6">
+                  <div className="text-[#98003A] text-sm font-semibold">
                     {item.type}
                   </div>
 
                   <h2 className="mt-3 text-xl font-bold line-clamp-3">
-                    {item.title}
+                    {item.title || "Untitled"}
                   </h2>
                 </div>
               </div>
@@ -106,13 +85,7 @@ function SearchContent() {
 
 export default function SearchPage() {
   return (
-    <Suspense
-      fallback={
-        <div className="min-h-screen flex items-center justify-center bg-[#F8F5EF]">
-          Loading...
-        </div>
-      }
-    >
+    <Suspense fallback={<div>Loading...</div>}>
       <SearchContent />
     </Suspense>
   );
