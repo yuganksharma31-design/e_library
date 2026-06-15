@@ -4,6 +4,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -44,9 +45,27 @@ py-4
           <Link href="/" className="shrink-0">
             <div className="flex cursor-pointer items-center gap-4">
 
-             <div className="flex h-10 w-10 md:h-12 md:w-12 items-center justify-center rounded-full">
-                ॐ
-              </div>
+           <div
+  className="
+    h-12
+    w-12
+    md:h-14
+    md:w-14
+    overflow-hidden
+    rounded-full
+    bg-white
+    shadow-md
+    flex
+    items-center
+    justify-center
+  "
+>
+  <img
+    src="/logo.jpg"
+    alt="Logo"
+    className="h-full w-full object-cover"
+  />
+</div>
 
               <div>
                 <h1 className="text-sm md:text-[15px] font-bold text-white">
