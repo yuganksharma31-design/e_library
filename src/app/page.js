@@ -70,10 +70,10 @@ function formatCount(num) {
       {/* HERO */}
       <section className="mx-auto max-w-7xl px-8 pt-24 pb-24">
 
-  <div className="grid lg:grid-cols-2 gap-20 items-center min-h-[650px]">
+  <div className="grid gap-20 items-center min-h-[650px] lg:grid-cols-2">
 
     {/* LEFT SIDE */}
-    <div>
+    <div className="order-2 lg:order-1">
 
       <div
         className="
@@ -105,12 +105,14 @@ function formatCount(num) {
       "
       >
         Seth Shri
-  <br />
-  Surajmal
-  <br />
-  Taparia
-  <br />
+<br />
+Surajmal
+<br />
+Taparia
+<br />
+<span className="whitespace-nowrap">
   E-Granthalay
+</span>
       </h1>
 
       <p
@@ -169,20 +171,20 @@ function formatCount(num) {
     </div>
 
     {/* RIGHT SIDE */}
-    <div className="flex justify-center mt-12 lg:mt-0">
+    <div className="order-1 lg:order-2 flex justify-center mb-10 lg:mb-0">
 
       <img
   src="/hero.png"
   alt="Sanskrit Heritage"
   className="
-    w-full
-    max-w-[320px]
-    sm:max-w-[420px]
-    lg:max-w-[500px]
-    rounded-[40px]
-    shadow-2xl
-    object-cover
-  "
+w-full
+max-w-[380px]
+sm:max-w-[450px]
+lg:max-w-[500px]
+rounded-[40px]
+shadow-2xl
+object-cover
+"
 />
 <div
   className="
@@ -203,7 +205,7 @@ function formatCount(num) {
       {/* STATS */}
       <section className="mx-auto max-w-7xl px-8 pb-28">
 
-        <div className="grid gap-8 md:grid-cols-4">
+        <div className="grid gap-8 md:grid-cols-3">
 
           <div className="rounded-[32px]
 bg-gradient-to-br from-white to-[#FFF8E8]
@@ -434,7 +436,13 @@ src={
 item.cover ||
 `https://archive.org/services/img/${item.identifier}`
 }
-className="h-[320px] w-full object-cover"
+className="
+h-[260px]
+sm:h-[300px]
+lg:h-[320px]
+w-full
+object-cover
+"
 />
 
 <div className="p-6">
@@ -644,7 +652,7 @@ p-10
       </div>
     </Link>
 
-    <Link href="/Favorites">
+    <Link href="/favorites">
       <div className="hover:text-yellow-300">
         Favorites
       </div>
