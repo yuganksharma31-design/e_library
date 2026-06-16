@@ -89,48 +89,14 @@ export default function ReaderPage() {
           </div>
         </div>
 {/* 🔍 Search icon */}
-<div
-  className="fixed z-50"
-  style={{
-    top: "210px",
-    left: "0px",
-    width: "70px",
-    height: "70px",
-    background: "transparent",
-    pointerEvents: "auto",
-    cursor: "default"
-  }}
-/>
+
 
 {/* ⋯ Menu icon */}
-<div
-  className="fixed z-50"
-  style={{
-    top: "270px",
-    left: "0px",
-    width: "70px",
-    height: "70px",
-    background: "transparent",
-    pointerEvents: "auto",
-    cursor: "default"
-  }}
-/>
 
 
 
 {/* Entire left toolbar */}
-<div
-  className="fixed z-50"
-  style={{
-    top: "190px",
-    left: "0px",
-    width: "100px",
-    height: "700px",
-    background: "transparent",
-    pointerEvents: "auto",
-    cursor: "default"
-  }}
-/>
+
         <div className="relative overflow-hidden bg-white">
           <iframe
             src={`https://archive.org/embed/${id}?ui=embed`}
@@ -155,18 +121,7 @@ export default function ReaderPage() {
 
 
 {/* Disable left toolbar click */}
-<div
-  className="absolute z-50"
-  style={{
-    top: "45px",
-    left: 0,
-    width: "140px",
-    height: "100%",
-    background: "transparent",
-    pointerEvents: "auto",
-    cursor: "default"
-  }}
-/>
+
           
         </div>
       </div>
