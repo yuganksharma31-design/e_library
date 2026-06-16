@@ -70,94 +70,122 @@ function formatCount(num) {
       {/* HERO */}
       <section className="mx-auto max-w-7xl px-8 pt-24 pb-24">
 
-        <div className="max-w-6xl">
+  <div className="grid lg:grid-cols-2 gap-20 items-center min-h-[650px]">
 
-          <div className="
-inline-flex
-items-center
-rounded-full
-bg-[#FFF8E6]
-px-7
-py-3
-text-sm
-font-semibold
-tracking-[4px]
-uppercase
-text-[#98003A]
-">
-  Rare Manuscripts • Books 
-</div>
-<h1
-className="
-mt-10
-max-w-5xl
-text-5xl
-font-bold
-leading-tight
-text-[#1C1C1C]
-md:text-6xl
-lg:text-7xl
-"
->
-  Seth Shri Surajmal
-  <br />
-  Taparia&nbsp;E-Granthalay
-</h1>
+    {/* LEFT SIDE */}
+    <div>
 
-          <p className="
-mt-10
-max-w-3xl
-text-xl
-leading-10
-text-stone-500
-">
-Preserving Sanskrit manuscripts, rare books, digitized archives and timeless wisdom for scholars and future generations.
-</p>
+      <div
+        className="
+        inline-flex
+        items-center
+        rounded-full
+        bg-[#FFF8E6]
+        px-7
+        py-3
+        text-sm
+        font-semibold
+        tracking-[4px]
+        uppercase
+        text-[#98003A]
+      "
+      >
+        Rare Manuscripts • Books
+      </div>
+
+      <h1
+        className="
+        mt-10
+        text-5xl
+        font-bold
+        leading-tight
+        text-[#1C1C1C]
+        md:text-6xl
+        lg:text-7xl
+      "
+      >
+        Seth Shri Surajmal
+        <br />
+        Taparia E-Granthalay
+      </h1>
+
+      <p
+        className="
+        mt-10
+        max-w-3xl
+        text-xl
+        leading-10
+        text-stone-500
+      "
+      >
+        Preserving Sanskrit manuscripts, rare books,
+        digitized archives and timeless wisdom for
+        scholars and future generations.
+      </p>
+
+      <div className="mt-12 flex flex-wrap gap-5">
+
+        <Link href="/manuscript">
+          <button
+            className="
+            rounded-full
+            bg-yellow-400
+            px-8
+            py-5
+            text-black
+            shadow-lg
+            transition
+            hover:-translate-y-1
+          "
+          >
+            Explore Manuscript
+          </button>
+        </Link>
+
+        <Link href="/book">
+          <button
+            className="
+            rounded-full
+            border
+            border-stone-200
+            bg-white
+            px-8
+            py-5
+            shadow-lg
+            transition
+            hover:-translate-y-1
+          "
+          >
+            Browse Books
+          </button>
+        </Link>
+
+      </div>
+
+    </div>
+
+    {/* RIGHT SIDE */}
+    <div className="hidden lg:flex justify-center">
+
+      <img
+        src="/hero.png"
+        alt="Sanskrit Heritage"
+        className="
+          w-full
+          max-w-[500px]
+          rounded-[40px]
+          shadow-2xl
+          object-cover
+        "
+      />
+
+    </div>
+
+  </div>
+
+</section>
           
-          {/* BUTTONS */}
-          <div className="mt-12 flex flex-wrap gap-5">
-
-            <Link href="/manuscript">
-              <button
-                className="
-                  rounded-full
-                  bg-yellow-400 text-black
-                  px-8
-                  py-5
-                  text-[#1C1C1C]
-                  shadow-lg
-                  transition
-                  hover:-translate-y-1
-                "
-              >
-                Explore Manuscript
-              </button>
-            </Link>
-
-            <Link href="/book">
-              <button
-                className="
-                  rounded-full
-                  bg-white/10
-border border-white/20
-px-8
-py-5
-text-[#1C1C1C]
-shadow-lg
-                  transition
-                  hover:-translate-y-1
-                "
-              >
-                Browse Books
-              </button>
-            </Link>
-
-          </div>
-
-        </div>
-
-      </section>
-
+          
       {/* STATS */}
       <section className="mx-auto max-w-7xl px-8 pb-28">
 
