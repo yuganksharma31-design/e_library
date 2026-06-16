@@ -104,9 +104,13 @@ function formatCount(num) {
         lg:text-7xl
       "
       >
-        Seth Shri Surajmal
-        <br />
-        Taparia E-Granthalay
+        Seth Shri
+  <br />
+  Surajmal
+  <br />
+  Taparia
+  <br />
+  E-Granthalay
       </h1>
 
       <p
@@ -165,19 +169,29 @@ function formatCount(num) {
     </div>
 
     {/* RIGHT SIDE */}
-    <div className="hidden lg:flex justify-center">
+    <div className="flex justify-center mt-12 lg:mt-0">
 
       <img
-        src="/hero.png"
-        alt="Sanskrit Heritage"
-        className="
-          w-full
-          max-w-[500px]
-          rounded-[40px]
-          shadow-2xl
-          object-cover
-        "
-      />
+  src="/hero.png"
+  alt="Sanskrit Heritage"
+  className="
+    w-full
+    max-w-[320px]
+    sm:max-w-[420px]
+    lg:max-w-[500px]
+    rounded-[40px]
+    shadow-2xl
+    object-cover
+  "
+/>
+<div
+  className="
+  grid
+  gap-16
+  lg:grid-cols-2
+  items-center
+"
+></div>
 
     </div>
 
