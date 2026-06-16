@@ -1,10 +1,50 @@
+"use client";
 
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 export default function AboutPage() {
+  const [bookCount, setBookCount] = useState(0);
+  const [manuscriptCount, setManuscriptCount] = useState(0);
+
+  function formatCount(num) {
+    if (num >= 1000) {
+      return `${Math.round(num / 1000)}K+`;
+    }
+    return String(num);
+  }
+
+  useEffect(() => {
+    async function fetchCounts() {
+      try {
+        // Books
+        const booksRes = await fetch("/api/library");
+        const booksData = await booksRes.json();
+
+        const books = Array.isArray(booksData)
+          ? booksData
+          : booksData.data || [];
+
+        setBookCount(books.length);
+
+        // Manuscripts
+        const manuscriptsRes = await fetch(
+          "/api/manuscripts?page=1&limit=1"
+        );
+
+        const manuscriptsData = await manuscriptsRes.json();
+
+        setManuscriptCount(manuscriptsData.total || 0);
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    fetchCounts();
+  }, []);
+
   return (
     <main className="min-h-screen bg-[#F8F5EF] text-[#1C1C1C]">
-
       {/* HERO */}
         
   
@@ -178,12 +218,12 @@ export default function AboutPage() {
 
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
 
-          {[
-            ["13K+", "Manuscripts"],
-            ["15K+", "Books"],
-            ["25+", "Collections"],
-            ["Official", "Partner Centre"],
-          ].map((item) => (
+         {[
+  [formatCount(manuscriptCount), "Manuscripts"],
+  [formatCount(bookCount), "Books"],
+  ["25+", "Collections"],
+  ["Official", "Partner Centre"],
+].map((item) => (
 
             <div
               key={item[1]}
