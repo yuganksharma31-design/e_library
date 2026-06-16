@@ -46,7 +46,7 @@ export default function FavoritesPage() {
           </div>
 
           <h1 className="mt-4 text-6xl font-bold text-black">
-            Bookmarks
+            Favorites
           </h1>
 
           <p className="mt-4 text-stone-500">
