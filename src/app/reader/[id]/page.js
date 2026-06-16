@@ -77,14 +77,14 @@ export default function ReaderPage() {
                     JSON.stringify(favorites)
                   );
 
-                  alert("Added to Bookmarks");
+                  alert("Favorite Books & Manuscripts");
                 } else {
-                  alert("Already in Bookmarks");
+                  alert("Favorite Books & Manuscripts");
                 }
               }}
               className="rounded-full bg-yellow-400 px-6 py-3"
             >
-              Bookmark
+              Add to Favorites
             </button>
           </div>
         </div>
@@ -174,7 +174,7 @@ export default function ReaderPage() {
       <footer className="bg-[#98003A] text-white">
         <div className="mx-auto max-w-7xl px-8 py-20">
           <h3 className="text-4xl font-bold">
-            Seth Shree Surajmal Tapariya E-Granthalay
+            Seth Shri Surajmal Taparia E-Granthalay
           </h3>
 
           <p className="mt-6 max-w-3xl text-lg text-stone-200">

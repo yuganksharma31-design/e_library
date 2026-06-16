@@ -602,9 +602,9 @@ p-10
       </div>
     </Link>
 
-    <Link href="/bookmarks">
+    <Link href="/Favorites">
       <div className="hover:text-yellow-300">
-        Bookmarks
+        Favorites
       </div>
     </Link>
     <Link href="/about">

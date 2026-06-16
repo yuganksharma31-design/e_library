@@ -62,7 +62,6 @@ Seth Shri Surajmal Taparia E-Granthalay      </div>
 mx-auto
 max-w-7xl
 flex
-flex-wrap
 items-center
 justify-between
 gap-6
@@ -112,7 +111,7 @@ py-4
 {/* MENU DESKTOP */}
           <nav className="
 hidden
-lg:flex
+xl:flex
 flex-1
 justify-center
 items-center
@@ -161,17 +160,16 @@ hover:-translate-y-1
             </Link>
 
             <Link
-              href="/bookmarks"
-              className="
+  href="/favorites"
+  className="
 transition-all
 duration-300
 hover:text-yellow-300
 hover:-translate-y-1
 "
-            >
-              Bookmarks
-            </Link>
-
+>
+  Favorites
+</Link>
             <Link
               href="/about"
               className="
@@ -187,7 +185,7 @@ hover:-translate-y-1
           </nav>
 
           {/* SEARCH BAR DESKTOP */}
-          <div className="hidden lg:flex shrink-0 relative">
+          <div className="hidden xl:flex shrink-0 relative">
             
 
             <div
@@ -293,7 +291,7 @@ backdrop-blur-xl
           <button
   onClick={() => setMenuOpen(!menuOpen)}
   className="
-lg:hidden
+xl:hidden
 ml-auto
 text-3xl
 text-yellow-300
@@ -390,13 +388,12 @@ text-yellow-300
           </Link>
 
           <Link
-            href="/bookmarks"
-            onClick={() => setMenuOpen(false)}
-            className="block text-white transition hover:text-yellow-300"
-          >
-            Bookmarks
-          </Link>
-
+  href="/favorites"
+  onClick={() => setMenuOpen(false)}
+  className="block text-white transition hover:text-yellow-300"
+>
+  Favorites
+</Link>
           <Link
             href="/about"
             onClick={() => setMenuOpen(false)}
