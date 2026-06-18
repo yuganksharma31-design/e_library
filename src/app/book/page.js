@@ -67,10 +67,10 @@ useEffect(() => {
 
   const filteredData = books.filter((item) => {
 
-  const matchesSearch =
-    item.title
-      ?.toLowerCase()
-      .includes(search.toLowerCase());
+  const title = String(item.title || "");
+
+const matchesSearch =
+  title.toLowerCase().includes(search.toLowerCase());
 
   const matchesLanguage =
     language === "All" ||

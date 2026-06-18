@@ -3,49 +3,29 @@
 import { useState } from "react";
 
 export default function AdminPage() {
-
-  const [loading, setLoading] =
-    useState(false);
+  const [loading, setLoading] = useState(false);
 
   async function handleSubmit(e) {
-
     e.preventDefault();
-
     setLoading(true);
 
-    const formData =
-      new FormData(e.target);
+    const formData = new FormData(e.target);
 
     try {
+      const res = await fetch("/api/admin/upload", {
+        method: "POST",
+        body: formData,
+      });
 
-      const res =
-        await fetch(
-          "/api/admin/upload",
-          {
-            method: "POST",
-
-            body: formData,
-          }
-        );
-
-      const data =
-        await res.json();
+      const data = await res.json();
 
       if (data.success) {
-
-        alert(
-          "Uploaded Successfully"
-        );
-
+        alert("Uploaded Successfully");
         e.target.reset();
-
       } else {
-
         alert(data.error);
       }
-
     } catch {
-
       alert("Upload failed");
     }
 
@@ -53,109 +33,127 @@ export default function AdminPage() {
   }
 
   return (
+    <main className="min-h-screen bg-[#F8F5EF] py-20 px-6">
+      <div className="mx-auto max-w-7xl grid gap-16 lg:grid-cols-2 items-center">
 
-    <main className="min-h-screen bg-[#f5f5f5] p-10">
-
-      <div className="max-w-2xl mx-auto bg-white p-8 rounded-3xl shadow-xl">
-
-        <h1 className="text-4xl font-bold mb-8">
-
-          Admin Upload Panel
-
-        </h1>
-
-        <form
-          onSubmit={handleSubmit}
-          className="space-y-5"
-        >
-
-          <input
-            type="text"
-            name="title"
-            placeholder="Title"
-            required
-            className="w-full p-4 border rounded-xl"
-          />
-
-          <input
-            type="text"
-            name="creator"
-            placeholder="Creator"
-            required
-            className="w-full p-4 border rounded-xl"
-          />
-
-          <select
-            name="type"
-            className="w-full p-4 border rounded-xl"
-          >
-
-            <option value="book">
-
-              Book
-
-            </option>
-
-            <option value="manuscript">
-
-              Manuscript
-
-            </option>
-
-          </select>
-
-          <div>
-
-            <label className="font-semibold">
-
-              Cover Image
-
-            </label>
-
-            <input
-              type="file"
-              name="cover"
-              accept="image/*"
-              required
-              className="w-full mt-2"
-            />
-
+        {/* LEFT */}
+        <div>
+          <div className="text-sm font-semibold uppercase tracking-[4px] text-[#98003A]">
+            Administration
           </div>
 
-          <div>
+          <h1 className="mt-6 text-5xl lg:text-7xl font-bold text-[#1C1C1C] leading-tight">
+            Upload Books &
+            <br />
+            Manuscripts
+          </h1>
 
-            <label className="font-semibold">
+          <p className="mt-8 text-lg leading-9 text-stone-600 max-w-xl">
+            Manage the digital archive and preserve rare books and manuscripts
+            for future generations.
+          </p>
 
-              PDF Upload
+          <img
+            src="https://images.unsplash.com/photo-1507842217343-583bb7270b66?q=80&w=1200"
+            className="
+            mt-12
+            rounded-[40px]
+            shadow-2xl
+            h-[400px]
+            w-full
+            object-cover
+            "
+          />
+        </div>
 
-            </label>
+        {/* FORM */}
+        <div className="rounded-[40px] bg-white p-10 shadow-2xl border border-[#E8D9B5]">
+
+          <h2 className="text-4xl font-bold text-[#1C1C1C] mb-10">
+            Admin Upload Panel
+          </h2>
+
+          <form onSubmit={handleSubmit} className="space-y-7">
 
             <input
-              type="file"
-              name="pdf"
-              accept=".pdf"
+              type="text"
+              name="title"
+              placeholder="Book / Manuscript Title"
               required
-              className="w-full mt-2"
+              className="w-full rounded-2xl border p-5 outline-none"
             />
 
-          </div>
+            <input
+              type="text"
+              name="creator"
+              placeholder="Creator / Author"
+              required
+              className="w-full rounded-2xl border p-5 outline-none"
+            />
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full bg-black text-white py-4 rounded-xl text-lg font-semibold"
-          >
+            <select
+              name="type"
+              className="w-full rounded-2xl border p-5 outline-none"
+            >
+              <option value="book">
+                📚 Book
+              </option>
 
-            {loading
-              ? "Uploading..."
-              : "Upload"}
+              <option value="manuscript">
+                📜 Manuscript
+              </option>
+            </select>
 
-          </button>
+            <div>
+              <label className="block mb-3 font-semibold text-[#98003A]">
+                Cover Image
+              </label>
 
-        </form>
+              <input
+                type="file"
+                name="cover"
+                accept="image/*"
+                required
+                className="w-full rounded-xl border p-4"
+              />
+            </div>
 
+            <div>
+              <label className="block mb-3 font-semibold text-[#98003A]">
+                PDF Upload
+              </label>
+
+              <input
+                type="file"
+                name="pdf"
+                accept=".pdf"
+                required
+                className="w-full rounded-xl border p-4"
+              />
+            </div>
+
+            <button
+              disabled={loading}
+              className="
+              w-full
+              rounded-full
+              bg-[#98003A]
+              py-5
+              text-lg
+              font-semibold
+              text-white
+              shadow-xl
+              transition
+              hover:bg-[#7A002F]
+              "
+            >
+              {loading ? "Uploading..." : "Upload Collection →"}
+            </button>
+
+          </form>
+
+        </div>
       </div>
-
     </main>
   );
 }
