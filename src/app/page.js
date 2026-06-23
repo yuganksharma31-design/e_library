@@ -205,7 +205,7 @@ object-cover
       {/* STATS */}
       <section className="mx-auto max-w-7xl px-8 pb-28">
 
-        <div className="grid gap-8 md:grid-cols-3">
+        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
 
           <div className="rounded-[32px]
 bg-gradient-to-br from-white to-[#FFF8E8]
@@ -256,6 +256,32 @@ p-10">
             </p>
 
           </div>
+          <Link href="/catalogues">
+
+  <div
+    className="
+    rounded-[32px]
+    bg-white
+    border border-stone-200
+    shadow-xl
+    p-10
+    transition
+    hover:-translate-y-2
+    cursor-pointer
+  "
+  >
+
+    <h2 className="text-5xl font-bold text-[#98003A]">
+      📚
+    </h2>
+
+    <p className="mt-4 text-stone-500">
+      View Catalogues
+    </p>
+
+  </div>
+
+</Link>
 
         </div>
 

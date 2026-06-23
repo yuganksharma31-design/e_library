@@ -115,11 +115,7 @@ export default function AboutPage() {
   <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-3">
 
     {[
-      {
-        image: "/trustees/trustee1.jpg",
-        name: "Shri Bajranglal Taparia",
-        role: "Trustee"
-      },
+      
       {
         image: "/trustees/trustee2.jpg",
         name: "Shri M. P. Taparia",
@@ -137,7 +133,7 @@ export default function AboutPage() {
       },
       {
         image: "/trustees/principal.jpg",
-        name: "Dr. Hemant Krishan Mishra",
+        name: "Dr. H. K. Mishra",
         role: "Principal"
       }
     ].map((person) => (
